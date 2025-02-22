@@ -9,6 +9,26 @@ export default defineNuxtConfig({
   colorMode: {
     classSuffix: ''
   },
+  imports: {
+    dirs: [
+      'composables',
+      'utils',
+      'stores'
+    ],
+    presets: [
+      { from: 'vue', imports: ['ref', 'computed', 'reactive', 'onMounted'] }
+    ]
+  },
+  components: {
+    dirs: [
+      {
+        path: '~/components/ui',
+        extensions: ['.vue'],
+        prefix: ''
+      },
+      '~/components'
+    ]
+  },
   tailwindcss: {
     cssPath: '~/assets/css/tailwind.css',
     configPath: 'tailwind.config',
