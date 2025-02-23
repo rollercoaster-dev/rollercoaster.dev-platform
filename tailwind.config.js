@@ -45,6 +45,15 @@ module.exports = {
   				DEFAULT: 'hsl(var(--accent))',
   				foreground: 'hsl(var(--accent-foreground))'
   			},
+  			focus: {
+  				DEFAULT: 'hsl(var(--focus))',
+  				foreground: 'hsl(var(--focus-foreground))'
+  			},
+  			load: {
+  				low: 'hsl(var(--load-low))',
+  				medium: 'hsl(var(--load-medium))',
+  				high: 'hsl(var(--load-high))'
+  			},
   			popover: {
   				DEFAULT: 'hsl(var(--popover))',
   				foreground: 'hsl(var(--popover-foreground))'

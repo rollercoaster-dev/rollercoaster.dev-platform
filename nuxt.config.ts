@@ -4,7 +4,8 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: [
     '@nuxtjs/tailwindcss',
-    '@nuxtjs/color-mode'
+    '@nuxtjs/color-mode',
+    '@nuxt/content'
   ],
   colorMode: {
     classSuffix: ''
@@ -46,6 +47,12 @@ export default defineNuxtConfig({
         'error.{js,ts,vue}',
         'content/**/*.md'
       ]
+    }
+  },
+  content: {
+    documentDriven: false,
+    highlight: {
+      theme: 'github-dark'
     }
   }
 })
