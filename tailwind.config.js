@@ -50,6 +50,7 @@ module.exports = {
   				foreground: 'hsl(var(--focus-foreground))'
   			},
   			load: {
+  				text: 'hsl(var(--load-text))',
   				low: 'hsl(var(--load-low))',
   				medium: 'hsl(var(--load-medium))',
   				high: 'hsl(var(--load-high))'

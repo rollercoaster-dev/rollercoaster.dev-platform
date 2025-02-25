@@ -1,7 +1,16 @@
+<script setup lang="ts">
+import { TooltipProvider } from '@/components/ui/tooltip'
+
+console.log('TooltipProvider loaded:', TooltipProvider)
+</script>
+
 <template>
-  <div class="min-h-screen bg-background text-foreground">
-    <NuxtPage />
-  </div>
+  <TooltipProvider>
+    <div class="min-h-screen bg-background text-foreground">
+      <LayoutHeader />
+      <NuxtPage />
+    </div>
+  </TooltipProvider>
 </template>
 
 <style>

@@ -1,0 +1,10 @@
+---
+description: this rule has a project context
+globs: 
+---
+
+# Use these rules to document how to work with this particular project
+
+- You can @ files here
+- You can use markdown but dont have to
+- keep track of important things you need to remember

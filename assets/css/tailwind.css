@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 @layer base {
   :root {
     /* Base */
@@ -49,6 +50,7 @@
     --load-low: 151 55% 41.5%;
     --load-medium: 45 93% 47.1%;
     --load-high: 24 95% 53.1%;
+    --load-text: 0 0% 100%;
   }
   .dark {
     /* Base */
@@ -88,14 +90,77 @@
     --input: 240 3.7% 15.9%;
     --ring: 262 83.3% 57.8%;
 
-    /* Focus Mode */
-    --focus: 230 91% 39%;
+    /* Focus Mode - Darker variant for dark mode */
+    --focus: 230 50% 20%;
     --focus-foreground: 210 40% 98%;
 
-    /* Cognitive Load */
-    --load-low: 151 55% 41.5%;
-    --load-medium: 45 93% 47.1%;
-    --load-high: 24 95% 53.1%;
+    /* Cognitive Load - Adjusted for dark mode */
+    --load-low: 151 45% 35%;
+    --load-medium: 45 70% 45%;
+    --load-high: 24 70% 45%;
+    --load-text: 0 0% 100%;
+  }
+
+  /* Focus Mode - Light */
+  .focus {
+    --background: 230 91% 39%;
+    --foreground: 210 40% 98%;
+    
+    --card: 230 91% 35%;
+    --card-foreground: 210 40% 98%;
+    
+    --popover: 230 91% 39%;
+    --popover-foreground: 210 40% 98%;
+    
+    --primary: 262 83.3% 57.8%;
+    --primary-foreground: 210 40% 98%;
+    
+    --secondary: 172 66% 50.4%;
+    --secondary-foreground: 210 40% 98%;
+    
+    --muted: 230 91% 30%;
+    --muted-foreground: 210 40% 90%;
+    
+    --accent: 45 93.4% 47.1%;
+    --accent-foreground: 210 40% 98%;
+    
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    
+    --border: 230 91% 30%;
+    --input: 230 91% 30%;
+    --ring: 262 83.3% 57.8%;
+  }
+
+  /* Focus Mode - Dark */
+  .focus-dark {
+    --background: 230 50% 20%;
+    --foreground: 210 40% 98%;
+    
+    --card: 230 50% 15%;
+    --card-foreground: 210 40% 98%;
+    
+    --popover: 230 50% 20%;
+    --popover-foreground: 210 40% 98%;
+    
+    --primary: 262 83.3% 57.8%;
+    --primary-foreground: 210 40% 98%;
+    
+    --secondary: 172 66% 50.4%;
+    --secondary-foreground: 210 40% 98%;
+    
+    --muted: 230 50% 15%;
+    --muted-foreground: 210 40% 90%;
+    
+    --accent: 45 93.4% 47.1%;
+    --accent-foreground: 210 40% 98%;
+    
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    
+    --border: 230 50% 15%;
+    --input: 230 50% 15%;
+    --ring: 262 83.3% 57.8%;
   }
 }
 @layer base {
@@ -110,19 +175,20 @@
 /* Additional utility classes for our custom states */
 @layer utilities {
   .focus-mode {
-    background-color: hsl(var(--focus));
-    color: hsl(var(--focus-foreground));
+    @apply bg-gradient-to-b from-background to-background/95;
   }
 
   .load-indicator {
+    @apply text-white font-medium transition-all duration-200 hover:scale-105 hover:shadow-md;
+    
     &-low {
-      background-color: hsl(var(--load-low));
+      @apply bg-load-low hover:bg-load-low/90;
     }
     &-medium {
-      background-color: hsl(var(--load-medium));
+      @apply bg-load-medium hover:bg-load-medium/90;
     }
     &-high {
-      background-color: hsl(var(--load-high));
+      @apply bg-load-high hover:bg-load-high/90;
     }
   }
 }

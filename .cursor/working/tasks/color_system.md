@@ -1,185 +1,155 @@
 # Color System for rollercoaster.dev
 
 ## 1. Goal
-- **Objective:** Create an energetic, ADHD-friendly color system that reflects the "rollercoaster" theme while maintaining accessibility
+- **Objective:** Create an energetic, ADHD-friendly color system that reflects the "Rollercoaster of Attention" concept
 - **Energy Level Required:** Medium 🔋
-- **Current Status:** 🟡 Planning
+- **Current Status:** 🟡 Implementing
 
-## 2. Color Palette Structure
+## 2. Design Philosophy
+Our color system balances engagement with focus, providing both energetic and calming elements through the "Rollercoaster of Attention" concept:
+- Energetic elements for engagement (violet, amber accents)
+- Calming elements for focus (teal, deep blues)
+- Clear cognitive load indicators
+- Smooth transitions between states
 
-### Base Colors
-#### Light Mode
-- **Background:**
-  - Primary: `bg-white`
-  - Secondary: `bg-gray-50`
-  - Tertiary: `bg-gray-100`
+## 3. Color Palette Structure
 
-- **Text:**
-  - Primary: `text-gray-900`
-  - Secondary: `text-gray-700`
-  - Muted: `text-gray-500`
-
-#### Dark Mode
-- **Background:**
-  - Primary: `bg-gray-950`
-  - Secondary: `bg-gray-900`
-  - Tertiary: `bg-gray-800`
-
-- **Text:**
-  - Primary: `text-gray-50`
-  - Secondary: `text-gray-200`
-  - Muted: `text-gray-400`
-
-### Accent Colors (Rollercoaster Theme)
-- **Primary Action:**
-  - Default: `violet-600` (Energetic but calm)
-  - Hover: `violet-700`
-  - Active: `violet-800`
-
-- **Secondary Action:**
-  - Default: `teal-500` (Refreshing, focused)
-  - Hover: `teal-600`
-  - Active: `teal-700`
-
-- **Attention:**
-  - Focus: `amber-400` (Warm, engaging)
-  - Success: `emerald-500` (Achievement)
-  - Warning: `orange-500` (Gentle alert)
-  - Error: `rose-500` (Clear but not harsh)
-
-### State Colors
-#### Focus Mode
-- **Active:** `indigo-600` (Deep concentration)
-- **Background:** `gray-950` (Minimal distraction)
-- **Text:** `gray-50` (High contrast)
-
-#### Cognitive Load Indicators
-- **Low:** `emerald-400` (Calm, approachable)
-- **Medium:** `amber-400` (Moderate engagement)
-- **High:** `orange-400` (Increased intensity)
-
-## 3. Implementation Plan
-
-### 1. Base Configuration
-```typescript
-// tailwind.config.js
-{
-  theme: {
-    extend: {
-      colors: {
-        border: 'hsl(var(--border))',
-        input: 'hsl(var(--input))',
-        ring: 'hsl(var(--ring))',
-        background: 'hsl(var(--background))',
-        foreground: 'hsl(var(--foreground))',
-        primary: {
-          DEFAULT: 'hsl(var(--primary))',
-          foreground: 'hsl(var(--primary-foreground))'
-        },
-        secondary: {
-          DEFAULT: 'hsl(var(--secondary))',
-          foreground: 'hsl(var(--secondary-foreground))'
-        },
-        destructive: {
-          DEFAULT: 'hsl(var(--destructive))',
-          foreground: 'hsl(var(--destructive-foreground))'
-        },
-        muted: {
-          DEFAULT: 'hsl(var(--muted))',
-          foreground: 'hsl(var(--muted-foreground))'
-        },
-        accent: {
-          DEFAULT: 'hsl(var(--accent))',
-          foreground: 'hsl(var(--accent-foreground))'
-        }
-      }
-    }
-  }
-}
-```
-
-### 2. CSS Variables
+### Base Theme
 ```css
-/* assets/css/tailwind.css */
-@layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 262 83.3% 57.8%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 172 66% 50.4%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 45 93.4% 47.1%;
-    --accent-foreground: 240 5.9% 10%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 262 83.3% 57.8%;
-  }
+/* Light Mode */
+--background: 0 0% 100%
+--foreground: 240 10% 3.9%
 
-  .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 210 40% 98%;
-    --card: 240 10% 3.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 262 83.3% 57.8%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 172 66% 50.4%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 45 93.4% 47.1%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 262 83.3% 57.8%;
-  }
-}
+/* Dark Mode */
+--background: 240 10% 3.9%
+--foreground: 210 40% 98%
 ```
 
-## 4. Usage Guidelines
+### Primary Colors
+```css
+--primary: 262 83.3% 57.8%    /* Violet - Energetic but calm */
+--secondary: 172 66% 50.4%    /* Teal - Refreshing, focused */
+--accent: 45 93.4% 47.1%      /* Amber - Warm, engaging */
+```
 
-### Text Hierarchy
-- **Headers:** Primary text color
-- **Body:** Secondary text color
-- **Supporting Text:** Muted text color
-- **Links:** Primary action color
-- **Emphasis:** Secondary action color
+### Focus Modes
+```css
+/* Light Focus */
+--focus: 230 91% 39%         /* Deep blue for concentration */
+
+/* Dark Focus */
+--focus: 230 50% 20%         /* Darker variant for night work */
+```
+
+### Cognitive Load
+```css
+--load-low: 151 55% 41.5%    /* Calming green */
+--load-medium: 45 93% 47.1%  /* Warm amber */
+--load-high: 24 95% 53.1%    /* Energetic orange */
+```
+
+## 4. Page-Specific Applications
+
+### Global Elements
+#### Header & Navigation
+- Clean white/dark background
+- Mode toggles with clear states
+- Smooth transitions
+- High contrast for accessibility
+
+#### Content Areas
+- Subtle backgrounds
+- Clear text hierarchy
+- Consistent spacing
+- Focus-friendly contrast
+
+### Home Page
+#### Hero Section
+- Gradient combining primary colors
+- Clear CTA using primary color
+- Engaging but not overwhelming
+- Smooth transitions on interaction
+
+#### Feature Blocks
+- Card-based layout
+- Load indicators where relevant
+- Hover effects for engagement
+- Clear visual hierarchy
+
+### Blog System
+#### Index Page
+- Card-based post preview
+- Clear typography
+- Load indicators for post complexity
+- Smooth hover transitions
+
+#### Post Page
+- High contrast text
+- Clear headings hierarchy
+- Code block styling
+- Focus mode integration
+
+### Contact Form
+- Clean input styling
+- Clear validation states
+- Accessible contrast
+- Loading state indicators
+
+## 5. Component Color Applications
 
 ### Interactive Elements
-- **Buttons:** Primary/Secondary action colors
-- **Hover States:** Darker variants (+100)
-- **Focus Rings:** Primary action color
-- **Selection:** Accent color with 40% opacity
+```css
+/* Buttons */
+.btn-primary {
+  @apply bg-primary text-primary-foreground hover:bg-primary/90;
+}
 
-### Status Indicators
-- **Progress:** Primary action color
-- **Success:** Success color
-- **Warnings:** Warning color
-- **Errors:** Error color
-- **Information:** Secondary action color
+/* Cards */
+.card-default {
+  @apply bg-card text-card-foreground shadow-sm hover:shadow-md transition-all;
+}
 
-### Accessibility Considerations
-- Maintain WCAG 2.1 AA contrast ratios
-- Provide high contrast mode option
-- Ensure color is not the only indicator
-- Test with color blindness simulators
-- Support dark mode preferences
+/* Load Indicators */
+.load-indicator {
+  @apply text-white font-medium transition-all;
+  
+  &-low { @apply bg-load-low; }
+  &-medium { @apply bg-load-medium; }
+  &-high { @apply bg-load-high; }
+}
+```
 
-## 5. Next Actions
-1. Implement base color configuration
-2. Set up CSS variables
-3. Create color mode toggle
-4. Test with accessibility tools
-5. Create component-specific color variants 
+### Focus States
+```css
+/* Focus Mode */
+.focus-mode {
+  @apply bg-focus text-focus-foreground transition-all duration-500;
+}
+```
+
+## 6. Implementation Guidelines
+
+### Best Practices
+1. Use CSS variables for consistency
+2. Implement smooth transitions
+3. Maintain accessibility contrast
+4. Test in all color modes
+5. Consider color blindness
+
+### Color Mode Transitions
+- Use `transition-all duration-500`
+- Apply to both background and text
+- Consider reduced motion preferences
+- Maintain readability during transition
+
+## 7. Next Actions
+1. Implement global layout colors
+2. Create component variants
+3. Test accessibility
+4. Document usage patterns
+
+## 8. Notes
+- Keep transitions smooth but not distracting
+- Ensure consistent contrast ratios
+- Consider color blindness in all states
+- Document color usage patterns 

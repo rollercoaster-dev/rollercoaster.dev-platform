@@ -8,7 +8,11 @@ export default defineNuxtConfig({
     '@nuxt/content'
   ],
   colorMode: {
-    classSuffix: ''
+    preference: 'light',
+    fallback: 'light',
+    dataValue: 'theme',
+    storageKey: 'color-mode',
+    classSuffix: '',
   },
   imports: {
     dirs: [
