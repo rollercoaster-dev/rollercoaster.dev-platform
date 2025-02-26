@@ -1,14 +1,8 @@
 ---
-description: this rule has a project context
+description: Framework & Build Tools
 globs: 
+alwaysApply: false
 ---
-
-# Use these rules to document how to work with this particular project
-
-- You can @ files here
-- You can use markdown but dont have to
-- keep track of important things you need to remember
-
 # rollercoaster.dev Project Rules
 
 ## Framework & Build Tools
@@ -31,6 +25,7 @@ globs:
 - **Component Naming**:
   - Use PascalCase for component names
   - Use `.vue` extension for all Vue components
+  - namespace feature components under the feature name Sidebar/index.vue, Sidebar/Header.vue etc..
 - **Code Organization**:
   - Prefer `<script setup>` syntax for Vue components
   - Place all imports at the top of the file
