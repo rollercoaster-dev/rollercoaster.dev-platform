@@ -1,1 +1,269 @@
- 
+---
+description: 
+globs: 
+---
+# Component Development Guidelines
+
+## Component Structure Overview
+
+This project uses a structured component organization pattern:
+
+```
+components/
+├── ui/             # shadcn components and primitive UI elements
+│   ├── button/
+│   ├── card/
+│   ├── tooltip/
+│   └── ...
+├── layout/         # Page layout components
+│   ├── Header.vue
+│   ├── Footer.vue
+│   └── ...
+└── custom/         # Custom application-specific components
+    ├── tooltip/
+    └── ...
+```
+
+## shadcn Component Integration
+
+### Adding New shadcn Components
+
+1. Use the dedicated script to add new components:
+   ```bash
+   pnpm shadcn-components add <component-name>
+   ```
+
+2. Example:
+   ```bash
+   pnpm shadcn-components add dialog
+   ```
+
+### Customizing shadcn Components
+
+1. **Don't modify the original components directly**
+2. **Options for customization**:
+   - Create wrapper components in `components/custom/`
+   - Use the variant pattern with `cva` for styling alternatives
+   - Extend via composition rather than inheritance
+
+### shadcn Component Usage
+
+- Import components directly from their location:
+  ```typescript
+  import { Button } from '@/components/ui/button'
+  import { Card, CardHeader, CardContent } from '@/components/ui/card'
+  ```
+
+## Vue Component Best Practices
+
+### Script Section
+
+```vue
+<script setup lang="ts">
+// 1. External library imports
+import { ref, computed } from 'vue'
+import { X, Check } from 'lucide-vue-next'
+
+// 2. Component imports
+import { Button } from '@/components/ui/button'
+
+// 3. Type definitions
+interface Props {
+  title: string
+  description?: string
+}
+
+// 4. Props and emits
+const props = defineProps<Props>()
+const emit = defineEmits<{
+  (e: 'update', value: string): void
+}>()
+
+// 5. Reactive state
+const isOpen = ref(false)
+
+// 6. Computed properties
+const buttonLabel = computed(() => 
+  isOpen.value ? 'Close' : 'Open'
+)
+
+// 7. Methods
+const toggle = () => {
+  isOpen.value = !isOpen.value
+  emit('update', isOpen.value ? 'opened' : 'closed')
+}
+
+// 8. Lifecycle hooks
+onMounted(() => {
+  // Initialize
+})
+</script>
+```
+
+### Template Section
+
+```vue
+<template>
+  <!-- Use semantic HTML structures -->
+  <section class="space-y-4">
+    <!-- Clear heading hierarchy -->
+    <h2 class="text-2xl font-bold">{{ title }}</h2>
+    
+    <!-- Conditional rendering -->
+    <p v-if="description" class="text-muted-foreground">
+      {{ description }}
+    </p>
+    
+    <!-- Event handling -->
+    <Button @click="toggle">
+      {{ buttonLabel }}
+    </Button>
+    
+    <!-- Transition for smooth state changes -->
+    <div v-if="isOpen" class="transition-all duration-300">
+      <slot />
+    </div>
+  </section>
+</template>
+```
+
+## Tooltip Integration
+
+This project uses Reka UI for tooltips. Follow this pattern:
+
+```vue
+<script setup lang="ts">
+import { Tooltip } from '@/components/ui/tooltip'
+
+// Component logic...
+</script>
+
+<template>
+  <Tooltip content="This is a helpful tooltip">
+    <Button>Hover Me</Button>
+  </Tooltip>
+</template>
+```
+
+For tooltips with keyboard shortcuts:
+
+```vue
+<Tooltip :content="`Open menu\nShortcut: Cmd + M`">
+  <Button>Menu</Button>
+</Tooltip>
+```
+
+## State Management
+
+### Local Component State
+
+Use Vue's Composition API:
+
+```typescript
+// Reactive variables
+const count = ref(0)
+
+// Computed values
+const doubleCount = computed(() => count.value * 2)
+
+// Methods
+const increment = () => count.value++
+```
+
+### Global/Shared State
+
+For color mode and theme state, use the built-in composable:
+
+```typescript
+const colorMode = useColorMode()
+
+// Computed state for modes
+const isDark = computed(() => 
+  colorMode.value === 'dark' || colorMode.value === 'focus-dark'
+)
+const isFocus = computed(() => 
+  colorMode.value === 'focus' || colorMode.value === 'focus-dark'
+)
+
+// Toggle functions
+const toggleDarkMode = () => {
+  // Mode toggling logic
+}
+```
+
+## Component Testing
+
+Component tests should be created in `/tests` directory:
+
+```typescript
+// Example component test
+import { mount } from '@vue/test-utils'
+import { describe, it, expect } from 'vitest'
+import MyComponent from '@/components/custom/MyComponent.vue'
+
+describe('MyComponent', () => {
+  it('renders correctly', () => {
+    const wrapper = mount(MyComponent, {
+      props: {
+        title: 'Test Title'
+      }
+    })
+    expect(wrapper.text()).toContain('Test Title')
+  })
+  
+  it('handles button click', async () => {
+    const wrapper = mount(MyComponent)
+    await wrapper.find('button').trigger('click')
+    // Test state changes
+  })
+})
+```
+
+## Accessibility Requirements
+
+All components must meet these accessibility requirements:
+
+1. **Keyboard navigable**: All interactive elements must be usable with a keyboard
+2. **Screen reader friendly**: Use semantic HTML and ARIA attributes when needed
+3. **Color contrast**: Meet WCAG AA standards for text and UI elements
+4. **Focus indicators**: Clearly visible focus states for all interactive elements
+5. **Motion safe**: Respect `prefers-reduced-motion` for animations
+6. **Responsive**: Work well on all screen sizes
+
+## Component Documentation
+
+Add a comment at the top of each component file with:
+
+1. Brief description of the component's purpose
+2. Usage example
+3. Props description
+4. Emitted events (if any)
+5. Slots (if any)
+
+Example:
+
+```vue
+<script setup lang="ts">
+/**
+ * FeatureCard - Displays a feature with title, description and icon
+ * 
+ * @example
+ * <FeatureCard
+ *   title="Easy Integration"
+ *   description="Simple to integrate with your existing workflow"
+ *   icon="Puzzle"
+ * />
+ * 
+ * @props
+ * - title: The feature title (required)
+ * - description: Feature description (optional)
+ * - icon: Lucide icon name (optional, defaults to "Check")
+ * 
+ * @slots
+ * - default: Override the entire content
+ * - icon: Custom icon content
+ */
+
+// Component code...
+</script>
+``` 

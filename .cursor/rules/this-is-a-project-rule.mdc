@@ -8,3 +8,102 @@ globs:
 - You can @ files here
 - You can use markdown but dont have to
 - keep track of important things you need to remember
+
+# rollercoaster.dev Project Rules
+
+## Framework & Build Tools
+
+- **Nuxt 3**: This project is built with Nuxt 3, leveraging its file-based routing system and auto-imports
+- **Package Managers**: Both PNPM and Bun are used in this project
+  - Use `pnpm` for package installation and management (primary)
+  - `bun.lock` file is also present, suggesting Bun can be used as an alternative
+- **TypeScript**: All new code must be written in TypeScript
+  - Ensure proper types are defined and exported
+  - Use `<script setup lang="ts">` for Vue components
+- **Component Installation**: Use `pnpm shadcn-components` to add shadcn components
+
+## Component Organization
+
+- **Component Directories**:
+  - `components/ui/`: Shadcn UI components (like Button, Tooltip)
+  - `components/layout/`: Layout components (Header, Footer)
+  - `components/custom/`: Custom non-UI functionality components
+- **Component Naming**:
+  - Use PascalCase for component names
+  - Use `.vue` extension for all Vue components
+- **Code Organization**:
+  - Prefer `<script setup>` syntax for Vue components
+  - Place all imports at the top of the file
+  - Document complex components with a brief description
+
+## Styling Conventions
+
+- **Tailwind CSS**: Primary styling approach
+  - Always prefer Tailwind classes over custom CSS when possible
+  - Use `@apply` sparingly and only in `@layer` directives
+- **Color System**:
+  - Use the defined color system with CSS variables in `assets/css/tailwind.css`
+  - Respect the light/dark/focus mode system when adding new styles
+  - Always use the semantic color tokens (e.g., `bg-background`, `text-foreground`)
+- **Custom Components**:
+  - For shadcn components, follow their documentation for variants and extension
+  - Custom components should match the styling patterns of shadcn components
+
+## Accessibility & UX
+
+- **ADHD-Friendly Design**:
+  - Use cognitive load indicators where appropriate (`load-low`, `load-medium`, `load-high`)
+  - Ensure focus mode compatibility for all UI components
+  - Add tooltips to complex interactive elements
+  - Keep text concise and use visual hierarchy
+- **Keyboard Accessibility**:
+  - Important functionality should have keyboard shortcuts
+  - Document shortcuts in tooltips (`Shortcut: Cmd + X`)
+- **State Feedback**:
+  - Provide clear visual feedback for all interactive elements
+  - Use subtle animations for state changes (loading, transitions, etc.)
+
+## Content Management
+
+- **Nuxt Content**:
+  - Blog posts and documentation go in the `content/` directory as Markdown files
+  - Use front matter for metadata (`title`, `description`, etc.)
+  - For blog posts, include a `date` field in front matter
+
+## Project Structure
+
+- **Directory Organization**:
+  - `pages/`: Nuxt file-based routing
+  - `components/`: UI and custom components
+  - `composables/`: Reusable composition functions
+  - `assets/`: CSS and other static assets
+  - `public/`: Publicly served files
+  - `content/`: Markdown content
+  - `.cursor/working/tasks/`: Task tracking and documentation
+- **State Management**:
+  - Use Vue's Composition API for local state
+  - Leverage `useColorMode()` for theme state management
+
+## Testing
+
+- **Vitest**: The project uses Vitest for unit testing
+  - Place tests in the `tests/` directory
+  - Ensure all new features have corresponding tests
+
+## Documentation
+
+- **Task Documentation**:
+  - Keep task documentation in `.cursor/working/tasks/`
+  - Follow the existing task documentation format
+- **Code Documentation**:
+  - Document complex functions with JSDoc comments
+  - Keep a log of important design decisions
+
+## Git Workflow
+
+- **Commit Messages**:
+  - Use descriptive commit messages with a clear purpose
+  - Prefix commits with type: `feat:`, `fix:`, `docs:`, etc.
+- **Branch Strategy**:
+  - Create feature branches for new features
+  - Use bugfix branches for fixes

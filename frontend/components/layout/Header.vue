@@ -80,7 +80,10 @@ const navigation = [
 
       <!-- Mode Toggles -->
       <div class="flex items-center space-x-2">
-        <Tooltip :content="isDark ? 'Switch to light mode\nShortcut: Cmd + D' : 'Switch to dark mode\nShortcut: Cmd + D'">
+        <Tooltip
+          :content="isDark ? 'Switch to light mode\nShortcut: Cmd + D' : 'Switch to dark mode\nShortcut: Cmd + D'"
+          side="bottom"
+        >
           <Button
             @click="toggleDarkMode"
             variant="ghost"
@@ -95,7 +98,10 @@ const navigation = [
           </Button>
         </Tooltip>
 
-        <Tooltip :content="isFocus ? 'Exit focus mode\nShortcut: Cmd + F' : 'Enter focus mode\nShortcut: Cmd + F'">
+        <Tooltip
+          :content="isFocus ? 'Exit focus mode\nShortcut: Cmd + F' : 'Enter focus mode\nShortcut: Cmd + F'"
+          side="bottom"
+        >
           <Button
             @click="toggleFocusMode"
             :variant="isFocus ? 'default' : 'ghost'"

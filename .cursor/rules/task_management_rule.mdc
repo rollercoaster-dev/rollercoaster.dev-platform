@@ -2,4 +2,157 @@
 description: 
 globs: 
 ---
- 
+# ADHD-Friendly Task Management Guidelines
+
+## Task Structure and Organization
+
+Tasks in this project follow a structured format designed for clarity and focus:
+
+```
+.cursor/
+└── working/
+    └── tasks/
+        ├── 🟡_task_in_progress.md
+        ├── 🔴_blocked_task.md
+        ├── 📌_paused_task.md
+        └── completed/
+            └── 🟢_completed_task.md
+```
+
+## Task Status Indicators
+
+Use these emoji prefixes to indicate task status:
+- **🟡 In Progress**: Active tasks you're currently working on
+- **🔴 Blocked**: Tasks waiting on dependencies or external input
+- **🟢 Complete**: Finished tasks (move to completed/ subfolder)
+- **📌 Paused**: Temporarily suspended tasks
+
+## Task File Template
+
+Each task file should follow this template:
+
+```markdown
+# {TASK_NAME}
+
+## 1. Goal
+- **Objective:**  
+  [Clear description of the expected outcome]
+- **Energy Level Required:** [High/Medium/Low] 🔋
+- **Current Status:** [🔴 Blocked | 🟡 In Progress | 🟢 Complete]
+
+## 2. Resources Inventory
+- **Existing Tools/Files:**  
+  [List relevant files, components, or tools]
+- **Additional Needs:**  
+  [Note any dependencies or requirements]
+- **Related Files:**  
+  [List files associated with this task]
+
+## 3. Initial Ideas & Brainstorming
+- **Ideas:**  
+  [Record potential approaches]
+- **Potential Challenges:**  
+  [Identify possible roadblocks]
+- **Decision Log:**
+  - Decision: [What was decided]
+  - Reasoning: [Why this choice was made]
+  - Alternatives Considered: [Other options]
+
+## 4. Preliminary Plan
+- **Quick Wins:**
+  - [ ] Small achievement 1 (5 mins)
+  - [ ] Small achievement 2 (5 mins)
+- **Major Steps:**  
+  1. Step One: [Description & Time Estimate] 🎯
+  2. Step Two: [Description & Time Estimate] 🎯
+  3. Step Three: [Description & Time Estimate] 🎯
+
+## 5. Execution Tracker
+- **Progress Updates:**  
+  - [ ] Step One: (Notes/updates)
+  - [ ] Step Two: (Notes/updates)
+  - [ ] Step Three: (Notes/updates)
+- **Context Resume Point:**
+  Last working on: [file/function/feature]
+  Next planned action: [what to do next]
+  Current blockers: [if any]
+
+## 6. Immediate Next Actions & Blockers
+- **Next Actions:** 
+  - [ ] Immediate next step (estimated time)
+  - [ ] Follow-up action (estimated time)
+- **Current Blockers:**
+  - [List any blocking issues]
+  - [Include potential solutions]
+
+## 7. Reflections
+- **Observations:**  
+  [Document insights, adjustments, and learnings]
+- **Celebration Notes:** 🎉
+  [Document small wins and progress milestones]
+```
+
+## ADHD-Supportive Task Practices
+
+### Breaking Down Tasks
+
+Always break larger tasks into smaller, manageable pieces:
+- **Time-boxed**: Estimate time requirements for each step
+- **Concrete**: Define clear, specific actions
+- **Achievable**: Ensure steps can be completed in one sitting
+- **Visible**: Track progress visually with checkboxes
+
+### Context Switching Support
+
+When switching between tasks:
+1. **Document Resume Points**: Note exactly where you left off
+2. **Record Next Actions**: List the immediate next steps
+3. **Capture Context**: Include any relevant mental context or decisions
+
+### Dopamine Management
+
+To work with ADHD brain chemistry:
+1. **Quick Wins**: Start with small, achievable items
+2. **Celebration Notes**: Document progress and small victories
+3. **Visual Progress**: Use checkboxes and status emojis
+4. **Immediate Rewards**: Define clear completion criteria
+
+### Energy Management
+
+Match tasks to your energy levels:
+- **High Energy 🔋🔋🔋**: Complex problem-solving, creative work, learning new concepts
+- **Medium Energy 🔋🔋**: Implementing solutions, writing documentation, testing
+- **Low Energy 🔋**: Simple updates, review, organization, clean-up tasks
+
+## Task Creation Workflow
+
+1. **Initial Assessment**: Define the objective and scope
+2. **Create Task File**: Use the template format
+3. **Break Down Steps**: Divide into manageable chunks
+4. **Prioritize**: Mark quick wins and high-value steps
+5. **Execute**: Work through the steps, updating as you go
+6. **Review**: Reflect on progress and learnings
+7. **Complete/Archive**: Move to completed folder when done
+
+## Task Review Practices
+
+Regular review of task documentation helps maintain momentum:
+
+### Daily Review
+- Check progress on active tasks
+- Update status indicators
+- Identify next actions for in-progress tasks
+
+### Weekly Review
+- Move completed tasks to the archive
+- Reassess blocked tasks
+- Prioritize upcoming work
+- Review energy allocation
+
+## Documentation Standards
+
+- **Clear Language**: Use plain, direct language
+- **Visual Separation**: Use headings, lists, and spacing
+- **Progressive Disclosure**: Most important information first
+- **Action-Oriented**: Frame items as specific actions
+- **State Awareness**: Clearly mark the current status 

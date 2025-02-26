@@ -1,1 +1,143 @@
- 
+---
+description: 
+globs: 
+---
+# Color System & Accessibility Rules
+
+## Color System Philosophy
+
+This project uses a "Rollercoaster of Attention" color system designed specifically for neurodivergent users (especially those with ADHD). The system balances:
+
+- **Energetic Elements**: For engagement and stimulation (violet, amber)
+- **Calming Elements**: For focus and concentration (teal, deep blues)
+- **Cognitive Load Indicators**: Visual cues for mental energy requirements
+- **Focus Mode**: Dedicated environment for deep work
+
+## Color Tokens
+
+### Base System
+- **Use semantic color tokens**:
+  - `bg-background`/`text-foreground` for main UI elements
+  - `bg-card`/`text-card-foreground` for card components
+  - `bg-muted`/`text-muted-foreground` for secondary elements
+  - `bg-popover`/`text-popover-foreground` for floating elements
+
+### Primary Palette
+- **Primary**: Violet (`hsl(var(--primary))`) - Use for main CTAs and brand elements
+- **Secondary**: Teal (`hsl(var(--secondary))`) - Use for supporting elements
+- **Accent**: Amber (`hsl(var(--accent))`) - Use for highlights and attention-grabbing elements
+
+### Special Purpose Colors
+- **Focus Mode**: Deep blue (`hsl(var(--focus))`) - For the focus mode background
+- **Cognitive Load**:
+  - Low: Green (`hsl(var(--load-low))`) - Low mental energy requirements
+  - Medium: Amber (`hsl(var(--load-medium))`) - Moderate mental energy requirements
+  - High: Orange (`hsl(var(--load-high))`) - High mental energy requirements
+
+## Multiple Color Modes
+
+The project supports four distinct color modes:
+1. **Light Mode**: Default bright theme
+2. **Dark Mode**: Low-light theme for reduced eye strain
+3. **Focus Mode (Light)**: Deep blue background for concentration in bright environments
+4. **Focus Mode (Dark)**: Darker blue for concentration in low-light environments
+
+### Implementation
+- Use the `useColorMode()` composable to manage theme state
+- Check theme with computed properties:
+  ```typescript
+  const isDark = computed(() => colorMode.value === 'dark' || colorMode.value === 'focus-dark')
+  const isFocus = computed(() => colorMode.value === 'focus' || colorMode.value === 'focus-dark')
+  ```
+- Toggle modes while preserving state:
+  ```typescript
+  // Example: Toggle focus while preserving dark/light preference
+  const toggleFocusMode = () => {
+    if (isFocus.value) {
+      colorMode.preference = isDark.value ? 'dark' : 'light'
+    } else {
+      colorMode.preference = isDark.value ? 'focus-dark' : 'focus'
+    }
+  }
+  ```
+
+## ADHD-Friendly UI Patterns
+
+### Cognitive Load Indicators
+- **When to Use**: Apply to tasks, articles, or features to indicate mental energy required
+- **Implementation**: 
+  ```html
+  <button class="load-indicator load-indicator-low">Low Effort</button>
+  <button class="load-indicator load-indicator-medium">Medium Effort</button>
+  <button class="load-indicator load-indicator-high">High Effort</button>
+  ```
+
+### Focus Mode Integration
+- **Purpose**: Provides a distraction-free environment
+- **Guidelines**:
+  - All components should remain functional in focus mode
+  - Text should maintain high contrast
+  - Avoid unnecessary animations or visual noise
+  - Provide a clear way to exit focus mode
+
+### Visual Hierarchy & Chunking
+- Break information into digestible chunks
+- Use clear visual hierarchy with headings and spacing
+- Limit text line length for better readability
+- Use cards to group related information
+
+### Interactive Feedback
+- Provide immediate visual feedback for all interactions
+- Use subtle animations for state changes (hover, click, etc.)
+- Ensure focus states are clearly visible
+- Add tooltips for complex interactions
+
+## Accessibility Guidelines
+
+### Keyboard Navigation
+- All interactive elements must be keyboard accessible
+- Implement keyboard shortcuts for common actions
+- Document shortcuts in tooltips
+- Example keyboard shortcut implementation:
+  ```typescript
+  // Add keyboard shortcut for dark mode toggle
+  onMounted(() => {
+    const handleKeydown = (e: KeyboardEvent) => {
+      if (e.metaKey || e.ctrlKey) {
+        if (e.key.toLowerCase() === 'd') {
+          e.preventDefault()
+          toggleDarkMode()
+        }
+      }
+    }
+    window.addEventListener('keydown', handleKeydown)
+    onUnmounted(() => window.removeEventListener('keydown', handleKeydown))
+  })
+  ```
+
+### Motion & Animation
+- Keep animations subtle and purposeful
+- Respect user preferences with `prefers-reduced-motion`
+- Use transitions to reduce cognitive jarring:
+  ```html
+  <div class="transition-all duration-500">
+    <!-- Content -->
+  </div>
+  ```
+
+### Text & Typography
+- Use sufficient text contrast (WCAG AA minimum)
+- Provide adequate line height (1.5 or greater for body text)
+- Ensure proper heading hierarchy
+- Use semantic HTML elements
+
+## Implementation Checklist
+
+When creating new components or features, ensure:
+1. ✅ They work in all four color modes
+2. ✅ They have appropriate keyboard accessibility
+3. ✅ They use the correct semantic color tokens
+4. ✅ Cognitive load is indicated where appropriate
+5. ✅ Tooltips are added for complex interactions
+6. ✅ Transitions are smooth and purposeful
+7. ✅ Information is chunked appropriately 
