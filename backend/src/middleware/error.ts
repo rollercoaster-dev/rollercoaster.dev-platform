@@ -1,8 +1,9 @@
 import type { Context, MiddlewareHandler } from 'hono'
+import type { ContentfulStatusCode } from 'hono/utils/http-status'
 
 export class APIError extends Error {
   constructor(
-    public status: number,
+    public status: ContentfulStatusCode,
     message: string,
     public details?: unknown
   ) {
@@ -29,6 +30,6 @@ export const errorHandler: MiddlewareHandler = async (c: Context, next) => {
     return c.json({
       error: 'Internal Server Error',
       status: 500
-    }, 500)
+    }, 500 as ContentfulStatusCode)
   }
 } 
