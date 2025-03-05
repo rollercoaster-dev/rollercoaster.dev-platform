@@ -57,6 +57,10 @@ components/
 
 ## Vue Component Best Practices
 
+### Component Layout
+
+The components should be setup script/template/style
+
 ### Script Section
 
 ```vue
