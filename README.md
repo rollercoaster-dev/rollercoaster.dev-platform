@@ -1,75 +1,122 @@
-# Nuxt Minimal Starter
+# atBadges - Achievement Badge System
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+A full-stack application for tracking achievements and learning progress through digital badges.
+
+## Technology Stack
+
+- **Frontend**: Vue 3 + Nuxt.js + Tailwind CSS
+- **Backend**: Bun + Hono.js
+- **Shared**: TypeScript for type definitions
+- **Testing**: Bun Test for backend, Vitest for frontend
+
+## Project Structure
+
+```
+atBadges/
+├── backend/              # Bun + Hono API server
+│   ├── src/
+│   │   ├── routes/       # API route handlers
+│   │   └── index.ts      # API entry point
+│   └── tests/            # Backend tests
+│       ├── fixtures/     # Test data
+│       └── unit/         # Unit tests
+├── frontend/             # Vue 3 + Nuxt frontend
+│   ├── components/       # Vue components
+│   ├── pages/            # Vue pages/routes
+│   └── services/         # API client services
+├── shared/               # Shared code between frontend/backend
+│   └── types/            # TypeScript type definitions
+└── scripts/              # Development and utility scripts
+    └── dev.sh            # Run both frontend and backend servers
+```
 
 ## Setup
 
 Make sure to install dependencies:
 
 ```bash
-# npm
-npm install
+# Install backend dependencies
+cd backend && bun install
 
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
+# Install frontend dependencies
+cd frontend && pnpm install
 ```
 
-## Development Server
+## Development
 
-Start the development server on `http://localhost:3000`:
+Run the development servers (both frontend and backend):
 
 ```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
+# From the project root
+chmod +x scripts/dev.sh
+./scripts/dev.sh
 ```
 
-## Production
+This script:
+- Starts the backend Hono server at http://localhost:3000
+- Starts the frontend Nuxt dev server at http://localhost:3001
+- Enables hot reloading for both
 
-Build the application for production:
+## API Endpoints
+
+The backend exposes the following endpoints:
+
+### Badges API
+
+- `GET /badges` - Get all badges
+- `GET /badges/:id` - Get a single badge by ID
+- `POST /badges` - Create a new badge
+- `PUT /badges/:id` - Update a badge
+- `PATCH /badges/:id/progress` - Update badge progress
+- `DELETE /badges/:id` - Delete a badge
+
+## Frontend Services
+
+The `badgeService.ts` provides a typed API client for interacting with the backend:
+
+```typescript
+// Example usage
+import { badgeService } from '@/services/badgeService';
+
+// Get all badges
+const badges = await badgeService.getBadges();
+
+// Create a new badge
+const newBadge = await badgeService.createBadge({
+  name: 'New Badge',
+  description: 'A new badge',
+  // ...other properties
+});
+```
+
+## Testing
+
+### Backend Tests
+
+Run backend tests:
 
 ```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
+cd backend && bun test
 ```
 
-Locally preview production build:
+### Frontend Tests
+
+Run frontend tests:
 
 ```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
+cd frontend && pnpm test
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+## Development Approach
+
+This project follows an ADHD-friendly Test-Driven Development approach:
+
+1. Write small, focused tests for a specific behavior
+2. Implement minimal code to make tests pass
+3. Refactor while maintaining passing tests
+
+For more details about our testing strategy, see `.cursor/working/agent/config/testing_strategy_rule.md`.
+
+## License
+
+[MIT](LICENSE)
