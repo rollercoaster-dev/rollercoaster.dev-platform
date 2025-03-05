@@ -1,0 +1,121 @@
+---
+description: Commit Strategy Guidelines
+globs: *.ts, *.css, *.md, *.mdc, *.vue
+alwaysApply: false
+---
+ # ADHD-Friendly Commit Strategy Guidelines
+
+## Core Principles
+
+Our commit strategy follows these neurodivergent-friendly principles:
+
+1. **One Change, One Commit**: Each commit should address exactly one logical change
+2. **Frequent Checkpoints**: Commit often to create progress markers and dopamine hits
+3. **Context Preservation**: Write detailed commit messages that preserve mental context
+4. **Completion Celebration**: Use commits as mini-celebrations of task completion
+5. **Reversibility Safety**: Keep commits small to make undoing changes less overwhelming
+
+## Commit Frequency Guidelines
+
+- **Commit after each functional change**, even if small
+- **Never go more than 20-30 minutes** without committing
+- **Always commit when switching tasks** or taking breaks
+- **Commit working, but incomplete features** with clear TODOs
+
+## Commit Message Structure
+
+Use this format for all commit messages:
+
+```
+type(scope): concise description of the change
+
+[optional body with more details]
+
+[optional footer with related ticket IDs]
+```
+
+### Types
+- `feat`: New feature
+- `fix`: Bug fix
+- `docs`: Documentation change
+- `style`: Formatting, missing semicolons, etc.
+- `refactor`: Code change that neither fixes a bug nor adds a feature
+- `test`: Adding or modifying tests
+- `chore`: Changes to build process or auxiliary tools
+
+### Example Messages
+✅ `feat(filesystem): add recursive folder expansion in sidebar`  
+✅ `fix(badge-progress): correct progress bar percentage calculation`  
+✅ `refactor(editor): extract Badge interface to shared types`  
+
+## How to Keep Commits Focused
+
+1. **Work in small increments**:
+   - Add one function at a time
+   - Style one component at a time
+   - Fix one bug at a time
+
+2. **Use staging strategically**:
+   - Stage and commit logical chunks, not entire files
+   - Use `git add -p` to select specific changes within files
+
+3. **Monitor scope creep**:
+   - If you notice yourself making unrelated changes, stop
+   - Commit what you have before addressing the new issue
+   - Create a separate commit for the new change
+
+4. **Check diff before committing**:
+   - Review what's being committed (`git diff --staged`)
+   - Ensure it contains only the intended changes
+   - Split into multiple commits if needed
+
+## Examples
+
+### Good Commit Patterns
+
+✅ **Focused and Specific**
+```
+feat(editor): add basic text highlighting for markdown
+```
+This adds just markdown syntax highlighting to the editor.
+
+✅ **Small But Complete**
+```
+fix(filesystem): correct icon display for image files
+```
+Just fixes the icon display issue for one file type.
+
+### Problematic Commit Patterns
+
+❌ **Too Large/Mixed Concerns**
+```
+update editor and file tree and fix bugs
+```
+Mixes multiple features and fixes with no clear scope.
+
+❌ **Vague Description**
+```
+wip: updates
+```
+Doesn't describe what was changed or why.
+
+## Commit Reviews
+
+At the end of each day, review your commits to ensure they:
+
+1. Tell a coherent story of your work
+2. Each have a single responsibility
+3. Include proper context for future understanding
+4. Follow the type/scope convention
+
+This review process helps reinforce good habits and improves your ability to track progress.
+
+## Benefits for Neurodivergent Workflows
+
+- **Reduces working memory load**: No need to remember all changes at once
+- **Creates natural break points**: Each commit is a mini-accomplishment
+- **Improves focus**: Work on one thing at a time, commit, then move on
+- **Provides safety net**: Small commits make it easier to undo specific changes
+- **Progress visualization**: Commit history shows visible progress
+
+Remember: The goal is small, focused commits that create a clear history of changes while supporting neurodivergent work patterns with regular dopamine hits for completed work.
