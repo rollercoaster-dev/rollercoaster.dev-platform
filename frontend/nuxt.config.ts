@@ -17,7 +17,27 @@ export default defineNuxtConfig({
     classSuffix: '',
     fallback: 'light',
     preference: 'system'
-  }], '@nuxtjs/storybook'],
+  }], ['@nuxtjs/storybook', {
+    port: 6006,
+    stories: [
+      '../components/**/*.stories.@(js|jsx|ts|tsx)',
+      '../stories/**/*.stories.@(js|jsx|ts|tsx)'
+    ],
+    version: 8,
+    addons: [
+      '@storybook/addon-links',
+      '@storybook/addon-essentials',
+      '@storybook/addon-interactions'
+    ],
+    framework: {
+      name: '@storybook/vue3-vite',
+      options: {}
+    },
+    builder: {
+      name: '@storybook/builder-vite',
+      options: {}
+    }
+  }]],
   imports: {
     dirs: [
       'composables',
@@ -37,5 +57,26 @@ export default defineNuxtConfig({
       },
       '~/components'
     ]
+  },
+  typescript: {
+    strict: true,
+    includeWorkspace: true,
+    shim: false,
+    tsConfig: {
+      compilerOptions: {
+        moduleResolution: "bundler",
+        allowImportingTsExtensions: true,
+        verbatimModuleSyntax: true,
+        allowJs: true
+      }
+    }
+  },
+  vite: {
+    vue: {
+      script: {
+        defineModel: true,
+        propsDestructure: true
+      }
+    }
   }
 })

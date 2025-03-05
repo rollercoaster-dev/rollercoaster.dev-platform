@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
-import BadgeList from '../components/badges/BadgeList.vue';
+import BadgeList from '../components/Badge/List/index.vue';
 import { BadgeStatus } from '../types/badge';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories

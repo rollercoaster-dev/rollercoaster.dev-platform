@@ -1,9 +1,36 @@
 {
   "extends": "./.nuxt/tsconfig.json",
   "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "strict": true,
+    "jsx": "preserve",
+    "moduleResolution": "bundler",
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "useDefineForClassFields": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"]
-    }
-  }
-} 
+      "@/*": ["./*"],
+      "~/*": ["./*"],
+      "#imports": ["./.nuxt/imports"],
+      "#components": ["./.nuxt/components"]
+    },
+    "types": [
+      "vite/client",
+      "@nuxt/types",
+      "@types/node"
+    ]
+  },
+  "include": [
+    "./**/*.ts",
+    "./**/*.tsx",
+    "./**/*.vue",
+    "./.nuxt/nuxt.d.ts",
+    "./types/**/*.d.ts",
+    "./.storybook/**/*"
+  ],
+  "exclude": ["node_modules", "dist"]
+}
