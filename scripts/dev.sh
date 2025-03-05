@@ -25,7 +25,7 @@ sleep 2
 
 # Start frontend
 echo -e "${BLUE}Starting Frontend (Nuxt)...${NC}"
-cd frontend && npm run dev &
+cd frontend && bun run dev &
 
 # Wait for any process to exit
-wait 
+wait % 
