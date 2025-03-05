@@ -1,0 +1,186 @@
+---
+description: Commenting Standards for TypeScript Development
+globs: *.ts, *.vue
+alwaysApply: false
+---
+ # Commenting Standards for TypeScript Development
+
+## Core Principles
+
+1. **Clarity Over Redundancy**: Comments should add value, not restate what's obvious from the code
+2. **Simplicity Over Formality**: Prefer simple, direct comments over formal documentation styles in code
+3. **Document Why, Not What**: Explain reasoning and edge cases, not mechanics that are clear from the code
+4. **Context for Future Developers**: Write comments that will help someone unfamiliar with the code understand your intent
+
+## No JSDoc in TypeScript Files
+
+TypeScript provides strong typing and self-documentation capabilities. We leverage these features instead of duplicating type information in JSDoc comments.
+
+### ❌ Avoid
+
+```typescript
+/**
+ * User interface
+ * @interface User
+ * @property {string} id - The user's unique identifier
+ * @property {string} name - The user's name
+ * @property {number} age - The user's age
+ */
+interface User {
+  id: string;
+  name: string;
+  age: number;
+}
+```
+
+### ✅ Prefer
+
+```typescript
+/**
+ * Represents a user in the system.
+ * Keys are matching our database schema.
+ */
+interface User {
+  id: string;
+  name: string;
+  age: number;
+}
+```
+
+## Avoid Redundant Comments
+
+Do not write comments that simply restate what the code itself clearly expresses.
+
+### ❌ Avoid
+
+```typescript
+// Get all users
+const getAllUsers = async (): Promise<User[]> => {
+  // Make API request to fetch users
+  const response = await fetch('/api/users');
+  // Return JSON data
+  return response.json();
+};
+```
+
+### ✅ Prefer
+
+```typescript
+const getAllUsers = async (): Promise<User[]> => {
+  const response = await fetch('/api/users');
+  return response.json();
+};
+```
+
+## Comment Only What Needs Explanation
+
+Comments should explain:
+- Non-obvious edge cases
+- Complex business logic reasoning
+- Why a specific approach was chosen
+- Workarounds for known issues
+- Security implications
+
+### ❌ Avoid
+
+```typescript
+// Set the name of the user
+user.name = 'John';
+```
+
+### ✅ Prefer
+
+```typescript
+// Names with special characters cause rendering issues in the PDF export
+user.name = user.name.replace(/[^\w\s]/gi, '');
+```
+
+## Comment Examples for Common Scenarios
+
+### Complex Logic
+
+```typescript
+// We combine two scoring algorithms with different weights:
+// - Recent activity (70%): Prioritizes users who engaged recently
+// - Content quality (30%): Considers upvotes and response quality
+// This balances recency with consistent quality contribution
+const calculateUserScore = (user: User): number => {
+  const activityScore = getActivityScore(user);
+  const qualityScore = getQualityScore(user);
+  return (activityScore * 0.7) + (qualityScore * 0.3);
+};
+```
+
+### API Compatibility Issues
+
+```typescript
+// The API returns dates in format YYYY-DD-MM (not ISO standard)
+// We need to swap day and month before parsing
+const parseDateFromApi = (dateString: string): Date => {
+  const [year, day, month] = dateString.split('-');
+  return new Date(`${year}-${month}-${day}`);
+};
+```
+
+### Performance Considerations
+
+```typescript
+// Using a Map instead of filtering the array multiple times
+// reduces complexity from O(n²) to O(n)
+const groupUsersByRole = (users: User[]): Map<string, User[]> => {
+  const roleMap = new Map<string, User[]>();
+  // ...implementation
+};
+```
+
+## Using Top-Level Comments Effectively
+
+For files and exports that will be used by others, use concise top-level comments that explain the module's purpose and any important usage notes.
+
+```typescript
+/**
+ * Badge service for interacting with the badge API.
+ * All methods handle proper error formatting and logging.
+ * For error handling, prefer try/catch around specific operations
+ * rather than wrapping entire workflows.
+ */
+export const badgeService = {
+  // ...methods
+};
+```
+
+## Comments for ADHD-Friendly Development
+
+For neurodivergent developers, clear section breaks and visual markers can help with code navigation and focus:
+
+```typescript
+// =============================================
+// BADGE CREATION OPERATIONS
+// =============================================
+
+// ...badge creation related code
+
+// =============================================
+// PROGRESS TRACKING OPERATIONS
+// =============================================
+
+// ...progress tracking related code
+```
+
+## When to Document in External Files
+
+Some types of documentation belong outside the code:
+- API documentation → API docs site or README
+- Usage examples → README or examples directory
+- Architecture decisions → ADR (Architecture Decision Records)
+- Complex workflows → Diagrams in documentation
+
+## Comment Maintenance
+
+Comments are subject to the same quality standards as code:
+- Update comments when the code changes
+- Remove outdated comments
+- Refactor confusing comments
+- Consider a comment that's hard to write a sign that the code may need simplification
+
+Remember: The need for extensive commenting often indicates that code could be more clearly written or better structured. When you find yourself writing a long comment, consider if the code could be refactored to be more self-explanatory.
