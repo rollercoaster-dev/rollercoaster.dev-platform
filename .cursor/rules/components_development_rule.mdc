@@ -1,6 +1,7 @@
 ---
-description: 
-globs: 
+description: Component Development Guidelines
+globs: *.vue
+alwaysApply: false
 ---
 # Component Development Guidelines
 

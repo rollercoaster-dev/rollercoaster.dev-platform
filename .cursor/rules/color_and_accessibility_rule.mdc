@@ -1,6 +1,7 @@
 ---
-description: 
-globs: 
+description: our color system
+globs: *scss, *.css, *.vue
+alwaysApply: false
 ---
 # Color System & Accessibility Rules
 
