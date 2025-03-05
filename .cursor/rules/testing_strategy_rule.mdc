@@ -1,0 +1,310 @@
+---
+description: Testing Strategy: ADHD-Friendly Test-Driven Development
+globs: *.ts, *.css, *.md, *.mdc, *.vue
+alwaysApply: false
+---
+# Testing Strategy: ADHD-Friendly Test-Driven Development
+
+## Core Philosophy
+
+Our testing approach is designed to support neurodivergent developers with an emphasis on:
+
+1. **Reducing Cognitive Load**: Clear patterns, consistent structure, minimal boilerplate
+2. **Providing Quick Feedback**: Fast test runs, visual indicators, immediate validation
+3. **Maintaining Focus**: Small, discrete test cases with clear boundaries
+4. **Building Confidence**: Progressive complexity, celebrating test coverage achievements
+5. **Supporting Memory**: Tests as documentation, consistent patterns, visibility of test status
+
+## Test-Driven Development Workflow
+
+TDD is our preferred approach as it provides structure and regular dopamine hits that benefit ADHD developers:
+
+### Red-Green-Refactor Cycle
+
+1. **🔴 RED**: Write a failing test that defines the expected behavior
+   - Keep tests small and focused on a single behavior
+   - Use descriptive test names that document the behavior
+   - Estimated time: 5-10 minutes per test
+
+2. **🟢 GREEN**: Write the minimal code needed to make the test pass
+   - Focus solely on making the test pass, not perfection
+   - Celebrate each passing test as a concrete achievement
+   - Estimated time: 5-15 minutes per implementation
+
+3. **🔄 REFACTOR**: Improve the code while keeping tests green
+   - Make small, incremental improvements
+   - Run tests frequently during refactoring
+   - Set a timer (10-15 minutes) to prevent refactoring rabbit holes
+
+### Visual Progress Tracking
+
+- Use test runners with visual indicators (emoji or colors)
+- Track test coverage metrics to provide visible progress
+- Maintain a test dashboard to celebrate increasing coverage
+
+## Project Testing Structure
+
+### Backend (Bun + Hono)
+
+```
+backend/
+├── src/
+│   └── routes/
+│       ├── badges.ts
+│       └── ...
+└── tests/
+    ├── unit/
+    │   └── routes/
+    │       ├── badges.test.ts      # Unit tests for badge routes
+    │       └── ...
+    ├── integration/
+    │   ├── api.test.ts             # API endpoint integration tests
+    │   └── ...
+    └── fixtures/
+        ├── badges.ts               # Test data for badges
+        └── ...
+```
+
+### Frontend (Vue)
+
+```
+frontend/
+├── services/
+│   ├── badgeService.ts
+│   └── ...
+└── tests/
+    ├── unit/
+    │   ├── services/
+    │   │   ├── badgeService.spec.ts  # Unit tests for badge service
+    │   │   └── ...
+    │   └── components/
+    │       ├── BadgeList.spec.ts     # Component tests
+    │       └── ...
+    ├── e2e/
+    │   ├── badges.spec.ts            # End-to-end tests
+    │   └── ...
+    └── fixtures/
+        ├── badges.ts                 # Test data
+        └── ...
+```
+
+## Testing Frameworks & Tools
+
+### Backend
+- **Test Runner**: Bun's built-in test runner
+- **Assertion Library**: Bun's built-in expect
+- **HTTP Testing**: Hono's testing utilities
+- **Mocking**: Bun's built-in mocking capabilities
+
+### Frontend
+- **Test Runner**: Vitest
+- **Component Testing**: Vue Test Utils
+- **E2E Testing**: Playwright (optional, for critical flows only)
+- **Mocking**: Vitest's mocking utilities
+- **Coverage**: Vitest built-in coverage reporter
+
+## ADHD-Friendly Testing Patterns
+
+### 1. Test File Organization
+
+Each test file should follow this consistent structure:
+
+```typescript
+// 1. Imports
+import { describe, it, expect } from 'vitest'; // or bun:test
+import { someFunction } from '../path-to-tested-code';
+
+// 2. Fixtures/Setup
+const testData = {
+  // Test data here
+};
+
+// 3. Tests grouped by feature
+describe('Feature: [Feature Name]', () => {
+  // 4. Individual test cases
+  it('should [expected behavior]', () => {
+    // 5. Arrange
+    const input = testData.someValue;
+    
+    // 6. Act
+    const result = someFunction(input);
+    
+    // 7. Assert
+    expect(result).toBe(expectedValue);
+  });
+});
+```
+
+### 2. Naming Conventions
+
+Use consistent, descriptive naming patterns:
+
+- **Test Files**: `[filename].test.ts` (backend) or `[filename].spec.ts` (frontend)
+- **Test Suites**: `describe('Feature: [Feature Name]', ...)`
+- **Test Cases**: `it('should [expected behavior when condition]', ...)`
+
+Example:
+```typescript
+describe('Feature: Badge Creation', () => {
+  it('should create a badge with valid input', () => {...});
+  it('should reject badges without a name', () => {...});
+});
+```
+
+### 3. Focus Management Techniques
+
+- **Test in Small Batches**: Write 1-3 tests, then implement
+- **Use Focus Modifiers**: Use `.only` when needed to focus on specific tests
+- **Time Box Activities**: 25 minute pomodoros for testing sessions
+- **Visual Indicators**: Use emoji in comments to mark test status
+
+Example:
+```typescript
+// 🔴 FAILING: Need to implement validation
+it('should validate badge name length', () => {...});
+
+// 🟢 PASSING
+it('should create badge with default progress', () => {...});
+
+// ⏳ TODO: Implement later
+// it('should handle special characters in badge name', () => {...});
+```
+
+### 4. Handling Test Data
+
+- **Use Fixtures**: Keep test data in separate files
+- **Consistent Structure**: Use the same data structure across tests
+- **Avoid Data Duplication**: Create helper functions for data generation
+
+Example:
+```typescript
+// tests/fixtures/badges.ts
+export const createTestBadge = (overrides = {}) => ({
+  id: 'test-badge-1',
+  name: 'Test Badge',
+  description: 'A badge for testing',
+  progress: 0,
+  status: 'NOT_STARTED',
+  requirements: [],
+  createdAt: new Date().toISOString(),
+  updatedAt: new Date().toISOString(),
+  ...overrides
+});
+```
+
+## Test Coverage Expectations
+
+- **Backend Routes**: 90%+ coverage
+- **Backend Utilities**: 85%+ coverage
+- **Frontend Services**: 85%+ coverage
+- **Vue Components**: 75%+ coverage (focus on logic, not template rendering)
+- **Critical User Flows**: 100% coverage with integration tests
+
+### Coverage Tracking
+
+- Run coverage reports weekly
+- Add coverage badges to README
+- Celebrate when coverage milestones are reached
+
+## Implementing Tests in Your Workflow
+
+### Starting a New Feature
+1. Create test file first
+2. Write 2-3 core test cases
+3. Implement the feature
+4. Add edge case tests
+5. Refactor
+
+### Fixing Bugs
+1. Write a test that reproduces the bug
+2. Fix the implementation
+3. Ensure the test passes
+4. Add the test to the regression suite
+
+### Testing Sessions
+- Schedule dedicated testing sessions (45-60 minutes)
+- Use the pomodoro technique (25 min work, 5 min break)
+- Set clear goals for each session
+- Celebrate test milestones
+
+## Test Environment Setup Commands
+
+### Backend Tests
+```bash
+# Run all backend tests
+cd backend && bun test
+
+# Run with coverage
+cd backend && bun test --coverage
+
+# Run a specific test file
+cd backend && bun test tests/unit/routes/badges.test.ts
+
+# Run in watch mode
+cd backend && bun test --watch
+```
+
+### Frontend Tests
+```bash
+# Run all frontend tests
+cd frontend && npm run test
+
+# Run with coverage
+cd frontend && npm run test:coverage
+
+# Run a specific test file
+cd frontend && npm run test services/badgeService.spec.ts
+
+# Run in watch mode
+cd frontend && npm run test:watch
+```
+
+## Dealing with Testing Challenges
+
+### If You're Feeling Overwhelmed
+- Focus on just one test case
+- Break complex tests into smaller ones
+- Time-box to 25 minutes, then take a break
+- Pair with someone on difficult tests
+
+### If You're Stuck
+- Start with the simplest test case
+- Write pseudocode comments first
+- Use the "obvious implementation" technique
+- Take a quick break and return with fresh eyes
+
+### If Tests Are Flaky
+- Isolate the cause with focused tests
+- Add logging to debug intermittent failures
+- Rebuild the test from scratch if needed
+- Document known issues in test comments
+
+## Test Documentation
+
+Every test file should include a top comment block:
+
+```typescript
+/**
+ * Tests for the Badge API endpoints
+ * 
+ * Covers:
+ * - Creating badges
+ * - Retrieving badges
+ * - Updating badge progress
+ * - Deleting badges
+ * 
+ * @group api
+ * @group badges
+ */
+```
+
+## Retrospective Process
+
+After completing a feature with tests:
+1. Review test coverage
+2. Identify patterns that worked well
+3. Note any challenges encountered
+4. Update testing utilities if needed
+5. Celebrate the achievement 🎉
+
+Remember: Tests are not just for catching bugs; they're documentation, design tools, and confidence builders. For ADHD developers, they provide structure, feedback, and dopamine hits that make development more enjoyable and productive. 
