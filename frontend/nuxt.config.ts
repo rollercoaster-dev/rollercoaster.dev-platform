@@ -3,25 +3,21 @@ import { defineNuxtConfig } from 'nuxt/config'
 export default defineNuxtConfig({
   compatibilityDate: '2025-02-26',
   devtools: { enabled: true },
-  modules: [
-    ['@nuxtjs/tailwindcss', {
-      cssPath: '~/assets/css/tailwind.css',
-      configPath: 'tailwind.config.js',
-      exposeConfig: true,
-      config: {}
-    }],
-    ['@nuxt/content', {
-      documentDriven: true,
-      highlight: {
-        theme: 'github-dark'
-      }
-    }],
-    ['@nuxtjs/color-mode', {
-      classSuffix: '',
-      fallback: 'light',
-      preference: 'system'
-    }]
-  ],
+  modules: [['@nuxtjs/tailwindcss', {
+    cssPath: '~/assets/css/tailwind.css',
+    configPath: 'tailwind.config.js',
+    exposeConfig: true,
+    config: {}
+  }], ['@nuxt/content', {
+    documentDriven: true,
+    highlight: {
+      theme: 'github-dark'
+    }
+  }], ['@nuxtjs/color-mode', {
+    classSuffix: '',
+    fallback: 'light',
+    preference: 'system'
+  }], '@nuxtjs/storybook'],
   imports: {
     dirs: [
       'composables',
