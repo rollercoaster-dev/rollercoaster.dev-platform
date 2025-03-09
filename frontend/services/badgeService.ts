@@ -1,6 +1,7 @@
 /**
  * Badge Service
  * Handles all API interactions for badges
+ * Supports integration with badge-engine API
  */
 import type { Badge, CreateBadgeDto, UpdateBadgeProgressDto } from '../../shared/types/badge'
 
@@ -9,6 +10,13 @@ const API_URL = process.env.NUXT_PUBLIC_API_URL || 'http://localhost:3000'
 const BADGES_ENDPOINT = `${API_URL}/api/badges`
 
 export const badgeService = {
+  /**
+   * Check if a badge is managed by badge-engine
+   */
+  isBadgeEngineManaged(badge: Badge): boolean {
+    return !!badge.externalId && badge.externalSource === 'badge-engine'
+  },
+
   /**
    * Get all badges
    */

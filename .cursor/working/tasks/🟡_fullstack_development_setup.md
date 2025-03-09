@@ -94,8 +94,14 @@
   - [x] Testing Strategy: Created comprehensive ADHD-friendly testing guidelines
   - [x] Backend Tests: Created test directory structure and initial tests for Badge API
   - [x] Test Execution: Ran backend tests successfully (3 passing tests)
+  - [x] Badge-Engine Integration: Added external API service integration
+    - Created badgeEngineService for backend API communication
+    - Updated shared types to support external references
+    - Enhanced frontend service to detect badge-engine managed badges
+    - Added development script for running with badge-engine
+  - [x] API Documentation: Updated README files with integration details
 - **Context Resume Point:**
-  Last working on: Running and validating backend tests
+  Last working on: Badge-engine API integration and testing
   Next planned action: Fix frontend dependency issues and set up frontend testing
   Current blockers: Frontend dependency conflict with unicorn-magic package
 
@@ -106,17 +112,22 @@
   - [ ] Update one frontend component to use the badge service (30 mins)
   - [ ] Add more comprehensive tests for the Badge API (45 mins)
   - [ ] Set up frontend testing framework with Vitest (45 mins)
-  - [ ] Document the API endpoints and integration points (30 mins)
+  - [ ] Complete database integration for badge storage (1 hour)
+  - [ ] Test badge-engine sync with permanent storage (30 mins)
 - **Current Blockers:**
   - Frontend dependency conflict with unicorn-magic package and its toPath export
 
 ## 7. Reflections
 - **Observations:**  
-  The existing project structure was more complete than initially expected, which accelerated our progress. The backend already had Hono installed and a basic structure set up. Adding a testing strategy early helped ensure quality and provides a structured approach for development that benefits ADHD workflows. Following consistent code style (avoiding mixing JSDoc and TypeScript) makes the codebase more maintainable. Frontend dependency issues highlight the importance of having a robust package management system.
+  The existing project structure was more complete than initially expected, which accelerated our progress. The backend already had Hono installed and a basic structure set up. Adding a testing strategy early helped ensure quality and provides a structured approach for development that benefits ADHD workflows. Following consistent code style (avoiding mixing JSDoc and TypeScript) makes the codebase more maintainable. Frontend dependency issues highlight the importance of having a robust package management system. Integrating with external services like badge-engine demonstrates the importance of resilient design with graceful fallbacks.
 - **Celebration Notes:** 🎉
   - Successfully implemented Badge API endpoints with proper typing
   - Created a shared type system between frontend and backend
   - Set up a convenient development script for running both services
   - Established a comprehensive ADHD-friendly testing strategy
   - Created initial test structure following the TDD approach
-  - Successfully ran backend tests with all tests passing 
+  - Successfully ran backend tests with all tests passing
+  - Integrated backend with badge-engine external service
+  - Implemented resilient design with graceful fallbacks
+  - Created comprehensive test scripts for API functionality
+  - Enhanced frontend service to support badge-engine integration

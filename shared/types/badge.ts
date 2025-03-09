@@ -30,6 +30,9 @@ export interface Badge {
   updatedAt: string;
   startDate?: string;
   targetDate?: string;
+  // External references for badge-engine integration
+  externalId?: string;
+  externalSource?: string;
 }
 
 // For creating a new badge

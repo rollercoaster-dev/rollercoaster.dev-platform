@@ -1,80 +1,156 @@
 import { Hono } from 'hono'
 import { BadgeStatus } from '../../../shared/types/badge'
-import { v4 as uuidv4 } from 'uuid'
-
-// In-memory badge storage for development (replace with DB in production)
-let badges = [
-  {
-    id: '1',
-    name: 'JavaScript Mastery',
-    description: 'Become proficient in JavaScript',
-    content: '# JavaScript Mastery Badge\n\nThis badge represents proficiency in JavaScript programming.\n\n## Requirements\n\n- Complete 3 JavaScript projects\n- Learn ES6+ features\n- Understand async programming',
-    progress: 65,
-    status: BadgeStatus.IN_PROGRESS,
-    requirements: [
-      { id: '1-1', description: 'Complete 3 JavaScript projects', completed: true },
-      { id: '1-2', description: 'Learn ES6+ features', completed: true },
-      { id: '1-3', description: 'Understand async programming', completed: false }
-    ],
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-    startDate: '2023-01-15',
-    targetDate: '2023-03-30',
-  },
-  {
-    id: '2',
-    name: 'CSS Animations',
-    description: 'Master CSS animations',
-    content: '# CSS Animations Badge\n\nThis badge represents skill in creating CSS animations.\n\n## Requirements\n\n- Create 5 different animation types\n- Learn keyframes\n- Build a portfolio with animations',
-    progress: 30,
-    status: BadgeStatus.IN_PROGRESS,
-    requirements: [
-      { id: '2-1', description: 'Create 5 different animation types', completed: false },
-      { id: '2-2', description: 'Learn keyframes', completed: true },
-      { id: '2-3', description: 'Build a portfolio with animations', completed: false }
-    ],
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-    startDate: '2023-02-01',
-    targetDate: '2023-04-15',
-  }
-]
+import { badgeEngineService } from '../services/badgeEngineService'
+import { badgeRepository } from '../db/repositories/badgeRepository'
+import { checkDatabaseConnection } from '../db'
 
 const badgesRoute = new Hono()
 
+// Check if badge-engine is available
+const useBadgeEngine = async () => {
+  try {
+    return await badgeEngineService.isAvailable()
+  } catch (error) {
+    console.error('Error checking badge-engine availability:', error)
+    return false
+  }
+}
+
 // Get all badges
-badgesRoute.get('/', (c) => {
-  return c.json(badges)
+badgesRoute.get('/', async (c) => {
+  try {
+    // Get badges from database
+    const badges = await badgeRepository.getAllBadges()
+    
+    // Check if badge-engine is available
+    const engineAvailable = await useBadgeEngine()
+    
+    if (engineAvailable) {
+      try {
+        // Get badges from badge-engine
+        const engineBadges = await badgeEngineService.getAllBadges()
+        
+        // Merge with local badges
+        return c.json(badges.map(localBadge => {
+          if (localBadge.externalId) {
+            const engineBadge = engineBadges.find(eb => eb.id === localBadge.externalId)
+            if (engineBadge) {
+              // Update the local badge in the database with the latest data from badge-engine
+              // This is an asynchronous operation that we don't await to avoid blocking the response
+              badgeRepository.updateBadge(localBadge.id, {
+                progress: engineBadge.progress,
+                status: engineBadge.status,
+                requirements: engineBadge.requirements,
+                updatedAt: new Date().toISOString()
+              }).catch(err => {
+                console.error(`Error syncing badge ${localBadge.id} with badge-engine:`, err)
+              })
+              
+              // Return merged data for response
+              return {
+                ...localBadge,
+                progress: engineBadge.progress,
+                status: engineBadge.status,
+                requirements: engineBadge.requirements,
+              }
+            }
+          }
+          return localBadge
+        }))
+      } catch (error) {
+        console.error('Error fetching badges from badge-engine:', error)
+        // Fall back to database badges if badge-engine is unavailable
+        return c.json(badges)
+      }
+    }
+    
+    // Default to database badges
+    return c.json(badges)
+  } catch (error) {
+    console.error('Error getting badges:', error)
+    return c.json({ error: 'Failed to get badges' }, 500)
+  }
 })
 
 // Get single badge by ID
-badgesRoute.get('/:id', (c) => {
-  const id = c.req.param('id')
-  const badge = badges.find(b => b.id === id)
-  
-  if (!badge) {
-    return c.json({ error: 'Badge not found' }, 404)
+badgesRoute.get('/:id', async (c) => {
+  try {
+    const id = c.req.param('id')
+    
+    // Get badge from database
+    const badge = await badgeRepository.getBadgeById(id)
+    
+    if (!badge) {
+      return c.json({ error: 'Badge not found' }, 404)
+    }
+    
+    // Check if badge-engine is available and badge has external ID
+    const engineAvailable = await useBadgeEngine()
+    
+    if (engineAvailable && badge.externalId) {
+      try {
+        // Get badge from badge-engine
+        const engineBadge = await badgeEngineService.getBadge(badge.externalId)
+        
+        // Update local badge in database with latest from badge-engine (async operation)
+        badgeRepository.updateBadge(badge.id, {
+          progress: engineBadge.progress,
+          status: engineBadge.status,
+          requirements: engineBadge.requirements,
+          updatedAt: new Date().toISOString()
+        }).catch(err => {
+          console.error(`Error syncing badge ${badge.id} with badge-engine:`, err)
+        })
+        
+        // Merge data for response
+        return c.json({
+          ...badge,
+          progress: engineBadge.progress,
+          status: engineBadge.status,
+          requirements: engineBadge.requirements,
+        })
+      } catch (error) {
+        console.error(`Error fetching badge ${id} from badge-engine:`, error)
+        // Fall back to database badge if badge-engine is unavailable
+      }
+    }
+    
+    return c.json(badge)
+  } catch (error) {
+    console.error(`Error getting badge ${c.req.param('id')}:`, error)
+    return c.json({ error: 'Failed to get badge' }, 500)
   }
-  
-  return c.json(badge)
 })
 
 // Create new badge
 badgesRoute.post('/', async (c) => {
   try {
     const body = await c.req.json()
+    let externalId = null
+    let externalSource = null
     
-    const newBadge = {
-      id: uuidv4(),
-      ...body,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
+    // Check if badge-engine is available
+    const engineAvailable = await useBadgeEngine()
+    
+    // Create badge in badge-engine if available
+    if (engineAvailable) {
+      try {
+        const engineBadge = await badgeEngineService.createBadge(body)
+        externalId = engineBadge.id
+        externalSource = 'badge-engine'
+      } catch (error) {
+        console.error('Error creating badge in badge-engine:', error)
+        // Continue with local badge creation if badge-engine fails
+      }
     }
     
-    badges.push(newBadge)
+    // Create badge in database
+    const newBadge = await badgeRepository.createBadge(body, externalId, externalSource)
+    
     return c.json(newBadge, 201)
   } catch (error) {
-    return c.json({ error: 'Invalid request body' }, 400)
+    console.error('Error creating badge:', error)
+    return c.json({ error: 'Failed to create badge' }, 500)
   }
 })
 
@@ -84,21 +160,37 @@ badgesRoute.put('/:id', async (c) => {
     const id = c.req.param('id')
     const body = await c.req.json()
     
-    const index = badges.findIndex(b => b.id === id)
+    // Get badge from database
+    const existingBadge = await badgeRepository.getBadgeById(id)
     
-    if (index === -1) {
+    if (!existingBadge) {
       return c.json({ error: 'Badge not found' }, 404)
     }
     
-    badges[index] = {
-      ...badges[index],
-      ...body,
-      updatedAt: new Date().toISOString()
+    // Check if badge-engine is available and badge has external ID
+    const engineAvailable = await useBadgeEngine()
+    
+    if (engineAvailable && existingBadge.externalId) {
+      try {
+        // Update badge in badge-engine
+        await badgeEngineService.updateBadge(existingBadge.externalId, body)
+      } catch (error) {
+        console.error(`Error updating badge ${id} in badge-engine:`, error)
+        // Continue with database update if badge-engine fails
+      }
     }
     
-    return c.json(badges[index])
+    // Update badge in database
+    const updatedBadge = await badgeRepository.updateBadge(id, body)
+    
+    if (!updatedBadge) {
+      return c.json({ error: 'Failed to update badge' }, 500)
+    }
+    
+    return c.json(updatedBadge)
   } catch (error) {
-    return c.json({ error: 'Invalid request body' }, 400)
+    console.error(`Error updating badge ${c.req.param('id')}:`, error)
+    return c.json({ error: 'Failed to update badge' }, 500)
   }
 })
 
@@ -108,53 +200,91 @@ badgesRoute.patch('/:id/progress', async (c) => {
     const id = c.req.param('id')
     const body = await c.req.json()
     
-    const index = badges.findIndex(b => b.id === id)
+    // Get badge from database
+    const existingBadge = await badgeRepository.getBadgeById(id)
     
-    if (index === -1) {
+    if (!existingBadge) {
       return c.json({ error: 'Badge not found' }, 404)
     }
     
-    // Update progress
-    badges[index].progress = body.progress
-    badges[index].updatedAt = new Date().toISOString()
+    // Check if badge-engine is available and badge has external ID
+    const engineAvailable = await useBadgeEngine()
     
-    // Update requirements if provided
-    if (body.requirements && Array.isArray(body.requirements)) {
-      body.requirements.forEach(req => {
-        const reqIndex = badges[index].requirements.findIndex(r => r.id === req.id)
-        if (reqIndex !== -1) {
-          badges[index].requirements[reqIndex].completed = req.completed
-        }
-      })
+    if (engineAvailable && existingBadge.externalId) {
+      try {
+        // Update badge progress in badge-engine
+        await badgeEngineService.updateBadgeProgress(existingBadge.externalId, body)
+      } catch (error) {
+        console.error(`Error updating badge ${id} progress in badge-engine:`, error)
+        // Continue with database update if badge-engine fails
+      }
     }
     
-    // Update status based on progress
-    if (badges[index].progress >= 100) {
-      badges[index].status = BadgeStatus.COMPLETED
-    } else if (badges[index].progress > 0) {
-      badges[index].status = BadgeStatus.IN_PROGRESS
-    } else {
-      badges[index].status = BadgeStatus.NOT_STARTED
+    // Update badge progress in database
+    const updatedBadge = await badgeRepository.updateBadgeProgress(id, body)
+    
+    if (!updatedBadge) {
+      return c.json({ error: 'Failed to update badge progress' }, 500)
     }
     
-    return c.json(badges[index])
+    return c.json(updatedBadge)
   } catch (error) {
-    return c.json({ error: 'Invalid request body' }, 400)
+    console.error(`Error updating badge progress ${c.req.param('id')}:`, error)
+    return c.json({ error: 'Failed to update badge progress' }, 500)
   }
 })
 
 // Delete badge
-badgesRoute.delete('/:id', (c) => {
-  const id = c.req.param('id')
-  const initialLength = badges.length
-  
-  badges = badges.filter(b => b.id !== id)
-  
-  if (badges.length === initialLength) {
-    return c.json({ error: 'Badge not found' }, 404)
+badgesRoute.delete('/:id', async (c) => {
+  try {
+    const id = c.req.param('id')
+    
+    // Get badge from database
+    const existingBadge = await badgeRepository.getBadgeById(id)
+    
+    if (!existingBadge) {
+      return c.json({ error: 'Badge not found' }, 404)
+    }
+    
+    // Check if badge-engine is available and badge has external ID
+    const engineAvailable = await useBadgeEngine()
+    
+    if (engineAvailable && existingBadge.externalId) {
+      try {
+        // Delete badge from badge-engine
+        await badgeEngineService.deleteBadge(existingBadge.externalId)
+      } catch (error) {
+        console.error(`Error deleting badge ${id} from badge-engine:`, error)
+        // Continue with database deletion if badge-engine fails
+      }
+    }
+    
+    // Delete badge from database
+    const success = await badgeRepository.deleteBadge(id)
+    
+    if (!success) {
+      return c.json({ error: 'Failed to delete badge' }, 500)
+    }
+    
+    return c.json({ success: true })
+  } catch (error) {
+    console.error(`Error deleting badge ${c.req.param('id')}:`, error)
+    return c.json({ error: 'Failed to delete badge' }, 500)
   }
-  
-  return c.json({ success: true })
 })
 
-export default badgesRoute 
+// Middleware to check database connection
+badgesRoute.use('*', async (c, next) => {
+  try {
+    const connected = await checkDatabaseConnection()
+    if (!connected) {
+      return c.json({ error: 'Database connection failed' }, 503)
+    }
+    await next()
+  } catch (error) {
+    console.error('Database connection error:', error)
+    return c.json({ error: 'Database connection error' }, 503)
+  }
+})
+
+export default badgesRoute
