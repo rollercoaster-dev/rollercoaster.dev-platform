@@ -1,9 +1,4 @@
----
-description: Commit Strategy Guidelines
-globs: *.ts, *.css, *.md, *.mdc, *.vue
-alwaysApply: false
----
- # ADHD-Friendly Commit Strategy Guidelines
+# ADHD-Friendly Commit Strategy Guidelines
 
 ## Core Principles
 
@@ -118,4 +113,4 @@ This review process helps reinforce good habits and improves your ability to tra
 - **Provides safety net**: Small commits make it easier to undo specific changes
 - **Progress visualization**: Commit history shows visible progress
 
-Remember: The goal is small, focused commits that create a clear history of changes while supporting neurodivergent work patterns with regular dopamine hits for completed work.
+Remember: The goal is small, focused commits that create a clear history of changes while supporting neurodivergent work patterns with regular dopamine hits for completed work. 

@@ -7,22 +7,65 @@ alwaysApply: false
 
 ## Component Structure Overview
 
-This project uses a structured component organization pattern:
+This project uses Nuxt's file-based routing and auto-imports with a structured component organization pattern:
 
 ```
 components/
 ├── ui/             # shadcn components and primitive UI elements
-│   ├── button/
-│   ├── card/
-│   ├── tooltip/
+│   ├── Button/
+│   │   └── index.vue
+│   ├── Card/
+│   │   ├── index.vue
+│   │   ├── Header.vue
+│   │   └── Content.vue
 │   └── ...
 ├── layout/         # Page layout components
-│   ├── Header.vue
-│   ├── Footer.vue
-│   └── ...
-└── custom/         # Custom application-specific components
-    ├── tooltip/
+│   ├── Header/
+│   │   └── index.vue
+│   └── Footer/
+│       └── index.vue
+└── Badge/          # Feature-specific components
+    ├── Progress/
+    │   └── index.vue
+    ├── Details/
+    │   └── index.vue
     └── ...
+```
+
+## Nuxt Auto-imports
+
+### Component Auto-imports
+
+Components are automatically imported based on their location in the `components/` directory:
+
+```vue
+<template>
+  <!-- Components are auto-imported based on directory structure -->
+  <BadgeProgress :progress="50" />
+  <BadgeDetails :badge="selectedBadge" />
+  
+  <!-- UI components are auto-imported from components/ui -->
+  <UiButton>Click me</UiButton>
+  <UiCard>
+    <UiCardHeader>Title</UiCardHeader>
+    <UiCardContent>Content</UiCardContent>
+  </UiCard>
+</template>
+
+<script setup lang="ts">
+// No imports needed for components!
+// They are automatically available in the template
+</script>
+```
+
+### Composables Auto-imports
+
+Nuxt automatically imports composables from the `composables/` directory:
+
+```typescript
+// No need to import, these are auto-imported
+const { isDark } = useColorMode()
+const { badge } = useBadge()
 ```
 
 ## shadcn Component Integration
@@ -31,198 +74,159 @@ components/
 
 1. Use the dedicated script to add new components:
    ```bash
-   pnpm shadcn-components add <component-name>
+   pnpm shadcn-vue add <component-name>
    ```
 
-2. Example:
-   ```bash
-   pnpm shadcn-components add dialog
-   ```
+2. Components will be added to the `components/ui/` directory following Nuxt's naming conventions
 
 ### Customizing shadcn Components
 
 1. **Don't modify the original components directly**
 2. **Options for customization**:
-   - Create wrapper components in `components/custom/`
+   - Create wrapper components in `components/Badge/` or relevant feature directory
    - Use the variant pattern with `cva` for styling alternatives
    - Extend via composition rather than inheritance
-
-### shadcn Component Usage
-
-- Import components directly from their location:
-  ```typescript
-  import { Button } from '@/components/ui/button'
-  import { Card, CardHeader, CardContent } from '@/components/ui/card'
-  ```
 
 ## Vue Component Best Practices
 
 ### Component Layout
 
-The components should be setup script/template/style
-
-### Script Section
+Components should follow this order:
 
 ```vue
 <script setup lang="ts">
-// 1. External library imports
-import { ref, computed } from 'vue'
-import { X, Check } from 'lucide-vue-next'
+// 1. External library imports (though these should be minimal with auto-imports)
+import { type Badge } from '@/types/badge'
 
-// 2. Component imports
-import { Button } from '@/components/ui/button'
-
-// 3. Type definitions
+// 2. Type definitions
 interface Props {
-  title: string
-  description?: string
+  badge?: Badge
+  isLoading?: boolean
 }
 
-// 4. Props and emits
-const props = defineProps<Props>()
+// 3. Props and emits
+const props = withDefaults(defineProps<Props>(), {
+  isLoading: false
+})
+
 const emit = defineEmits<{
-  (e: 'update', value: string): void
+  (e: 'update', badge: Badge): void
+  (e: 'delete'): void
 }>()
+
+// 4. Composables (auto-imported)
+const colorMode = useColorMode()
+const { formatDate } = useDateFormatter()
 
 // 5. Reactive state
 const isOpen = ref(false)
 
 // 6. Computed properties
-const buttonLabel = computed(() => 
-  isOpen.value ? 'Close' : 'Open'
+const formattedDate = computed(() => 
+  formatDate(props.badge?.createdAt)
 )
 
 // 7. Methods
-const toggle = () => {
-  isOpen.value = !isOpen.value
-  emit('update', isOpen.value ? 'opened' : 'closed')
+const handleDelete = () => {
+  isOpen.value = false
+  emit('delete')
 }
 
-// 8. Lifecycle hooks
+// 8. Lifecycle hooks (if needed)
 onMounted(() => {
   // Initialize
 })
 </script>
-```
-
-### Template Section
-
-```vue
-<template>
-  <!-- Use semantic HTML structures -->
-  <section class="space-y-4">
-    <!-- Clear heading hierarchy -->
-    <h2 class="text-2xl font-bold">{{ title }}</h2>
-    
-    <!-- Conditional rendering -->
-    <p v-if="description" class="text-muted-foreground">
-      {{ description }}
-    </p>
-    
-    <!-- Event handling -->
-    <Button @click="toggle">
-      {{ buttonLabel }}
-    </Button>
-    
-    <!-- Transition for smooth state changes -->
-    <div v-if="isOpen" class="transition-all duration-300">
-      <slot />
-    </div>
-  </section>
-</template>
-```
-
-## Tooltip Integration
-
-This project uses Reka UI for tooltips. Follow this pattern:
-
-```vue
-<script setup lang="ts">
-import { Tooltip } from '@/components/ui/tooltip'
-
-// Component logic...
-</script>
 
 <template>
-  <Tooltip content="This is a helpful tooltip">
-    <Button>Hover Me</Button>
-  </Tooltip>
+  <div class="badge-component">
+    <!-- Component template -->
+  </div>
 </template>
-```
 
-For tooltips with keyboard shortcuts:
-
-```vue
-<Tooltip :content="`Open menu\nShortcut: Cmd + M`">
-  <Button>Menu</Button>
-</Tooltip>
+<style scoped>
+.badge-component {
+  /* Component styles */
+}
+</style>
 ```
 
 ## State Management
 
 ### Local Component State
 
-Use Vue's Composition API:
+Use Vue's Composition API with Nuxt's auto-imported composables:
 
 ```typescript
-// Reactive variables
+// Composables are auto-imported
 const count = ref(0)
-
-// Computed values
-const doubleCount = computed(() => count.value * 2)
-
-// Methods
-const increment = () => count.value++
+const doubled = computed(() => count.value * 2)
 ```
 
 ### Global/Shared State
 
-For color mode and theme state, use the built-in composable:
+Use Nuxt's built-in state management:
 
 ```typescript
+// Auto-imported from composables
 const colorMode = useColorMode()
+const appConfig = useAppConfig()
 
-// Computed state for modes
-const isDark = computed(() => 
-  colorMode.value === 'dark' || colorMode.value === 'focus-dark'
-)
-const isFocus = computed(() => 
-  colorMode.value === 'focus' || colorMode.value === 'focus-dark'
-)
-
-// Toggle functions
-const toggleDarkMode = () => {
-  // Mode toggling logic
-}
+// Pinia stores are also auto-imported
+const badgeStore = useBadgeStore()
 ```
 
 ## Component Testing
 
-Component tests should be created in `/tests` directory:
+Component tests should be created in the same directory as the component:
+
+```
+components/
+└── Badge/
+    └── Progress/
+        ├── index.vue
+        └── Progress.test.ts
+```
 
 ```typescript
-// Example component test
-import { mount } from '@vue/test-utils'
+// Progress.test.ts
 import { describe, it, expect } from 'vitest'
-import MyComponent from '@/components/custom/MyComponent.vue'
+import { mount } from '@vue/test-utils'
 
-describe('MyComponent', () => {
+// Component is auto-imported in tests
+describe('BadgeProgress', () => {
   it('renders correctly', () => {
-    const wrapper = mount(MyComponent, {
+    const wrapper = mount(BadgeProgress, {
       props: {
-        title: 'Test Title'
+        progress: 50
       }
     })
-    expect(wrapper.text()).toContain('Test Title')
-  })
-  
-  it('handles button click', async () => {
-    const wrapper = mount(MyComponent)
-    await wrapper.find('button').trigger('click')
-    // Test state changes
+    expect(wrapper.text()).toContain('50%')
   })
 })
 ```
+
+## Component Documentation
+
+All component documentation should be done in Storybook:
+
+1. Create a story file next to your component:
+```
+components/
+└── Badge/
+    └── Progress/
+        ├── index.vue
+        ├── Progress.test.ts
+        └── Progress.stories.ts
+```
+
+2. Document your component using Storybook's features:
+   - Component description
+   - Props documentation
+   - Usage examples
+   - Interactive controls
+   - Accessibility guidelines
+   - Visual regression tests
 
 ## Accessibility Requirements
 
@@ -234,41 +238,3 @@ All components must meet these accessibility requirements:
 4. **Focus indicators**: Clearly visible focus states for all interactive elements
 5. **Motion safe**: Respect `prefers-reduced-motion` for animations
 6. **Responsive**: Work well on all screen sizes
-
-## Component Documentation
-
-Add a comment at the top of each component file with:
-
-1. Brief description of the component's purpose
-2. Usage example
-3. Props description
-4. Emitted events (if any)
-5. Slots (if any)
-
-Example:
-
-```vue
-<script setup lang="ts">
-/**
- * FeatureCard - Displays a feature with title, description and icon
- * 
- * @example
- * <FeatureCard
- *   title="Easy Integration"
- *   description="Simple to integrate with your existing workflow"
- *   icon="Puzzle"
- * />
- * 
- * @props
- * - title: The feature title (required)
- * - description: Feature description (optional)
- * - icon: Lucide icon name (optional, defaults to "Check")
- * 
- * @slots
- * - default: Override the entire content
- * - icon: Custom icon content
- */
-
-// Component code...
-</script>
-``` 
