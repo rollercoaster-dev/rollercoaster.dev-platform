@@ -2,6 +2,7 @@
 
 /* Dark theme (default) */
 :root {
+  /* Original editor-theme variables */
   --vscode-bg: #1e1e1e;
   --vscode-bg-light: #252526;
   --vscode-bg-lighter: #2d2d2d;
@@ -18,10 +19,117 @@
   --vscode-progress-blue: #0e70c0;
   --vscode-progress-green: #388a34;
   --vscode-progress-yellow: #a78100;
+  
+  /* Component-specific variables from editor.vue */
+  --explorer-bg: #1e1e1e;
+  --explorer-icon-color: #888888;
+  --explorer-hover-bg: #2a2a2a;
+  --explorer-hover-color: #d4d4d4;
+  --explorer-input-bg: #252525;
+  --explorer-border-color: #3a3a3a;
+  --explorer-text-color: #d4d4d4;
+  --explorer-focus-color: #0e639c;
+  --explorer-subtle-color: #6a6a6a;
+  --explorer-error-color: #f14c4c;
+  --explorer-button-bg: #252525;
+  --explorer-button-hover-bg: #2a2a2a;
+  
+  --editor-bg: #1e1e1e;
+  --editor-text: #d4d4d4;
+  --tabs-bg: #252525;
+  --tabs-border: #333333;
+  --tab-bg: #2d2d2d;
+  --tab-text: #969696;
+  --tab-hover-bg: #313131;
+  --tab-active-bg: #1e1e1e;
+  --tab-active-text: #ffffff;
+  --tab-active-border: #1e1e1e;
+  --tab-close-hover: rgba(255, 255, 255, 0.1);
+  --editor-content-bg: #1e1e1e;
+  --status-bar-bg: #252525;
+  --status-bar-text: #9d9d9d;
+  --status-not-started-bg: #2d2d2d;
+  --status-not-started-text: #9d9d9d;
+  --status-in-progress-bg: #064b92;
+  --status-in-progress-text: #ffffff;
+  --status-completed-bg: #10431b;
+  --status-completed-text: #ffffff;
+  --empty-state-text: #6a6a6a;
+  --error-icon: #f14c4c;
+  --button-bg: #0e639c;
+  --button-text: #ffffff;
+  --button-hover-bg: #1177bb;
+  
+  --ai-bg: #1e1e1e;
+  --ai-text: #d4d4d4;
+  --ai-icon-color: #888888;
+  --ai-hover-bg: #2a2a2a;
+  --ai-hover-color: #d4d4d4;
+  --ai-scrollbar-thumb: #555;
+  --ai-scrollbar-track: transparent;
+  --ai-welcome-text: #9d9d9d;
+  --ai-suggestion-bg: #2d2d2d;
+  --ai-suggestion-text: #d4d4d4;
+  --ai-suggestion-border: #3d3d3d;
+  --ai-suggestion-hover-bg: #3d3d3d;
+  --ai-user-msg-bg: #0e639c;
+  --ai-user-msg-text: #ffffff;
+  --ai-msg-bg: #2d2d2d;
+  --ai-msg-text: #d4d4d4;
+  --ai-meta-text: rgba(255, 255, 255, 0.6);
+  --ai-input-bg: #1e1e1e;
+  --ai-textarea-bg: #252525;
+  --ai-textarea-border: #3d3d3d;
+  --ai-textarea-text: #d4d4d4;
+  --ai-textarea-focus: #0e639c;
+  --ai-clear-button: #9d9d9d;
+  --ai-clear-hover: rgba(157, 157, 157, 0.1);
+  --ai-send-button: #0e639c;
+  --ai-send-hover: rgba(14, 99, 156, 0.1);
+  
+  --node-hover-bg: #2a2a2a;
+  --node-selected-bg: #37373d;
+  --node-focus-outline: #007fd4;
+  --node-icon-color: #c5c5c5;
+  --node-text-color: #d4d4d4;
+  --folder-icon-color: #e3a700;
+  --badge-icon-color: #388bfd;
+  --file-icon-color: #c5c5c5;
+  --image-icon-color: #73c991;
+  --progress-bg: #3a3a3a;
+  --progress-started: #3b82f6;
+  --progress-halfway: #3b82f6;
+  --progress-complete: #22c55e;
+  
+  --title-color: #ffffff;
+  --description-color: #d4d4d4;
+  --section-title-color: #d4d4d4;
+  --progress-text: #d4d4d4;
+  --details-text: #9d9d9d;
+  --completed-color: #22c55e;
+  --pending-color: #9d9d9d;
+  --date-icon-color: #0e639c;
+  --date-label-color: #9d9d9d;
+  --date-value-color: #d4d4d4;
+  --item-border: #333333;
+  --requirement-text: #d4d4d4;
+  --completed-text: #757575;
+  --content-bg: #272727;
+  --content-border: #333333;
+  --content-text: #d4d4d4;
+  --metadata-border: #333333;
+  --metadata-text: #9d9d9d;
+  --metadata-icon: #9d9d9d;
+  --button-border: #3a3a3a;
+  --edit-button-color: #0e639c;
+  --edit-button-hover: rgba(14, 99, 156, 0.1);
+  --delete-button-color: #cc3e3e;
+  --delete-button-hover: rgba(204, 62, 62, 0.1);
 }
 
 /* Light theme */
-.badge-manager:not(.dark) {
+.light-mode, html[data-theme="light"] {
+  /* Original editor-theme variables */
   --vscode-bg: #f3f3f3;
   --vscode-bg-light: #e8e8e8;
   --vscode-bg-lighter: #dfdfdf;
@@ -38,6 +146,112 @@
   --vscode-progress-blue: #0e70c0;
   --vscode-progress-green: #388a34;
   --vscode-progress-yellow: #a78100;
+  
+  /* Component-specific variables from editor.vue */
+  --explorer-bg: #f5f5f5;
+  --explorer-icon-color: #616161;
+  --explorer-hover-bg: #e0e0e0;
+  --explorer-hover-color: #424242;
+  --explorer-input-bg: #ffffff;
+  --explorer-border-color: #e0e0e0;
+  --explorer-text-color: #424242;
+  --explorer-focus-color: #0078d4;
+  --explorer-subtle-color: #757575;
+  --explorer-error-color: #d32f2f;
+  --explorer-button-bg: #f5f5f5;
+  --explorer-button-hover-bg: #e0e0e0;
+  
+  --editor-bg: #ffffff;
+  --editor-text: #333333;
+  --tabs-bg: #f5f5f5;
+  --tabs-border: #e0e0e0;
+  --tab-bg: #ececec;
+  --tab-text: #616161;
+  --tab-hover-bg: #e0e0e0;
+  --tab-active-bg: #ffffff;
+  --tab-active-text: #333333;
+  --tab-active-border: #ffffff;
+  --tab-close-hover: rgba(0, 0, 0, 0.1);
+  --editor-content-bg: #ffffff;
+  --status-bar-bg: #0078d4;
+  --status-bar-text: #ffffff;
+  --status-not-started-bg: #f5f5f5;
+  --status-not-started-text: #616161;
+  --status-in-progress-bg: #e3f2fd;
+  --status-in-progress-text: #0078d4;
+  --status-completed-bg: #e8f5e9;
+  --status-completed-text: #2e7d32;
+  --empty-state-text: #757575;
+  --error-icon: #d32f2f;
+  --button-bg: #0078d4;
+  --button-text: #ffffff;
+  --button-hover-bg: #106ebe;
+  
+  --ai-bg: #f5f5f5;
+  --ai-text: #333333;
+  --ai-icon-color: #616161;
+  --ai-hover-bg: #e0e0e0;
+  --ai-hover-color: #424242;
+  --ai-scrollbar-thumb: #bdbdbd;
+  --ai-scrollbar-track: transparent;
+  --ai-welcome-text: #616161;
+  --ai-suggestion-bg: #f0f0f0;
+  --ai-suggestion-text: #333333;
+  --ai-suggestion-border: #e0e0e0;
+  --ai-suggestion-hover-bg: #e0e0e0;
+  --ai-user-msg-bg: #0078d4;
+  --ai-user-msg-text: #ffffff;
+  --ai-msg-bg: #f0f0f0;
+  --ai-msg-text: #333333;
+  --ai-meta-text: rgba(0, 0, 0, 0.6);
+  --ai-input-bg: #f5f5f5;
+  --ai-textarea-bg: #ffffff;
+  --ai-textarea-border: #e0e0e0;
+  --ai-textarea-text: #333333;
+  --ai-textarea-focus: #0078d4;
+  --ai-clear-button: #616161;
+  --ai-clear-hover: rgba(97, 97, 97, 0.1);
+  --ai-send-button: #0078d4;
+  --ai-send-hover: rgba(0, 120, 212, 0.1);
+  
+  --node-hover-bg: #e0e0e0;
+  --node-selected-bg: #e3f2fd;
+  --node-focus-outline: #0078d4;
+  --node-icon-color: #616161;
+  --node-text-color: #333333;
+  --folder-icon-color: #e3a600;
+  --badge-icon-color: #0078d4;
+  --file-icon-color: #616161;
+  --image-icon-color: #4caf50;
+  --progress-bg: #e0e0e0;
+  --progress-started: #2196f3;
+  --progress-halfway: #2196f3;
+  --progress-complete: #4caf50;
+  
+  --title-color: #333333;
+  --description-color: #424242;
+  --section-title-color: #333333;
+  --progress-text: #333333;
+  --details-text: #616161;
+  --completed-color: #4caf50;
+  --pending-color: #757575;
+  --date-icon-color: #0078d4;
+  --date-label-color: #616161;
+  --date-value-color: #333333;
+  --item-border: #e0e0e0;
+  --requirement-text: #333333;
+  --completed-text: #9e9e9e;
+  --content-bg: #f5f5f5;
+  --content-border: #e0e0e0;
+  --content-text: #333333;
+  --metadata-border: #e0e0e0;
+  --metadata-text: #616161;
+  --metadata-icon: #616161;
+  --button-border: #e0e0e0;
+  --edit-button-color: #0078d4;
+  --edit-button-hover: rgba(0, 120, 212, 0.1);
+  --delete-button-color: #d32f2f;
+  --delete-button-hover: rgba(211, 47, 47, 0.1);
 }
 
 /* Theme utility classes */
