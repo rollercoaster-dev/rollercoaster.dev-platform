@@ -17,16 +17,32 @@ NC='\033[0m' # No Color
 
 echo -e "${GREEN}Starting development servers...${NC}"
 
+# Start PostgreSQL database
+echo -e "${BLUE}Starting PostgreSQL...${NC}"
+docker compose up -d postgres
+
+# Wait for PostgreSQL to be ready
+echo -e "${BLUE}Waiting for PostgreSQL to be ready...${NC}"
+until docker exec atbadges-postgres pg_isready -U postgres > /dev/null 2>&1; do
+  echo -n "."
+  sleep 1
+done
+echo -e "\n${GREEN}PostgreSQL is ready!${NC}"
+
+# Setup database
+echo -e "${BLUE}Setting up database...${NC}"
+cd backend && bun run db:setup
+
 # Start backend with debug flags
 echo -e "${BLUE}Starting Backend (Bun + Hono)...${NC}"
-cd backend && BUN_DEBUG=1 BUN_LOG=debug bun run --watch index.ts 2>&1 | tee backend.log &
+BUN_DEBUG=1 BUN_LOG=debug bun run --watch index.ts 2>&1 | tee backend.log &
 
 # Wait a moment to ensure backend starts first
 sleep 2
 
 # Start frontend with debug flags
 echo -e "${BLUE}Starting Frontend (Nuxt)...${NC}"
-cd frontend && NODE_OPTIONS='--trace-warnings' NUXT_APP_DEBUG=true NITRO_DEBUG=true pnpm dev --trace-warnings --verbose 2>&1 | tee frontend.log &
+cd ../frontend && NODE_OPTIONS='--trace-warnings' NUXT_APP_DEBUG=true NITRO_DEBUG=true pnpm dev --trace-warnings --verbose 2>&1 | tee frontend.log &
 
 # Function to check logs for errors
 check_logs() {
@@ -47,4 +63,8 @@ while true; do
 done &
 
 # Wait for any process to exit
-wait % 
+wait -n
+
+# Cleanup on exit
+echo -e "${BLUE}Cleaning up...${NC}"
+docker compose down postgres 

@@ -32,9 +32,13 @@ export const db = drizzle(client, { schema })
  */
 export async function checkDatabaseConnection(): Promise<boolean> {
   try {
-    // Simple query to check connection
-    const result = await db.execute(sql`SELECT 1 AS connected`)
-    return result[0]?.connected === 1
+    if (client instanceof postgres) {
+      await client`SELECT 1`
+      return true
+    }
+    // For neon client
+    await client('SELECT 1')
+    return true
   } catch (error) {
     console.error('Database connection error:', error)
     return false
@@ -42,5 +46,4 @@ export async function checkDatabaseConnection(): Promise<boolean> {
 }
 
 // Import SQL tag for raw queries
-import { sql } from 'drizzle-orm'
-export { sql }
+export { sql } from 'drizzle-orm'

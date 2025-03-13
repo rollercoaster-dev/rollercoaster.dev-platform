@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "bun --watch index.ts",
+    "dev:full": "docker compose up -d postgres && sleep 2 && bun run db:setup && bun run dev",
     "db:generate": "bunx drizzle-kit generate:pg",
     "db:migrate": "bun run src/db/migrate.ts",
     "db:studio": "bunx drizzle-kit studio",
