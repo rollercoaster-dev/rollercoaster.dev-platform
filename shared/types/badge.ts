@@ -3,18 +3,19 @@
  * These types are shared between frontend and backend
  */
 
-// Badge progress status
-export enum BadgeStatus {
-  NOT_STARTED = 'NOT_STARTED',
-  IN_PROGRESS = 'IN_PROGRESS',
-  COMPLETED = 'COMPLETED',
-}
-
-// Badge requirement definition
+// Badge requirement interface
 export interface BadgeRequirement {
   id: string;
   description: string;
   completed: boolean;
+}
+
+// Badge status enum
+export enum BadgeStatus {
+  NOT_STARTED = 'NOT_STARTED',
+  IN_PROGRESS = 'IN_PROGRESS',
+  COMPLETED = 'COMPLETED',
+  ARCHIVED = 'ARCHIVED'
 }
 
 // Badge base interface
@@ -35,14 +36,33 @@ export interface Badge {
   externalSource?: string;
 }
 
-// For creating a new badge
-export type CreateBadgeDto = Omit<Badge, 'id' | 'createdAt' | 'updatedAt'>;
+// Type aliases for badge-engine compatibility
+export type BadgeEngineRequirement = BadgeRequirement;
+export type BadgeEngineStatus = BadgeStatus;
+export type BadgeEngineBase = Badge;
 
-// For updating badge progress
+// DTO for creating a new badge
+export interface CreateBadgeDto {
+  name: string;
+  description: string;
+  content?: string;
+  progress?: number;
+  status?: BadgeStatus;
+  requirements: BadgeRequirement[];
+  startDate?: string;
+  targetDate?: string;
+}
+
+// DTO for updating badge progress
 export interface UpdateBadgeProgressDto {
-  progress: number;
+  progress?: number;
   requirements?: {
     id: string;
     completed: boolean;
   }[];
+}
+
+// DTO for updating badge details
+export interface UpdateBadgeDto extends Partial<CreateBadgeDto> {
+  // Allows partial updates of any badge field except id
 } 
