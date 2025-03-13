@@ -1,6 +1,6 @@
 import { Hono } from 'hono'
-import { checkDatabaseConnection } from '../db'
-import { badgeEngineService } from '../services/badgeEngineService'
+import { checkDatabaseConnection } from '@/db'
+import { badgeEngineService } from '@/services/badgeEngineService'
 
 const health = new Hono()
 

@@ -1,6 +1,6 @@
-import { checkDatabaseConnection } from '../src/db';
-import { badgeRepository } from '../src/db/repositories/badgeRepository';
-import { BadgeStatus } from '../../shared/types/badge';
+import { checkDatabaseConnection } from '@/db';
+import { badgeRepository } from '@/db/repositories/badgeRepository';
+import { BadgeStatus } from '@/types/badge';
 
 async function testDatabase() {
   console.log('Testing database connection...');

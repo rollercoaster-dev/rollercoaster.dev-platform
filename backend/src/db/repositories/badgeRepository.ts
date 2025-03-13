@@ -1,8 +1,9 @@
 import { eq, and } from 'drizzle-orm'
 import { v4 as uuidv4 } from 'uuid'
-import { db } from '../index'
-import { badges, badgeRequirements } from '../schema'
-import type { Badge, BadgeRequirement, CreateBadgeDto, UpdateBadgeProgressDto } from '../../../../shared/types/badge'
+import { db } from '@/db'
+import { badges, badgeRequirements } from '@/db/schema'
+import type { Badge, BadgeRequirement, CreateBadgeDto, UpdateBadgeProgressDto } from '@/types/badge'
+import { BadgeStatus } from '@/types/badge'
 
 /**
  * Repository for badge operations
@@ -120,8 +121,8 @@ export const badgeRepository = {
             name: badgeData.name,
             description: badgeData.description,
             content: badgeData.content || null,
-            progress: badgeData.progress,
-            status: badgeData.status,
+            progress: badgeData.progress ?? 0,
+            status: badgeData.status?.toString() ?? BadgeStatus.NOT_STARTED.toString(),
             startDate: badgeData.startDate || null,
             targetDate: badgeData.targetDate || null,
             createdAt: now,
@@ -251,13 +252,13 @@ export const badgeRepository = {
       const now = new Date()
       
       // Determine the badge status based on progress
-      let status = existingBadge.status
+      let status = existingBadge.status;
       if (progressData.progress >= 100) {
-        status = 'COMPLETED'
+        status = BadgeStatus.COMPLETED;
       } else if (progressData.progress > 0) {
-        status = 'IN_PROGRESS'
+        status = BadgeStatus.IN_PROGRESS;
       } else {
-        status = 'NOT_STARTED'
+        status = BadgeStatus.NOT_STARTED;
       }
       
       // Update badge in transaction

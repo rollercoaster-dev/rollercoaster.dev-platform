@@ -7,8 +7,8 @@
 
 import { describe, it, expect, beforeEach, afterEach, mock } from 'bun:test';
 import { Hono } from 'hono';
-import type { Badge } from '../../../../shared/types/badge';
-import { createTestBadge, testBadges, newBadgeData } from '../../fixtures/badges';
+import type { Badge } from '@/types/badge';
+import { createTestBadge, testBadges, newBadgeData } from '@tests/fixtures/badges';
 
 // Import the routes module - we need to use dynamic import because it has side effects (in-memory data)
 let badgesRoute: any;

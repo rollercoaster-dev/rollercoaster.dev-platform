@@ -1,6 +1,7 @@
 // Test script for creating and updating badges
 import { fetch } from 'bun';
-import { BadgeStatus } from '../../shared/types/badge';
+import { badgeEngineService } from '@/services/badgeEngineService';
+import { BadgeStatus } from '@/types/badge';
 
 async function testCreateAndUpdate() {
   console.log('Testing badge creation and updates...');

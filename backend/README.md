@@ -89,3 +89,58 @@ The API will automatically detect and use badge-engine when available.
 - [Bun](https://bun.sh) - Fast JavaScript runtime
 - [Hono](https://hono.dev) - Fast, lightweight web framework
 - [badge-engine](https://github.com/yourusername/badge-engine) - External badge management service
+
+## Path Aliases
+
+The project uses TypeScript path aliases to simplify imports. Available aliases:
+
+- `@/*` - Base alias for the src directory
+  ```ts
+  import { router } from '@/index';
+  ```
+
+- `@routes/*` - Route handlers
+  ```ts
+  import { badgeRoutes } from '@routes/badges';
+  ```
+
+- `@models/*` - Data models
+  ```ts
+  import { Badge } from '@models/badge';
+  ```
+
+- `@utils/*` - Utility functions
+  ```ts
+  import { validateBadge } from '@utils/validation';
+  ```
+
+- `@tests/*` - Test utilities and fixtures
+  ```ts
+  import { createTestBadge } from '@tests/fixtures/badges';
+  ```
+
+- `@config/*` - Configuration files
+  ```ts
+  import { dbConfig } from '@config/database';
+  ```
+
+## Development
+
+### Setup
+1. Install dependencies: `bun install`
+2. Start development server: `bun dev`
+3. Run tests: `bun test`
+
+### Project Structure
+```
+backend/
+├── src/
+│   ├── routes/      # API route handlers
+│   ├── models/      # Data models
+│   ├── utils/       # Utility functions
+│   └── config/      # Configuration files
+└── tests/
+    ├── unit/        # Unit tests
+    ├── integration/ # Integration tests
+    └── fixtures/    # Test data and helpers
+```

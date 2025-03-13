@@ -1,10 +1,10 @@
 import { Hono } from 'hono'
-import { BadgeStatus } from '../../../shared/types/badge'
-import { badgeEngineService } from '../services/badgeEngineService'
-import { badgeRepository } from '../db/repositories/badgeRepository'
-import { checkDatabaseConnection } from '../db'
+import { BadgeStatus } from '@/types/badge'
+import { badgeEngineService } from '@/services/badgeEngineService'
+import { badgeRepository } from '@/db/repositories/badgeRepository'
+import { checkDatabaseConnection } from '@/db'
 
-const badgesRoute = new Hono()
+const badgeRoutes = new Hono()
 
 // Check if badge-engine is available
 const useBadgeEngine = async () => {
@@ -17,7 +17,7 @@ const useBadgeEngine = async () => {
 }
 
 // Get all badges
-badgesRoute.get('/', async (c) => {
+badgeRoutes.get('/', async (c) => {
   try {
     // Get badges from database
     const badges = await badgeRepository.getAllBadges()
@@ -73,7 +73,7 @@ badgesRoute.get('/', async (c) => {
 })
 
 // Get single badge by ID
-badgesRoute.get('/:id', async (c) => {
+badgeRoutes.get('/:id', async (c) => {
   try {
     const id = c.req.param('id')
     
@@ -123,11 +123,11 @@ badgesRoute.get('/:id', async (c) => {
 })
 
 // Create new badge
-badgesRoute.post('/', async (c) => {
+badgeRoutes.post('/', async (c) => {
   try {
     const body = await c.req.json()
-    let externalId = null
-    let externalSource = null
+    let externalId: string | undefined = undefined
+    let externalSource: string | undefined = undefined
     
     // Check if badge-engine is available
     const engineAvailable = await useBadgeEngine()
@@ -155,7 +155,7 @@ badgesRoute.post('/', async (c) => {
 })
 
 // Update badge
-badgesRoute.put('/:id', async (c) => {
+badgeRoutes.put('/:id', async (c) => {
   try {
     const id = c.req.param('id')
     const body = await c.req.json()
@@ -195,7 +195,7 @@ badgesRoute.put('/:id', async (c) => {
 })
 
 // Update badge progress
-badgesRoute.patch('/:id/progress', async (c) => {
+badgeRoutes.patch('/:id/progress', async (c) => {
   try {
     const id = c.req.param('id')
     const body = await c.req.json()
@@ -235,7 +235,7 @@ badgesRoute.patch('/:id/progress', async (c) => {
 })
 
 // Delete badge
-badgesRoute.delete('/:id', async (c) => {
+badgeRoutes.delete('/:id', async (c) => {
   try {
     const id = c.req.param('id')
     
@@ -274,7 +274,7 @@ badgesRoute.delete('/:id', async (c) => {
 })
 
 // Middleware to check database connection
-badgesRoute.use('*', async (c, next) => {
+badgeRoutes.use('*', async (c, next) => {
   try {
     const connected = await checkDatabaseConnection()
     if (!connected) {
@@ -287,4 +287,4 @@ badgesRoute.use('*', async (c, next) => {
   }
 })
 
-export default badgesRoute
+export default badgeRoutes;
