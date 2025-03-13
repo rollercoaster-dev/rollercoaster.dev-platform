@@ -1,4 +1,5 @@
 import { defineNuxtConfig } from 'nuxt/config'
+import { fileURLToPath } from 'url'
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2025-02-26',
@@ -17,26 +18,6 @@ export default defineNuxtConfig({
     classSuffix: '',
     fallback: 'light',
     preference: 'system'
-  }], ['@nuxtjs/storybook', {
-    port: 6006,
-    stories: [
-      '../components/**/*.stories.@(js|jsx|ts|tsx)',
-      '../stories/**/*.stories.@(js|jsx|ts|tsx)'
-    ],
-    version: 8,
-    addons: [
-      '@storybook/addon-links',
-      '@storybook/addon-essentials',
-      '@storybook/addon-interactions'
-    ],
-    framework: {
-      name: '@storybook/vue3-vite',
-      options: {}
-    },
-    builder: {
-      name: '@storybook/builder-vite',
-      options: {}
-    }
   }]],
   imports: {
     dirs: [
@@ -72,10 +53,26 @@ export default defineNuxtConfig({
     }
   },
   vite: {
+    optimizeDeps: {
+      exclude: [
+        'slugify',
+        'is-buffer',
+        'debug',
+        'flat',
+        'node-emoji',
+        'extend',
+        'hast-util-raw'
+      ]
+    },
     vue: {
       script: {
         defineModel: true,
         propsDestructure: true
+      }
+    },
+    resolve: {
+      alias: {
+        '@': fileURLToPath(new URL('./', import.meta.url))
       }
     }
   }
