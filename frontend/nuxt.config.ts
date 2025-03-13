@@ -4,21 +4,41 @@ import { fileURLToPath } from 'url'
 export default defineNuxtConfig({
   compatibilityDate: '2025-02-26',
   devtools: { enabled: true },
-  modules: [['@nuxtjs/tailwindcss', {
-    cssPath: '~/assets/css/tailwind.css',
-    configPath: 'tailwind.config.js',
-    exposeConfig: true,
-    config: {}
-  }], ['@nuxt/content', {
+  modules: [
+    '@nuxtjs/tailwindcss',
+    '@nuxtjs/color-mode',
+    '@nuxt/content'
+  ],
+  app: {
+    baseURL: '/'
+  },
+  devServer: {
+    port: 3001
+  },
+  content: {
+    experimental: {
+      clientDB: false
+    },
+    storage: {
+      fs: true,
+      db: false
+    },
     documentDriven: true,
-    highlight: {
-      theme: 'github-dark'
+    markdown: {
+      anchorLinks: false
     }
-  }], ['@nuxtjs/color-mode', {
-    classSuffix: '',
-    fallback: 'light',
-    preference: 'system'
-  }]],
+  },
+  tailwindcss: {
+    cssPath: '~/assets/css/tailwind.css',
+    exposeConfig: true,
+    config: {
+      darkMode: 'class',
+      plugins: [require('tailwindcss/nesting')]
+    }
+  },
+  colorMode: {
+    classSuffix: ''
+  },
   imports: {
     dirs: [
       'composables',
