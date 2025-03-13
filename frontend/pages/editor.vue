@@ -42,8 +42,8 @@
         
         <div v-else-if="error" class="error-container">
           <AlertCircleIcon class="error-icon" />
-          <span>{{ error }}</span>
-          <button @click="loadBadges" class="retry-button">Retry</button>
+          <span>{{ error.message }}</span>
+          <button @click="error.retry?.()" class="retry-button">Retry</button>
         </div>
         
         <div v-else-if="filteredBadges.length === 0" class="empty-container">
@@ -97,8 +97,8 @@
         
         <div v-else-if="selectedBadgeError" class="error-container centered">
           <AlertCircleIcon class="error-icon" />
-          <span>{{ selectedBadgeError }}</span>
-          <button @click="loadSelectedBadge" class="retry-button">Retry</button>
+          <span>{{ selectedBadgeError.message }}</span>
+          <button @click="selectedBadgeError.retry?.()" class="retry-button">Retry</button>
         </div>
         
         <div v-else class="badge-details">
@@ -412,16 +412,32 @@
         </div>
       </div>
     </div>
+    
+    <!-- Error Modal -->
+    <div v-if="errorModal" class="modal-overlay" @click="errorModal = null">
+      <div class="modal-content error-modal" @click.stop>
+        <div class="modal-header">
+          <h2>{{ errorModal.title }}</h2>
+        </div>
+        <div class="error-content">
+          <p>{{ errorModal.message }}</p>
+        </div>
+        <div class="form-actions">
+          <button class="submit-button" @click="errorModal = null">OK</button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from 'vue';
-import { badgeService } from '@/services/badgeService';
+import { badgeService, BadgeServiceError, BadgeNotFoundError, BadgeValidationError } from '@/services/badgeService';
 import { BadgeStatus } from '@/shared/types/badge';
 import type { 
   Badge, 
   BadgeRequirement,
+  BadgeRequirementBase,
   CreateBadgeDto,
   UpdateBadgeProgressDto
 } from '@/shared/types/badge';
@@ -449,9 +465,9 @@ const selectedBadgeId = ref<string | null>(null);
 const selectedBadge = ref<Badge | null>(null);
 const searchQuery = ref('');
 const isLoading = ref(false);
-const error = ref<string | null>(null);
+const error = ref<{ message: string; retry?: () => Promise<void> } | null>(null);
 const selectedBadgeLoading = ref(false);
-const selectedBadgeError = ref<string | null>(null);
+const selectedBadgeError = ref<{ message: string; retry?: () => Promise<void> } | null>(null);
 const isDarkMode = ref(true);
 
 // Modal state
@@ -489,6 +505,9 @@ const editBadge = ref<{
 const isCreating = ref(false);
 const isUpdating = ref(false);
 const isDeleting = ref(false);
+const isTogglingRequirement = ref<string | null>(null);
+
+const errorModal = ref<{ title: string; message: string } | null>(null);
 
 // Computed properties
 const filteredBadges = computed(() => {
@@ -522,22 +541,53 @@ watch(selectedBadgeId, (newId) => {
 });
 
 // Methods
+const handleError = (error: unknown, context: string): string => {
+  console.error(`${context}:`, error);
+  
+  let message = '';
+  let title = 'localhost:3001 says';
+  
+  if (error instanceof BadgeNotFoundError) {
+    message = 'Badge not found. It may have been deleted.';
+  } else if (error instanceof BadgeValidationError) {
+    message = 'Invalid data provided. Please check your input.';
+  } else if (error instanceof BadgeServiceError) {
+    if (error.statusCode === 503) {
+      message = 'Service is temporarily unavailable. Please try again later.';
+    } else {
+      message = error.message;
+    }
+  } else {
+    message = 'Failed to create badge due to network error';
+  }
+  
+  // Show error in modal
+  errorModal.value = { title, message };
+  
+  return message;
+};
+
 const loadBadges = async () => {
+  if (isLoading.value) return;
+  
   isLoading.value = true;
   error.value = null;
   
   try {
     badges.value = await badgeService.getBadges();
   } catch (err) {
-    error.value = 'Failed to load badges. Please try again.';
-    console.error('Error loading badges:', err);
+    const message = handleError(err, 'Error loading badges');
+    error.value = {
+      message,
+      retry: loadBadges
+    };
   } finally {
     isLoading.value = false;
   }
 };
 
 const loadSelectedBadge = async () => {
-  if (!selectedBadgeId.value) return;
+  if (!selectedBadgeId.value || selectedBadgeLoading.value) return;
   
   selectedBadgeLoading.value = true;
   selectedBadgeError.value = null;
@@ -545,8 +595,17 @@ const loadSelectedBadge = async () => {
   try {
     selectedBadge.value = await badgeService.getBadgeById(selectedBadgeId.value);
   } catch (err) {
-    selectedBadgeError.value = 'Failed to load badge details. Please try again.';
-    console.error('Error loading badge details:', err);
+    const message = handleError(err, 'Error loading badge details');
+    selectedBadgeError.value = {
+      message,
+      retry: loadSelectedBadge
+    };
+    
+    if (err instanceof BadgeNotFoundError) {
+      // Remove the badge from the list if it's not found
+      badges.value = badges.value.filter(b => b.id !== selectedBadgeId.value);
+      selectedBadgeId.value = null;
+    }
   } finally {
     selectedBadgeLoading.value = false;
   }
@@ -599,6 +658,8 @@ const formatDate = (dateString: string) => {
 
 // CRUD operations
 const createNewBadge = async () => {
+  if (isCreating.value) return;
+  
   isCreating.value = true;
   
   try {
@@ -613,10 +674,12 @@ const createNewBadge = async () => {
       requirements: newBadge.value.requirements.map(req => ({
         description: req.description,
         completed: false
-      }))
+      })) as BadgeRequirementBase[]
     };
     
     const createdBadge = await badgeService.createBadge(createBadgeDto);
+    
+    // Optimistically add to list
     badges.value.push(createdBadge);
     showCreateModal.value = false;
     
@@ -633,15 +696,14 @@ const createNewBadge = async () => {
     // Select the newly created badge
     selectedBadgeId.value = createdBadge.id;
   } catch (err) {
-    console.error('Error creating badge:', err);
-    alert('Failed to create badge. Please try again.');
+    handleError(err, 'Error creating badge');
   } finally {
     isCreating.value = false;
   }
 };
 
 const updateExistingBadge = async () => {
-  if (!selectedBadge.value) return;
+  if (!selectedBadge.value || isUpdating.value) return;
   
   isUpdating.value = true;
   
@@ -659,31 +721,56 @@ const updateExistingBadge = async () => {
       }))
     };
     
+    // Store original badge for rollback
+    const originalBadge = { ...selectedBadge.value };
+    
+    // Optimistically update local state
+    Object.assign(selectedBadge.value, updateBadgeDto);
+    const index = badges.value.findIndex((b: Badge) => b.id === selectedBadge.value?.id);
+    if (index !== -1) {
+      badges.value[index] = { ...badges.value[index], ...updateBadgeDto };
+    }
+    
+    // Update on server
     const updatedBadge = await badgeService.updateBadge(selectedBadge.value.id, updateBadgeDto);
     
-    // Update local state
-    const index = badges.value.findIndex((b: Badge) => b.id === updatedBadge.id);
+    // Update with server response
+    selectedBadge.value = updatedBadge;
     if (index !== -1) {
       badges.value[index] = updatedBadge;
     }
     
-    selectedBadge.value = updatedBadge;
     showEditModal.value = false;
   } catch (err) {
-    console.error('Error updating badge:', err);
-    alert('Failed to update badge. Please try again.');
+    handleError(err, 'Error updating badge');
+    
+    // Rollback on error if we have the original badge
+    if (selectedBadge.value) {
+      const index = badges.value.findIndex((b: Badge) => b.id === selectedBadge.value?.id);
+      if (index !== -1) {
+        badges.value[index] = { ...badges.value[index] };
+      }
+    }
   } finally {
     isUpdating.value = false;
   }
 };
 
 const toggleRequirement = async (reqId: string, completed: boolean) => {
-  if (!selectedBadge.value) return;
+  if (!selectedBadge.value || isTogglingRequirement.value === reqId) return;
+  
+  isTogglingRequirement.value = reqId;
   
   try {
     // Find the requirement
     const requirement = selectedBadge.value.requirements.find((r: BadgeRequirement) => r.id === reqId);
     if (!requirement) return;
+    
+    // Store original state for rollback
+    const originalState = {
+      requirement: { ...requirement },
+      badge: { ...selectedBadge.value }
+    };
     
     // Update locally first for immediate feedback
     requirement.completed = completed;
@@ -703,6 +790,16 @@ const toggleRequirement = async (reqId: string, completed: boolean) => {
       newStatus = BadgeStatus.IN_PROGRESS;
     }
     
+    // Update progress locally
+    selectedBadge.value.progress = newProgress;
+    selectedBadge.value.status = newStatus;
+    
+    // Update badge in list
+    const index = badges.value.findIndex((b: Badge) => b.id === selectedBadge.value?.id);
+    if (index !== -1) {
+      badges.value[index] = { ...selectedBadge.value };
+    }
+    
     // Update progress on server
     const progressData: UpdateBadgeProgressDto = {
       progress: newProgress,
@@ -718,20 +815,20 @@ const toggleRequirement = async (reqId: string, completed: boolean) => {
       progressData
     );
     
-    // Update local state
+    // Update with server response
     selectedBadge.value = updatedBadge;
-    
-    // Update badge in list
-    const index = badges.value.findIndex((b: Badge) => b.id === updatedBadge.id);
     if (index !== -1) {
       badges.value[index] = updatedBadge;
     }
   } catch (err) {
-    console.error('Error updating requirement:', err);
-    alert('Failed to update requirement. Please try again.');
+    handleError(err, 'Error updating requirement');
     
-    // Revert the change locally
-    loadSelectedBadge();
+    // Revert changes on error
+    if (selectedBadge.value) {
+      await loadSelectedBadge();
+    }
+  } finally {
+    isTogglingRequirement.value = null;
   }
 };
 
@@ -740,21 +837,26 @@ const confirmDelete = () => {
 };
 
 const deleteBadgeConfirmed = async () => {
-  if (!selectedBadge.value) return;
+  if (!selectedBadge.value || isDeleting.value) return;
   
   isDeleting.value = true;
   
   try {
-    await badgeService.deleteBadge(selectedBadge.value.id);
+    const badgeToDelete = selectedBadge.value;
     
-    // Update local state
-    badges.value = badges.value.filter((b: Badge) => b.id !== selectedBadge.value?.id);
+    // Optimistically update UI
+    badges.value = badges.value.filter((b: Badge) => b.id !== badgeToDelete.id);
     selectedBadgeId.value = null;
     selectedBadge.value = null;
     showDeleteModal.value = false;
+    
+    // Delete on server
+    await badgeService.deleteBadge(badgeToDelete.id);
   } catch (err) {
-    console.error('Error deleting badge:', err);
-    alert('Failed to delete badge. Please try again.');
+    handleError(err, 'Error deleting badge');
+    
+    // Rollback on error
+    await loadBadges();
   } finally {
     isDeleting.value = false;
   }
