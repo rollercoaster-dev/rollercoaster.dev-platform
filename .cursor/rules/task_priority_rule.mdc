@@ -1,0 +1,71 @@
+---
+description: how to prioritize tasks and track them
+globs: 
+alwaysApply: true
+---
+# Task Priority Rule
+
+## Core Principles
+1. **Visual Priority System**
+   - 🔥 P0: Blocking/Critical (Must be done first)
+   - ⚡ P1: High Priority (Important, but not blocking)
+   - 🌟 P2: Medium Priority (Should be done soon)
+   - 🌱 P3: Low Priority (Nice to have)
+
+2. **Task Status Indicators**
+   - 🏃 IN PROGRESS
+   - 📋 TODO
+   - ✅ DONE
+   - 🔄 BLOCKED
+
+3. **Dependency Markers**
+   - ⬆️ Depends on task above
+   - ⬇️ Required for task below
+   - 🔗 Related to [Task ID]
+
+4. **Time Estimates**
+   - ⏱️ Quick Win (< 30 mins)
+   - ⏲️ Short Task (30-60 mins)
+   - 🕐 Medium Task (1-2 hours)
+   - 🕑 Long Task (2+ hours)
+
+## Task Format
+```markdown
+## [Status] [Priority] Task Name
+- ID: TASK-[number]
+- Dependencies: [List of task IDs]
+- Time Estimate: [Time indicator]
+- Description: Brief description
+- Success Criteria: What done looks like
+```
+
+## Organization Rules
+1. Tasks are ordered by:
+   - Priority (P0 to P3)
+   - Dependencies (dependent tasks below their requirements)
+   - Estimated completion time
+   
+2. Each task should have:
+   - Unique ID for reference
+   - Clear dependencies
+   - Time estimate
+   - Success criteria
+
+3. Update Frequency:
+   - Review at start of each work session
+   - Update status after each task completion
+   - Reprioritize when new tasks are added
+
+## Usage Guidelines
+1. Keep task list in `.cursor/working/tasks/task_priority.md`
+2. Update priorities based on:
+   - Technical dependencies
+   - Business impact
+   - Blocking status
+   - Time sensitivity
+
+3. Regular Maintenance:
+   - Archive completed tasks weekly
+   - Review priorities daily
+   - Update time estimates as learned
+   - Add new tasks as discovered 

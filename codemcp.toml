@@ -1,0 +1,54 @@
+# atBadges Project Configuration for CodeMCP
+
+# Project prompt provides specific instructions to Claude about the project
+project_prompt = """
+This is the atBadges achievement badge system - a full stack application for tracking achievements and learning progress through digital badges.
+
+Project description:
+- Full-stack application for tracking achievements and learning progress through digital badges
+- Integration support for the badge-engine service
+- Follows ADHD-friendly Test-Driven Development approach
+
+Technology Stack:
+- Frontend: Vue 3 + Nuxt.js + Tailwind CSS
+- Backend: Bun + Hono.js
+- Database: PostgreSQL with Drizzle ORM
+- Shared: TypeScript for type definitions
+- Testing: Bun Test for backend, Vitest for frontend
+- Integration: External badge-engine service
+- Development: Docker Compose for development environment
+
+Project structure:
+- backend/ - Bun + Hono API server
+- frontend/ - Vue 3 + Nuxt frontend
+- shared/ - Shared code between frontend/backend
+- scripts/ - Development and utility scripts
+
+When making changes to this project:
+1. Follow the ADHD-friendly test-driven development approach
+2. Maintain a clear separation between frontend and backend code
+3. Keep shared types in the shared/ directory
+4. When adding new features, ensure they work with badge-engine integration when available
+5. Follow the existing project structure and coding conventions
+6. Use TypeScript throughout the project for type safety
+"""
+
+# Commands section for executing project-specific actions
+[commands]
+# Development commands
+dev = ["./scripts/dev.sh"]
+dev_with_badge_engine = ["./scripts/dev-with-badge-engine.sh"]
+docker_dev = ["./scripts/docker-dev.sh"]
+
+# Backend-specific commands
+backend_test = ["cd backend && bun test"]
+backend_dev = ["cd backend && bun run dev"]
+
+# Frontend-specific commands
+frontend_test = ["cd frontend && pnpm test"]
+frontend_dev = ["cd frontend && pnpm dev"]
+
+# Database commands
+db_setup = ["cd backend && bun run db:setup"]
+
+# Add more commands as needed for your workflow 

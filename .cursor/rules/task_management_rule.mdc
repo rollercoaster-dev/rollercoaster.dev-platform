@@ -1,7 +1,7 @@
 ---
 description: ADHD-Friendly Task Management Guidelines
 globs: 
-alwaysApply: false
+alwaysApply: true
 ---
 # ADHD-Friendly Task Management Guidelines
 
