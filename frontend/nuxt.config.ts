@@ -12,8 +12,25 @@ export default defineNuxtConfig({
   app: {
     baseURL: '/'
   },
+  // Server configuration
   devServer: {
     port: 3001
+  },
+  // Runtime config and environment variables
+  runtimeConfig: {
+    public: {
+      apiUrl: process.env.NUXT_PUBLIC_API_URL || 'http://localhost:7777'
+    }
+  },
+  // Optional: Add proxy to handle CORS in development
+  nitro: {
+    devProxy: {
+      '/api': {
+        target: 'http://localhost:7777',
+        changeOrigin: true,
+        prependPath: true
+      }
+    }
   },
   content: {
     experimental: {

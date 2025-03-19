@@ -7,35 +7,47 @@
     /* Base */
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
-    
+
     /* Card */
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
-    
+
     /* Popover */
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
-    
+
     /* Primary (Violet - Energetic but calm) */
     --primary: 221.2 83.2% 53.3%;
     --primary-foreground: 210 40% 98%;
-    
+
     /* Secondary (Teal - Refreshing, focused) */
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;
-    
+
     /* Muted */
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
-    
+
     /* Accent (Amber - Warm, engaging) */
     --accent: 210 40% 96.1%;
     --accent-foreground: 222.2 47.4% 11.2%;
-    
+
     /* Destructive */
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-    
+
+    /* Success */
+    --success: 142 72% 29%;
+    --success-foreground: 210 40% 98%;
+
+    /* Warning */
+    --warning: 38 92% 50%;
+    --warning-foreground: 210 40% 98%;
+
+    /* Info */
+    --info: 206 100% 50%;
+    --info-foreground: 210 40% 98%;
+
     /* States */
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
@@ -51,40 +63,60 @@
     --load-medium: 45 93% 47.1%;
     --load-high: 24 95% 53.1%;
     --load-text: 0 0% 100%;
+
+    /* Chart colors */
+    --chart-1: 221.2 83.2% 53.3%;
+    --chart-2: 262 83.3% 57.8%;
+    --chart-3: 172 66% 50.4%;
+    --chart-4: 34 94% 50%;
+    --chart-5: 0 84.2% 60.2%;
   }
+  
   .dark {
     /* Base */
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
-    
+
     /* Card */
     --card: 222.2 84% 4.9%;
     --card-foreground: 210 40% 98%;
-    
+
     /* Popover */
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
-    
+
     /* Primary (Violet - Energetic but calm) */
     --primary: 217.2 91.2% 59.8%;
     --primary-foreground: 222.2 47.4% 11.2%;
-    
+
     /* Secondary (Teal - Refreshing, focused) */
     --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
-    
+
     /* Muted */
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
-    
+
     /* Accent (Amber - Warm, engaging) */
     --accent: 217.2 32.6% 17.5%;
     --accent-foreground: 210 40% 98%;
-    
+
     /* Destructive */
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
-    
+
+    /* Success */
+    --success: 142 70% 40%;
+    --success-foreground: 210 40% 98%;
+
+    /* Warning */
+    --warning: 38 92% 50%;
+    --warning-foreground: 210 40% 98%;
+
+    /* Info */
+    --info: 206 100% 50%;
+    --info-foreground: 210 40% 98%;
+
     /* States */
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
@@ -99,34 +131,41 @@
     --load-medium: 45 70% 45%;
     --load-high: 24 70% 45%;
     --load-text: 0 0% 100%;
+
+    /* Chart colors - dark mode variants */
+    --chart-1: 221.2 83.2% 65%;
+    --chart-2: 262 83.3% 65%;
+    --chart-3: 172 66% 60%;
+    --chart-4: 34 94% 60%;
+    --chart-5: 0 84.2% 65%;
   }
 
   /* Focus Mode - Light */
   .focus {
     --background: 230 91% 39%;
     --foreground: 210 40% 98%;
-    
+
     --card: 230 91% 35%;
     --card-foreground: 210 40% 98%;
-    
+
     --popover: 230 91% 39%;
     --popover-foreground: 210 40% 98%;
-    
+
     --primary: 262 83.3% 57.8%;
     --primary-foreground: 210 40% 98%;
-    
+
     --secondary: 172 66% 50.4%;
     --secondary-foreground: 210 40% 98%;
-    
+
     --muted: 230 91% 30%;
     --muted-foreground: 210 40% 90%;
-    
+
     --accent: 45 93.4% 47.1%;
     --accent-foreground: 210 40% 98%;
-    
+
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-    
+
     --border: 230 91% 30%;
     --input: 230 91% 30%;
     --ring: 262 83.3% 57.8%;
@@ -136,28 +175,28 @@
   .focus-dark {
     --background: 230 50% 20%;
     --foreground: 210 40% 98%;
-    
+
     --card: 230 50% 15%;
     --card-foreground: 210 40% 98%;
-    
+
     --popover: 230 50% 20%;
     --popover-foreground: 210 40% 98%;
-    
+
     --primary: 262 83.3% 57.8%;
     --primary-foreground: 210 40% 98%;
-    
+
     --secondary: 172 66% 50.4%;
     --secondary-foreground: 210 40% 98%;
-    
+
     --muted: 230 50% 15%;
     --muted-foreground: 210 40% 90%;
-    
+
     --accent: 45 93.4% 47.1%;
     --accent-foreground: 210 40% 98%;
-    
+
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
-    
+
     --border: 230 50% 15%;
     --input: 230 50% 15%;
     --ring: 262 83.3% 57.8%;
@@ -180,7 +219,7 @@
 
   .load-indicator {
     @apply text-white font-medium transition-all duration-200 hover:scale-105 hover:shadow-md;
-    
+
     &-low {
       @apply bg-load-low hover:bg-load-low/90;
     }

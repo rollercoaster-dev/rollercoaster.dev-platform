@@ -1,13 +1,21 @@
 /**
  * Badge Service
  * Handles all API interactions for badges
- * Supports integration with badge-engine API
+ * Supports integration with bun-badges API
  */
 import type { Badge, CreateBadgeDto, UpdateBadgeProgressDto } from '../../shared/types/badge'
+import { useRuntimeConfig } from 'nuxt/app'
 
-// Base API URL - dynamically set based on environment
-const API_URL = process.env.NUXT_PUBLIC_API_URL || 'http://localhost:3001'
-const BADGES_ENDPOINT = `${API_URL}/api/badges`
+// Get API URL from runtime config
+const getApiUrl = () => {
+  try {
+    const config = useRuntimeConfig()
+    return config.public.apiUrl || 'http://localhost:7777'
+  } catch (e) {
+    // Fallback in case we're not in a Nuxt context
+    return 'http://localhost:7777'
+  }
+}
 
 // Custom error types
 export class BadgeServiceError extends Error {
@@ -33,10 +41,10 @@ export class BadgeValidationError extends BadgeServiceError {
 
 export const badgeService = {
   /**
-   * Check if a badge is managed by badge-engine
+   * Check if a badge is managed by an external service
    */
-  isBadgeEngineManaged(badge: Badge): boolean {
-    return !!badge.externalId && badge.externalSource === 'badge-engine'
+  isExternallyManaged(badge: Badge): boolean {
+    return !!badge.externalId && !!badge.externalSource
   },
 
   /**
@@ -44,15 +52,16 @@ export const badgeService = {
    */
   async getBadges(): Promise<Badge[]> {
     try {
-      const response = await fetch(BADGES_ENDPOINT)
-      
+      const apiUrl = getApiUrl()
+      const response = await fetch(`${apiUrl}/badges`)
+
       if (!response.ok) {
         if (response.status === 503) {
           throw new BadgeServiceError('Badge service is currently unavailable', 503)
         }
         throw new BadgeServiceError(`Failed to fetch badges: ${response.statusText}`, response.status)
       }
-      
+
       return await response.json()
     } catch (error) {
       if (error instanceof BadgeServiceError) {
@@ -62,14 +71,15 @@ export const badgeService = {
       throw new BadgeServiceError('Failed to fetch badges due to network error')
     }
   },
-  
+
   /**
    * Get a badge by ID
    */
   async getBadgeById(id: string): Promise<Badge> {
     try {
-      const response = await fetch(`${BADGES_ENDPOINT}/${id}`)
-      
+      const apiUrl = getApiUrl()
+      const response = await fetch(`${apiUrl}/badges/${id}`)
+
       if (!response.ok) {
         if (response.status === 404) {
           throw new BadgeNotFoundError(id)
@@ -79,7 +89,7 @@ export const badgeService = {
         }
         throw new BadgeServiceError(`Failed to fetch badge: ${response.statusText}`, response.status)
       }
-      
+
       return await response.json()
     } catch (error) {
       if (error instanceof BadgeServiceError) {
@@ -89,23 +99,24 @@ export const badgeService = {
       throw new BadgeServiceError(`Failed to fetch badge ${id} due to network error`)
     }
   },
-  
+
   /**
    * Create a new badge
    */
   async createBadge(badge: CreateBadgeDto): Promise<Badge> {
     try {
-      const response = await fetch(BADGES_ENDPOINT, {
+      const apiUrl = getApiUrl()
+      const response = await fetch(`${apiUrl}/badges`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(badge),
       })
-      
+
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({ error: response.statusText }))
-        
+
         if (response.status === 400) {
           throw new BadgeValidationError(errorData.error || 'Invalid badge data provided')
         }
@@ -114,7 +125,7 @@ export const badgeService = {
         }
         throw new BadgeServiceError(`Failed to create badge: ${errorData.error || response.statusText}`, response.status)
       }
-      
+
       return await response.json()
     } catch (error) {
       if (error instanceof BadgeServiceError) {
@@ -124,23 +135,24 @@ export const badgeService = {
       throw new BadgeServiceError('Failed to create badge due to network error')
     }
   },
-  
+
   /**
    * Update a badge
    */
   async updateBadge(id: string, badge: Partial<Badge>): Promise<Badge> {
     try {
-      const response = await fetch(`${BADGES_ENDPOINT}/${id}`, {
+      const apiUrl = getApiUrl()
+      const response = await fetch(`${apiUrl}/badges/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(badge),
       })
-      
+
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({ error: response.statusText }))
-        
+
         if (response.status === 404) {
           throw new BadgeNotFoundError(id)
         }
@@ -152,7 +164,7 @@ export const badgeService = {
         }
         throw new BadgeServiceError(`Failed to update badge: ${errorData.error || response.statusText}`, response.status)
       }
-      
+
       return await response.json()
     } catch (error) {
       if (error instanceof BadgeServiceError) {
@@ -162,23 +174,24 @@ export const badgeService = {
       throw new BadgeServiceError(`Failed to update badge ${id} due to network error`)
     }
   },
-  
+
   /**
    * Update badge progress
    */
   async updateBadgeProgress(id: string, progressData: UpdateBadgeProgressDto): Promise<Badge> {
     try {
-      const response = await fetch(`${BADGES_ENDPOINT}/${id}/progress`, {
+      const apiUrl = getApiUrl()
+      const response = await fetch(`${apiUrl}/badges/${id}/progress`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(progressData),
       })
-      
+
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({ error: response.statusText }))
-        
+
         if (response.status === 404) {
           throw new BadgeNotFoundError(id)
         }
@@ -190,7 +203,7 @@ export const badgeService = {
         }
         throw new BadgeServiceError(`Failed to update badge progress: ${errorData.error || response.statusText}`, response.status)
       }
-      
+
       return await response.json()
     } catch (error) {
       if (error instanceof BadgeServiceError) {
@@ -200,19 +213,20 @@ export const badgeService = {
       throw new BadgeServiceError(`Failed to update badge progress ${id} due to network error`)
     }
   },
-  
+
   /**
    * Delete a badge
    */
   async deleteBadge(id: string): Promise<void> {
     try {
-      const response = await fetch(`${BADGES_ENDPOINT}/${id}`, {
+      const apiUrl = getApiUrl()
+      const response = await fetch(`${apiUrl}/badges/${id}`, {
         method: 'DELETE',
       })
-      
+
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({ error: response.statusText }))
-        
+
         if (response.status === 404) {
           throw new BadgeNotFoundError(id)
         }
@@ -229,4 +243,4 @@ export const badgeService = {
       throw new BadgeServiceError(`Failed to delete badge ${id} due to network error`)
     }
   },
-} 
+}

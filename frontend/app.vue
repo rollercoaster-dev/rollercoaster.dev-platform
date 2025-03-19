@@ -1,15 +1,13 @@
 <script setup lang="ts">
 import { TooltipProvider } from '@/components/ui/tooltip'
-
-console.log('TooltipProvider loaded:', TooltipProvider)
+import AppLayout from '@/components/layout/AppLayout.vue'
 </script>
 
 <template>
   <TooltipProvider>
-    <div class="min-h-screen bg-background text-foreground">
-      <LayoutHeader />
+    <AppLayout>
       <NuxtPage />
-    </div>
+    </AppLayout>
   </TooltipProvider>
 </template>
 
