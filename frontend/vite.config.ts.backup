@@ -1,3 +1,5 @@
+// This file has been renamed to vitest.config.ts since Nuxt handles Vite configuration
+// Keep this file only for reference or specific non-Nuxt tooling
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 

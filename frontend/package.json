@@ -5,6 +5,7 @@
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
+    "dev:bun": "bun run --bun nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
@@ -18,6 +19,7 @@
     "test:e2e:report": "playwright show-report"
   },
   "dependencies": {
+    "@atbadges/shared": "workspace:*",
     "@nuxt/content": "2.9.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",

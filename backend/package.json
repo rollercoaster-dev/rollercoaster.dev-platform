@@ -2,6 +2,11 @@
   "name": "backend",
   "module": "index.ts",
   "type": "module",
+  "scripts": {
+    "start": "bun run index.ts",
+    "dev": "bun run --watch index.ts",
+    "build": "bun build index.ts --outdir dist"
+  },
   "devDependencies": {
     "@types/bun": "latest",
     "@types/uuid": "^10.0.0"
@@ -10,6 +15,7 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
+    "@atbadges/shared": "workspace:*",
     "hono": "^4.7.2",
     "uuid": "^11.1.0"
   }

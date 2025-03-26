@@ -1,5 +1,5 @@
 import { Hono } from 'hono'
-import { BadgeStatus } from '../../../shared/types/badge'
+import { BadgeStatus } from '@atbadges/shared'
 import { v4 as uuidv4 } from 'uuid'
 
 // In-memory badge storage for development (replace with DB in production)

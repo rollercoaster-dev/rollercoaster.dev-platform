@@ -1,0 +1,71 @@
+# Structured Step-by-Step Approach Rule
+
+## Core Principles
+1. **Plan Before Action**
+   - Never make changes without first creating and sharing a plan
+   - Always create a task file describing intended changes before implementing
+
+2. **Explicit Confirmation Required**
+   - Get explicit confirmation before proceeding with any action that modifies files
+   - Present options clearly and wait for user decision before proceeding
+
+3. **Communication Checkpoints**
+   - Pause for feedback at logical points in the workflow
+   - Present findings and options at each checkpoint
+
+4. **Scope Containment**
+   - Stay within the specific scope defined by the user
+   - If scope expansion seems necessary, explicitly ask first
+
+5. **Step-by-Step Documentation**
+   - Document each step in task files before executing
+   - Include reasoning for each recommended action
+
+## Implementation Guidelines
+
+### For Research Tasks
+1. Create a research document with clear sections
+2. Present findings in an organized format
+3. Provide clear options based on research
+4. Wait for direction before moving to implementation
+
+### For Implementation Tasks
+1. Create a detailed implementation plan with steps
+2. Present the plan for approval
+3. Execute one logical step at a time
+4. Check in after each significant step
+
+### For Debugging
+1. Follow the systematic debugging rule
+2. Present observations without immediate changes
+3. Propose hypotheses and test plans
+4. Get explicit approval for each test or change
+
+## Example Format for Plans
+```markdown
+# Task: [Task Name]
+
+## Current State
+- What exists now
+- Relevant context
+
+## Proposed Steps
+1. Step one with reasoning
+2. Step two with reasoning
+3. Step three with reasoning
+
+## Expected Outcome
+- What will change
+- Benefits of the change
+
+## REQUIRES APPROVAL TO PROCEED
+```
+
+## Benefits
+- Prevents runaway implementations
+- Creates clear documentation
+- Maintains user control
+- Reduces cognitive load
+- Builds a shared understanding
+
+I will follow this approach for all tasks, prioritizing clear communication and user approval over speed of implementation. 

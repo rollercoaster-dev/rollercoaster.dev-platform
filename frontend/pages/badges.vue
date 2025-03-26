@@ -81,7 +81,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from 'vue';
 import { badgeService } from '../../frontend/services/badgeService';
-import { BadgeStatus } from '../../shared/types/badge';
+import { BadgeStatus } from '@atbadges/shared';
 import type { 
   Badge, 
   BadgeRequirement,
