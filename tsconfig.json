@@ -1,12 +1,19 @@
 {
-  // https://nuxt.com/docs/guide/concepts/typescript
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["frontend/*"],
-      "@shared/*": ["shared/*"],
-      "@atbadges/shared": ["shared"],
-      "@atbadges/shared/*": ["shared/*"]
+      "@/*": [
+        "frontend/*"
+      ],
+      "@atbadges/shared": [
+        "shared"
+      ],
+      "@atbadges/shared/*": [
+        "shared/*"
+      ],
+      "@shared/*": [
+        "shared/*"
+      ]
     },
     "skipLibCheck": true
   }

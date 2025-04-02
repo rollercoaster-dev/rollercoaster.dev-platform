@@ -14,5 +14,21 @@
     "build:backend": "cd backend && bun run build",
     "build:frontend": "cd frontend && bun run build",
     "clean": "rm -rf .logs/*"
-  }
-} 
+  },
+  "devDependencies": {
+    "@nx/nuxt": "20.7.0",
+    "@nx/playwright": "20.7.0",
+    "@nx/storybook": "20.7.0",
+    "@nx/vite": "20.7.0",
+    "@nx/web": "20.7.0",
+    "@playwright/test": "^1.36.0",
+    "@vitest/ui": "^3.0.0",
+    "jiti": "2.4.2",
+    "nuxt": "^3.10.0",
+    "nx": "20.7.0",
+    "storybook": "8.4.7",
+    "vite": "^6.0.0",
+    "vitest": "^3.0.0"
+  },
+  "dependencies": {}
+}

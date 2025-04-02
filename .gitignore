@@ -24,3 +24,12 @@ node_modules
 !.env.example
 docs
 *storybook.log
+
+
+
+.nx/cache
+.nx/workspace-data
+
+storybook-static
+vite.config.*.timestamp*
+vitest.config.*.timestamp*
