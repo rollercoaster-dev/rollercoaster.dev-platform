@@ -21,7 +21,8 @@
     "types": [
       "vite/client",
       "@nuxt/types",
-      "@types/node"
+      "@types/node",
+      "vue"
     ]
   },
   "include": [

@@ -24,7 +24,20 @@ export default defineNuxtConfig({
       'stores'
     ],
     presets: [
-      { from: 'vue', imports: ['ref', 'computed', 'reactive', 'onMounted'] }
+      { 
+        from: 'vue', 
+        imports: [
+          'ref', 
+          'computed', 
+          'reactive', 
+          'onMounted',
+          'defineComponent',
+          'defineProps',
+          'defineEmits',
+          'watch',
+          'watchEffect'
+        ] 
+      }
     ]
   },
   components: {
@@ -41,12 +54,14 @@ export default defineNuxtConfig({
     strict: true,
     includeWorkspace: true,
     shim: false,
+    typeCheck: true,
     tsConfig: {
       compilerOptions: {
         moduleResolution: "bundler",
         allowImportingTsExtensions: true,
         verbatimModuleSyntax: true,
-        allowJs: true
+        allowJs: true,
+        types: ["vue"]
       }
     }
   },
@@ -55,6 +70,11 @@ export default defineNuxtConfig({
       script: {
         defineModel: true,
         propsDestructure: true
+      },
+      template: {
+        compilerOptions: {
+          isCustomElement: (tag) => tag.startsWith('lucide-')
+        }
       }
     }
   }
