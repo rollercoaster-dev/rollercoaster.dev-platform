@@ -4,191 +4,56 @@
 
 @layer base {
   :root {
-    /* Base */
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    
-    /* Card */
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    
-    /* Popover */
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    
-    /* Primary (Violet - Energetic but calm) */
-    --primary: 221.2 83.2% 53.3%;
-    --primary-foreground: 210 40% 98%;
-    
-    /* Secondary (Teal - Refreshing, focused) */
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    
-    /* Muted */
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    
-    /* Accent (Amber - Warm, engaging) */
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-    
-    /* Destructive */
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    
-    /* States */
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 221.2 83.2% 53.3%;
-    --radius: 0.5rem;
+    /* Base - Cyberpunk Dark Theme */
+    --background: 240 10% 10%; /* Very Dark Cool Grey/Blue */
+    --foreground: 210 20% 95%; /* Very Light Grey (Near White) */
 
-    /* Focus Mode */
-    --focus: 230 91% 39%;
-    --focus-foreground: 210 40% 98%;
+    /* Card / Elevated Surfaces */
+    --card: 240 10% 12%;       /* Slightly lighter than background */
+    --card-foreground: var(--foreground);
 
-    /* Cognitive Load */
-    --load-low: 151 55% 41.5%;
-    --load-medium: 45 93% 47.1%;
-    --load-high: 24 95% 53.1%;
-    --load-text: 0 0% 100%;
-  }
-  .dark {
-    /* Base */
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    
-    /* Card */
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    
-    /* Popover */
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    
-    /* Primary (Violet - Energetic but calm) */
-    --primary: 217.2 91.2% 59.8%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    
-    /* Secondary (Teal - Refreshing, focused) */
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    
-    /* Muted */
-    --muted: 217.2 32.6% 17.5%;
+    /* Popover (Using card styles for simplicity) */
+    --popover: var(--card);
+    --popover-foreground: var(--card-foreground);
+
+    /* Primary Neon Interaction (Magenta) */
+    --primary: 315 90% 60%;
+    --primary-foreground: 240 10% 5%; /* Dark color for text *on* primary */
+
+    /* Secondary (Using Accent Neon for now) */
+    --secondary: var(--accent);
+    --secondary-foreground: var(--accent-foreground);
+
+    /* Muted (Subtler foreground) */
+    --muted: 215 20.2% 65.1%; /* Adjusted from previous dark theme */
     --muted-foreground: 215 20.2% 65.1%;
-    
-    /* Accent (Amber - Warm, engaging) */
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    
+
+    /* Accent Neon Interaction (Cyan) */
+    --accent: 190 95% 55%;
+    --accent-foreground: 240 10% 5%; /* Dark color for text *on* accent */
+
     /* Destructive */
-    --destructive: 0 62.8% 30.6%;
+    --destructive: 0 70% 50%; /* Adjusted standard destructive red */
     --destructive-foreground: 210 40% 98%;
-    
+
     /* States */
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 224.3 76.3% 48%;
+    --border: 240 10% 20%;      /* Subtle borders */
+    --input: 240 10% 15%;       /* Darker input background */
+    --input-border: 240 10% 25%; /* Subtle border for inputs */
+    --ring: var(--accent);      /* Use Cyan for focus rings */
 
-    /* Focus Mode - Darker variant for dark mode */
-    --focus: 230 50% 20%;
-    --focus-foreground: 210 40% 98%;
-
-    /* Cognitive Load - Adjusted for dark mode */
-    --load-low: 151 45% 35%;
-    --load-medium: 45 70% 45%;
-    --load-high: 24 70% 45%;
-    --load-text: 0 0% 100%;
+    /* General */
+    --radius: 0.5rem;
   }
 
-  /* Focus Mode - Light */
-  .focus {
-    --background: 230 91% 39%;
-    --foreground: 210 40% 98%;
-    
-    --card: 230 91% 35%;
-    --card-foreground: 210 40% 98%;
-    
-    --popover: 230 91% 39%;
-    --popover-foreground: 210 40% 98%;
-    
-    --primary: 262 83.3% 57.8%;
-    --primary-foreground: 210 40% 98%;
-    
-    --secondary: 172 66% 50.4%;
-    --secondary-foreground: 210 40% 98%;
-    
-    --muted: 230 91% 30%;
-    --muted-foreground: 210 40% 90%;
-    
-    --accent: 45 93.4% 47.1%;
-    --accent-foreground: 210 40% 98%;
-    
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    
-    --border: 230 91% 30%;
-    --input: 230 91% 30%;
-    --ring: 262 83.3% 57.8%;
-  }
-
-  /* Focus Mode - Dark */
-  .focus-dark {
-    --background: 230 50% 20%;
-    --foreground: 210 40% 98%;
-    
-    --card: 230 50% 15%;
-    --card-foreground: 210 40% 98%;
-    
-    --popover: 230 50% 20%;
-    --popover-foreground: 210 40% 98%;
-    
-    --primary: 262 83.3% 57.8%;
-    --primary-foreground: 210 40% 98%;
-    
-    --secondary: 172 66% 50.4%;
-    --secondary-foreground: 210 40% 98%;
-    
-    --muted: 230 50% 15%;
-    --muted-foreground: 210 40% 90%;
-    
-    --accent: 45 93.4% 47.1%;
-    --accent-foreground: 210 40% 98%;
-    
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    
-    --border: 230 50% 15%;
-    --input: 230 50% 15%;
-    --ring: 262 83.3% 57.8%;
-  }
-}
-@layer base {
+  /* Consolidated base styles */
   * {
     @apply border-border;
   }
   body {
     @apply bg-background text-foreground;
-  }
-}
-
-/* Additional utility classes for our custom states */
-@layer utilities {
-  .focus-mode {
-    @apply bg-gradient-to-b from-background to-background/95;
-  }
-
-  .load-indicator {
-    @apply text-white font-medium transition-all duration-200 hover:scale-105 hover:shadow-md;
-    
-    &-low {
-      @apply bg-load-low hover:bg-load-low/90;
-    }
-    &-medium {
-      @apply bg-load-medium hover:bg-load-medium/90;
-    }
-    &-high {
-      @apply bg-load-high hover:bg-load-high/90;
-    }
+    /* Add font smoothing for better text rendering */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 }

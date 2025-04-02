@@ -45,16 +45,6 @@ module.exports = {
   				DEFAULT: 'hsl(var(--accent))',
   				foreground: 'hsl(var(--accent-foreground))'
   			},
-  			focus: {
-  				DEFAULT: 'hsl(var(--focus))',
-  				foreground: 'hsl(var(--focus-foreground))'
-  			},
-  			load: {
-  				text: 'hsl(var(--load-text))',
-  				low: 'hsl(var(--load-low))',
-  				medium: 'hsl(var(--load-medium))',
-  				high: 'hsl(var(--load-high))'
-  			},
   			popover: {
   				DEFAULT: 'hsl(var(--popover))',
   				foreground: 'hsl(var(--popover-foreground))'
@@ -63,13 +53,6 @@ module.exports = {
   				DEFAULT: 'hsl(var(--card))',
   				foreground: 'hsl(var(--card-foreground))'
   			},
-  			chart: {
-  				'1': 'hsl(var(--chart-1))',
-  				'2': 'hsl(var(--chart-2))',
-  				'3': 'hsl(var(--chart-3))',
-  				'4': 'hsl(var(--chart-4))',
-  				'5': 'hsl(var(--chart-5))'
-  			}
   		},
   		borderRadius: {
   			lg: 'var(--radius)',

@@ -70,6 +70,7 @@ SHARED_PID=$!
 
 # Start backend with tee to show logs in terminal and save to file
 log "${BLUE}Starting Backend (Bun + Hono)...${NC}"
+# Bun automatically loads .env in the target directory
 (cd backend && bun run --watch index.ts 2>&1 | while read -r line; do
   log_backend "$line"
   echo "$line" >> ../.logs/backend.log
