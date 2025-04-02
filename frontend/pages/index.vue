@@ -4,10 +4,8 @@
       <!-- 1. Headline / Hero Section -->
       <section class="text-center space-y-4">
         <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight">
-          <!-- Using simplified span for now -->
-          <span class="text-primary font-bold">
-            Rollercoaster.dev
-          </span>
+          <!-- Use the slot-based gradient component -->
+          <RDHeadlineGradient>Rollercoaster.dev</RDHeadlineGradient>
            is a space where neurodivergent minds create and discover tools designed for the way we think.
         </h1>
       </section>

@@ -1,0 +1,12 @@
+{
+  "name": "atbadges",
+  "$schema": "node_modules/nx/schemas/project-schema.json",
+  "targets": {
+    "docker-dev": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "docker compose -f docker-compose.dev.yml up --build"
+      }
+    }
+  }
+} 

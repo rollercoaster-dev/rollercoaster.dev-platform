@@ -46,6 +46,39 @@
     --radius: 0.5rem;
   }
 
+  /* Define the LIGHT theme overrides */
+  .light {
+    --background: 0 0% 98%; /* Very Light Grey (Near White) */
+    --foreground: 240 10% 3.9%; /* Very Dark Grey */
+
+    --card: 0 0% 100%; /* White */
+    --card-foreground: var(--foreground);
+
+    --popover: var(--card);
+    --popover-foreground: var(--card-foreground);
+
+    /* Adjust neons slightly for light bg if needed, or keep vibrant */
+    --primary: 315 85% 55%; /* Slightly deeper Magenta */
+    --primary-foreground: 0 0% 100%; /* White text on primary */
+
+    --accent: 190 90% 50%; /* Slightly deeper Cyan */
+    --accent-foreground: 0 0% 100%; /* White text on accent */
+
+    --secondary: var(--accent);
+    --secondary-foreground: var(--accent-foreground);
+
+    --muted: 210 40% 96.1%; /* Light grey */
+    --muted-foreground: 215.4 16.3% 46.9%; /* Darker grey text */
+
+    --destructive: 0 84.2% 60.2%; /* Standard destructive red */
+    --destructive-foreground: 0 0% 100%; /* White text */
+
+    --border: 214.3 31.8% 91.4%; /* Light grey border */
+    --input: 214.3 31.8% 91.4%; /* Light grey input */
+    --input-border: 214.3 31.8% 88%; /* Slightly darker input border */
+    --ring: var(--accent); /* Cyan focus ring */
+  }
+
   /* Consolidated base styles */
   * {
     @apply border-border;

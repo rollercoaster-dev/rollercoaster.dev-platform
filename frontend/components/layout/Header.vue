@@ -1,29 +1,15 @@
 <script setup lang="ts">
-import { Sun, Moon, Focus, EyeOff } from 'lucide-vue-next'
+import { Sun, Moon } from 'lucide-vue-next'
 import { Tooltip } from '@/components/ui/tooltip'
 
 const colorMode = useColorMode()
 
 // Computed properties for mode states
-const isDark = computed(() => colorMode.value === 'dark' || colorMode.value === 'focus-dark')
-const isFocus = computed(() => colorMode.value === 'focus' || colorMode.value === 'focus-dark')
+const isDark = computed(() => colorMode.value === 'dark')
 
-// Toggle between focus and non-focus modes while preserving dark/light preference
-const toggleFocusMode = () => {
-  if (isFocus.value) {
-    colorMode.preference = isDark.value ? 'dark' : 'light'
-  } else {
-    colorMode.preference = isDark.value ? 'focus-dark' : 'focus'
-  }
-}
-
-// Toggle between dark and light modes while preserving focus state
+// Toggle between dark and light modes
 const toggleDarkMode = () => {
-  if (isDark.value) {
-    colorMode.preference = isFocus.value ? 'focus' : 'light'
-  } else {
-    colorMode.preference = isFocus.value ? 'focus-dark' : 'dark'
-  }
+  colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'
 }
 
 // Setup keyboard shortcuts
@@ -36,10 +22,6 @@ onMounted(() => {
           e.preventDefault()
           toggleDarkMode()
           break
-        case 'f':
-          e.preventDefault()
-          toggleFocusMode()
-          break
       }
     }
   }
@@ -49,10 +31,11 @@ onMounted(() => {
 })
 
 const navigation = [
-  { name: 'Home', href: '/' },
-  { name: 'About', href: '/about' },
-  { name: 'Blog', href: '/blog' },
-  { name: 'Contact', href: '/contact' }
+  { name: '', href: '' },
+  // { name: 'Home', href: '/' },
+  // { name: 'About', href: '/about' },
+  // { name: 'Blog', href: '/blog' },
+  // { name: 'Contact', href: '/contact' }
 ]
 </script>
 
@@ -61,8 +44,8 @@ const navigation = [
     <div class="container flex h-16 items-center">
       <!-- Logo -->
       <NuxtLink to="/" class="mr-8">
-        <h1 class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">
-          rollercoaster.dev
+        <h1 class="text-2xl font-bold">
+          <RDHeadlineGradient>rollercoaster.dev</RDHeadlineGradient>
         </h1>
       </NuxtLink>
 
@@ -94,24 +77,6 @@ const navigation = [
             <Moon v-else class="h-5 w-5" />
             <span class="sr-only">
               {{ isDark ? 'Switch to light mode' : 'Switch to dark mode' }}
-            </span>
-          </Button>
-        </Tooltip>
-
-        <Tooltip
-          :content="isFocus ? 'Exit focus mode\nShortcut: Cmd + F' : 'Enter focus mode\nShortcut: Cmd + F'"
-          side="bottom"
-        >
-          <Button
-            @click="toggleFocusMode"
-            :variant="isFocus ? 'default' : 'ghost'"
-            size="icon"
-            class="rounded-full"
-          >
-            <Focus v-if="!isFocus" class="h-5 w-5" />
-            <EyeOff v-else class="h-5 w-5" />
-            <span class="sr-only">
-              {{ isFocus ? 'Exit focus mode' : 'Enter focus mode' }}
             </span>
           </Button>
         </Tooltip>
