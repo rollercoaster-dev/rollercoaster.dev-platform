@@ -7,26 +7,11 @@
       ],
       "cache": true
     },
-    "build-storybook": {
-      "outputs": [
-        "{projectRoot}/storybook-static"
-      ],
-      "cache": true
-    },
     "test:unit": {
       "cache": true
     }
   },
   "plugins": [
-    {
-      "plugin": "@nx/storybook/plugin",
-      "options": {
-        "serveStorybookTargetName": "serve:storybook",
-        "buildStorybookTargetName": "build:storybook",
-        "testStorybookTargetName": "test-storybook",
-        "staticStorybookTargetName": "static-storybook"
-      }
-    },
     {
       "plugin": "@nx/vite/plugin",
       "options": {

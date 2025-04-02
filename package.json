@@ -9,6 +9,7 @@
   ],
   "scripts": {
     "dev": "./scripts/dev.sh",
+    "dev:docker": "./scripts/dev-docker.sh",
     "build": "bun run --sequential build:shared build:backend build:frontend",
     "build:shared": "cd shared && bun run build",
     "build:backend": "cd backend && bun run build",

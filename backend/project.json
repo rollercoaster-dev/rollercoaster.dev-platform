@@ -18,6 +18,17 @@
       "options": {
         "cwd": "backend"
       }
+    },
+    "docker-build": {
+      "dependsOn": ["build"],
+      "command": "docker build -f backend/Dockerfile -t atbadges/backend:latest .",
+      "cache": false
+    },
+    "docker-dev": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "docker compose -f docker-compose.dev.yml up --build backend"
+      }
     }
   },
   "tags": []

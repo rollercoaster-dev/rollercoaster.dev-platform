@@ -1,23 +1,22 @@
 {
   "name": "frontend",
   "$schema": "../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "frontend",
   "projectType": "application",
   "targets": {
     "build": {
-      "outputs": [
-        "{projectRoot}/.output"
-      ],
-      "executor": "nx:run-commands",
+      "executor": "@nx/nuxt:build",
+      "outputs": ["{options.outputPath}"],
       "options": {
-        "command": "pnpm --filter=frontend run build",
-        "cwd": "."
+        "outputPath": "frontend/.output"
       }
     },
     "serve": {
-      "executor": "nx:run-commands",
+      "executor": "@nx/nuxt:serve",
       "options": {
-        "command": "pnpm --filter=frontend run dev",
-        "cwd": "."
+        "buildTarget": "frontend:build",
+        "dev": true,
+        "port": 3000
       }
     },
     "test": {
@@ -25,6 +24,18 @@
       "outputs": [
         "{projectRoot}/coverage"
       ]
+    },
+    "docker-build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "docker build -f frontend/Dockerfile -t atbadges/frontend:latest ."
+      }
+    },
+    "docker-dev": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "docker compose -f docker-compose.dev.yml up --build frontend"
+      }
     }
   },
   "tags": []
