@@ -2,6 +2,7 @@
 import { TooltipProvider } from '@/components/ui/tooltip'
 
 console.log('TooltipProvider loaded:', TooltipProvider)
+console.log('App.vue is being loaded')
 </script>
 
 <template>

@@ -3,8 +3,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "nx nuxt:build",
-    "dev": "nx serve",
+    "build": "pnpm nx run frontend:build",
+    "dev": "pnpm nx run frontend:serve",
     "dev:bun": "bun run --bun nx serve",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
