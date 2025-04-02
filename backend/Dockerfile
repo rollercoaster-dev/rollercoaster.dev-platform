@@ -9,26 +9,28 @@ WORKDIR /app
 
 # --- Install Dependencies ---
 # Copy all necessary package manifests and lockfiles for the workspace
-COPY package.json pnpm-workspace.yaml bun.lock ./
+COPY package.json bun.lock pnpm-workspace.yaml ./
 COPY backend/package.json ./backend/
 COPY shared/package.json ./shared/
 COPY frontend/package.json ./frontend/
-# Add other workspaces if they exist and are needed for backend build/runtime
 
 # Install ALL workspace dependencies from the root
-RUN bun install --frozen-lockfile
+RUN bun install
+
+# --- Build Shared Package ---
+COPY shared/index.ts ./shared/index.ts
+COPY shared/types ./shared/types
+COPY shared/tsconfig.json ./shared/tsconfig.json
+RUN cd shared && bun run build
 
 # --- Build Backend ---
 # Copy the backend source code
 COPY backend/src ./backend/src
 COPY backend/index.ts ./backend/index.ts
 COPY backend/tsconfig.json ./backend/tsconfig.json
-# Copy shared source code needed for build time resolution
-COPY shared/index.ts ./shared/index.ts
-COPY shared/types ./shared/types
 
-# Run the build command specified in backend/package.json, using --cwd
-RUN bun run --cwd backend build
+# Run the build command specified in backend/package.json
+RUN cd backend && bun run build
 # Expected output directory: backend/dist
 
 # --- Setup Production Stage ---
@@ -36,16 +38,22 @@ FROM oven/bun:${BUN_VERSION} AS production
 
 WORKDIR /app
 
-# Copy only production artifacts and necessary node_modules
-# Need to copy the entire node_modules structure from the root potentially,
-# or figure out how bun install --production works with workspaces.
-# For now, let's copy the whole node_modules from base and required files.
-COPY --from=base /app/node_modules ./node_modules
-COPY --from=base /app/backend/dist ./backend/dist
+# Create a production-specific workspace configuration
+RUN echo '{"packages": ["backend", "shared"]}' > pnpm-workspace.yaml
+
+# Create a production-specific package.json
+RUN echo '{"name": "atbadges","version": "0.1.0","private": true,"workspaces": ["backend", "shared"]}' > package.json
+
+# Copy package.json files
 COPY --from=base /app/backend/package.json ./backend/package.json
-COPY --from=base /app/package.json /app/pnpm-workspace.yaml ./
-# Copy shared package.json if needed by runtime
-# COPY --from=base /app/shared/package.json ./shared/package.json 
+COPY --from=base /app/shared/package.json ./shared/package.json
+
+# Copy built files
+COPY --from=base /app/backend/dist ./backend/dist
+COPY --from=base /app/shared/dist ./shared/dist
+
+# Install only production dependencies
+RUN bun install
 
 # Define the default port the application listens on
 ENV PORT=3000

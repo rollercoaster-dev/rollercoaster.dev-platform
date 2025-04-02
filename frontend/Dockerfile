@@ -15,10 +15,11 @@ WORKDIR /app
 # Copy manifests
 COPY package.json pnpm-workspace.yaml pnpm-lock.yaml ./
 COPY frontend/package.json ./frontend/
-COPY backend/package.json ./backend/ # Needed for install if it resolves workspaces
+# Copy other workspace manifests needed for install resolution
+COPY backend/package.json ./backend/
 COPY shared/package.json ./shared/
 
-# Copy all source code
+# Copy all source code (needed for build and deploy steps)
 COPY frontend ./frontend
 COPY backend ./backend
 COPY shared ./shared
@@ -27,20 +28,32 @@ COPY shared ./shared
 RUN pnpm install --frozen-lockfile --prod=false
 
 # Build the frontend package from the root
-RUN pnpm --filter=frontend run build
+RUN cd frontend && pnpm exec nuxt build
 # Expected output: /app/frontend/.output
 
 # --- Setup Production Stage ---
 FROM node:${NODE_VERSION}-slim AS production
 
+# Install pnpm globally
+RUN npm install -g pnpm@9
+
+# Set WORKDIR for the final application
+WORKDIR /app
+
+# Copy workspace files
+COPY --from=base /app/package.json /app/pnpm-workspace.yaml /app/pnpm-lock.yaml ./
+COPY --from=base /app/frontend/package.json ./frontend/
+COPY --from=base /app/shared/package.json ./shared/
+
+# Copy the built application files
+COPY --from=base /app/frontend/.nuxt ./frontend/.nuxt
+COPY --from=base /app/frontend/.output ./frontend/.output
+COPY --from=base /app/shared ./shared
+
+# Install production dependencies
+RUN pnpm install --prod --frozen-lockfile
+
 WORKDIR /app/frontend
-
-# Copy frontend build artifacts
-COPY --from=base /app/frontend/.output ./.output
-
-# Copy hoisted node_modules and necessary package files
-COPY --from=base /app/node_modules ./node_modules
-COPY --from=base /app/frontend/package.json ./package.json
 
 # Define the default port the application listens on (Nuxt default is 3000)
 ENV HOST=0.0.0.0
@@ -48,5 +61,4 @@ ENV PORT=3000
 EXPOSE 3000
 
 # Define the command to run the built Nuxt application
-# Path is relative to the WORKDIR /app/frontend
 CMD ["node", ".output/server/index.mjs"] 
