@@ -4,26 +4,13 @@
   "sourceRoot": "frontend",
   "projectType": "application",
   "targets": {
-    "build": {
-      "executor": "@nx/nuxt:build",
-      "outputs": ["{options.outputPath}"],
+    "deploy": {
+      "executor": "nx:run-commands",
       "options": {
-        "outputPath": "frontend/.output"
-      }
-    },
-    "serve": {
-      "executor": "@nx/nuxt:serve",
-      "options": {
-        "buildTarget": "frontend:build",
-        "dev": true,
-        "port": 3000
-      }
-    },
-    "test": {
-      "executor": "@nx/vite:test",
-      "outputs": [
-        "{projectRoot}/coverage"
-      ]
+        "command": "flyctl deploy",
+        "cwd": "frontend"
+      },
+      "dependsOn": ["build"]
     },
     "docker-build": {
       "executor": "nx:run-commands",

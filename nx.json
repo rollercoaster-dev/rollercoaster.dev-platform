@@ -2,13 +2,14 @@
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "targetDefaults": {
     "build": {
-      "outputs": [
-        "{projectRoot}/.dist"
-      ],
+      "outputs": ["{projectRoot}/.dist"],
       "cache": true
     },
     "test:unit": {
       "cache": true
+    },
+    "e2e-ci--**/*": {
+      "dependsOn": ["^build-static"]
     }
   },
   "plugins": [
@@ -41,6 +42,12 @@
         "watchDepsTargetName": "nuxt:watch-deps",
         "serveStaticTargetName": "serve-static",
         "buildStaticTargetName": "build-static"
+      }
+    },
+    {
+      "plugin": "@nx/eslint/plugin",
+      "options": {
+        "targetName": "lint"
       }
     }
   ],
