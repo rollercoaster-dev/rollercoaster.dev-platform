@@ -1,3 +1,19 @@
+<script setup lang="ts">
+import type { RuntimeConfig } from 'nuxt/schema'
+
+const config = useRuntimeConfig()
+const siteName = config.public.siteName as string
+
+useSeoMeta({
+  title: 'Rollercoaster.dev: Tools for Neurodivergent Minds',
+  description: 'Building flexible tools with Open Badges, designed by and for the neurodivergent community to navigate goals and showcase progress.',
+  ogTitle: 'Rollercoaster.dev: Tools for Neurodivergent Minds',
+  ogDescription: 'Building flexible tools with Open Badges for the neurodivergent community.',
+  ogSiteName: siteName,
+  twitterCard: 'summary_large_image'
+})
+</script>
+
 <template>
   <div class="min-h-screen bg-background text-foreground font-sans">
     <main class="container mx-auto max-w-4xl px-4 py-12 space-y-12">
@@ -148,11 +164,6 @@
     </main>
   </div>
 </template>
-
-<script setup lang="ts">
-// No script logic needed for this static page yet.
-// DefinePageMeta might be used later for SEO.
-</script>
 
 <style scoped>
 /* Scoped styles if needed */

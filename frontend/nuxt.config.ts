@@ -14,9 +14,44 @@ export default defineNuxtConfig({
       classSuffix: '',
       fallback: 'light',
       preference: 'system'
-    }]
+    }],
+    '@nuxtjs/robots',
+    '@nuxtjs/sitemap'
     // Storybook module removed for testing
   ],
+  // Generate a static site
+  nitro: {
+    preset: 'static',
+    // Optimize the static generation
+    prerender: {
+      crawlLinks: true,
+      routes: ['/']
+    }
+  },
+  app: {
+    head: {
+      title: 'Rollercoaster.dev',
+      meta: [
+        { name: 'description', content: 'Tools for Neurodivergent Minds, Built with Open Badges' }
+      ],
+      link: [
+        // Favicon files from favicon.io
+        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+        { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' },
+        { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon-32x32.png' },
+        { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicon-16x16.png' },
+        { rel: 'manifest', href: '/site.webmanifest' }
+      ]
+    }
+  },
+  runtimeConfig: {
+    public: {
+      siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'http://localhost:3000',
+      siteName: 'Rollercoaster.dev',
+      siteDescription: 'Tools for Neurodivergent Minds, Built with Open Badges',
+      language: 'en'
+    }
+  },
   imports: {
     dirs: [
       'composables',
@@ -77,5 +112,25 @@ export default defineNuxtConfig({
         }
       }
     }
+  },
+  // SEO configuration
+  site: {
+    url: process.env.NUXT_PUBLIC_SITE_URL || 'https://rollercoaster.dev',
+    name: 'Rollercoaster.dev',
+    description: 'Tools for Neurodivergent Minds, Built with Open Badges', 
+    defaultLocale: 'en'
+  },
+  // Robots.txt configuration
+  robots: {
+    groups: [
+      {
+        userAgent: '*',
+        allow: '/'
+      }
+    ]
+  },
+  // Sitemap configuration
+  sitemap: {
+    autoLastmod: true
   }
 })

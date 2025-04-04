@@ -1,9 +1,8 @@
 # frontend/Dockerfile
 
-# Use an official Node.js LTS image
-# Check Nuxt 3 documentation for recommended Node version if needed
+# --- Build Stage ---
 ARG NODE_VERSION=20
-FROM node:${NODE_VERSION}-slim AS base
+FROM node:${NODE_VERSION}-slim AS build
 
 # Install pnpm globally
 ARG PNPM_VERSION=9
@@ -19,7 +18,7 @@ COPY frontend/package.json ./frontend/
 COPY backend/package.json ./backend/
 COPY shared/package.json ./shared/
 
-# Copy all source code (needed for build and deploy steps)
+# Copy all source code (needed for build)
 COPY frontend ./frontend
 COPY backend ./backend
 COPY shared ./shared
@@ -27,38 +26,23 @@ COPY shared ./shared
 # Install ALL dependencies at the root
 RUN pnpm install --frozen-lockfile --prod=false
 
-# Build the frontend package from the root
-RUN cd frontend && pnpm exec nuxt build
-# Expected output: /app/frontend/.output
+# Build the frontend static site
+RUN cd frontend && pnpm exec nuxt generate
 
-# --- Setup Production Stage ---
-FROM node:${NODE_VERSION}-slim AS production
+# --- Production Stage ---
+FROM nginx:alpine
 
-# Install pnpm globally
-RUN npm install -g pnpm@9
+# Copy the nginx configuration
+COPY frontend/nginx.conf /etc/nginx/conf.d/default.conf
 
-# Set WORKDIR for the final application
-WORKDIR /app
+# Copy the built static files
+COPY --from=build /app/frontend/.output/public /usr/share/nginx/html
 
-# Copy workspace files
-COPY --from=base /app/package.json /app/pnpm-workspace.yaml /app/pnpm-lock.yaml ./
-COPY --from=base /app/frontend/package.json ./frontend/
-COPY --from=base /app/shared/package.json ./shared/
+# Expose port 8080 (standard for Fly.io)
+EXPOSE 8080
 
-# Copy the built application files
-COPY --from=base /app/frontend/.nuxt ./frontend/.nuxt
-COPY --from=base /app/frontend/.output ./frontend/.output
-COPY --from=base /app/shared ./shared
+# Healthcheck
+HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 CMD wget -qO- http://localhost:8080/health || exit 1
 
-# Install production dependencies
-RUN pnpm install --prod --frozen-lockfile
-
-WORKDIR /app/frontend
-
-# Define the default port the application listens on (Nuxt default is 3000)
-ENV HOST=0.0.0.0
-ENV PORT=3000
-EXPOSE 3000
-
-# Define the command to run the built Nuxt application
-CMD ["node", ".output/server/index.mjs"] 
+# Start nginx
+CMD ["nginx", "-g", "daemon off;"] 

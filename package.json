@@ -57,5 +57,12 @@
     "vue-router": "^4.2.4",
     "vue-tsc": "^2.0.0"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "pnpm": {
+    "ignoredBuiltDependencies": [
+      "@parcel/watcher",
+      "esbuild",
+      "vue-demi"
+    ]
+  }
 }
