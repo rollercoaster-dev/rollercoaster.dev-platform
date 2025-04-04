@@ -2,6 +2,7 @@ import nx from '@nx/eslint-plugin';
 import vueParser from 'vue-eslint-parser';
 import tsParser from '@typescript-eslint/parser';
 import vuePlugin from 'eslint-plugin-vue';
+import eslintConfigPrettier from 'eslint-config-prettier';
 
 export default [
   ...nx.configs['flat/base'],
@@ -64,19 +65,22 @@ export default [
       // Vue recommended rules
       'vue/multi-word-component-names': 'off',
       'vue/no-multiple-template-root': 'off',
-      'vue/html-closing-bracket-newline': ['error', {
-        'singleline': 'never',
-        'multiline': 'always'
-      }],
-      'vue/html-closing-bracket-spacing': 'error',
-      'vue/max-attributes-per-line': ['error', {
-        'singleline': 3,
-        'multiline': 1
-      }],
-      'vue/first-attribute-linebreak': ['error', {
-        'singleline': 'ignore',
-        'multiline': 'below'
-      }],
+      // These Vue formatting rules will be turned OFF by eslint-config-prettier
+      // 'vue/html-closing-bracket-newline': ['error', {
+      //   'singleline': 'never',
+      //   'multiline': 'always'
+      // }],
+      // 'vue/html-closing-bracket-spacing': 'error',
+      // 'vue/max-attributes-per-line': ['error', {
+      //   'singleline': 3,
+      //   'multiline': 1
+      // }],
+      // 'vue/first-attribute-linebreak': ['error', {
+      //   'singleline': 'ignore',
+      //   'multiline': 'below'
+      // }],
     },
   },
+  // Add eslint-config-prettier as the LAST configuration
+  eslintConfigPrettier,
 ];

@@ -90,3 +90,27 @@
     -moz-osx-font-smoothing: grayscale;
   }
 }
+
+/* Custom Scrollbar Styling */
+/* Sets track to background, thumb to muted foreground */
+* {
+  scrollbar-width: auto; /* Or 'thin' */
+  scrollbar-color: hsl(var(--muted-foreground)) hsl(var(--background)); /* thumb track - Firefox */
+}
+
+/* Webkit (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 10px; /* Adjust width as needed */
+  height: 10px; /* Adjust height as needed */
+}
+::-webkit-scrollbar-track {
+  background: hsl(var(--background));
+}
+::-webkit-scrollbar-thumb {
+  background-color: hsl(var(--muted-foreground));
+  border-radius: 5px; /* Rounded corners for the thumb */
+  border: 2px solid hsl(var(--background)); /* Padding around thumb */
+}
+::-webkit-scrollbar-thumb:hover {
+   background-color: hsl(var(--muted)); /* Slightly lighter/different color on hover */
+}

@@ -1,0 +1,45 @@
+{
+  // Enable Auto Save (saves files automatically after a delay)
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 1000, // Delay in milliseconds (1 second)
+
+  // Configure Prettier as the default formatter for relevant languages
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[vue]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true // Optional: format markdown on save
+  },
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+
+  // You might also want this general setting if you prefer format on save for all possible languages Prettier supports
+  "editor.formatOnSave": true,
+
+  // Optional: Use project's Prettier config (.prettierrc, etc.)
+  "prettier.requireConfig": true // Set to false if you don't have a config and want to use Prettier defaults
+}
