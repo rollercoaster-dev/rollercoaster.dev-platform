@@ -1,0 +1,135 @@
+---
+description: 
+globs: *.vue
+alwaysApply: false
+---
+# Nuxt Component Namespacing & Organization
+
+## Directory Structure
+
+```
+components/
+├── rd/           # Rollercoaster.dev specific components
+│   ├── Headline/
+│   │   ├── index.vue
+│   │   └── Gradient.vue
+│   └── ...
+├── ui/          # shadcn components
+│   ├── Button/
+│   │   └── index.vue
+│   ├── Card/
+│   │   ├── index.vue
+│   │   └── Content.vue
+│   └── ...
+└── base/        # Base components without special prefixing
+    └── ...
+```
+
+## Naming Conventions
+
+### Component Prefixing
+
+1. **RD Components** (`components/rd/`):
+   - All components are prefixed with `RD`
+   - Example: `rd/Headline/Gradient.vue` → `<RDHeadlineGradient />`
+   - Used for project-specific components
+
+2. **UI Components** (`components/ui/`):
+   - All shadcn components
+   - Example: `ui/Button/index.vue` → `<UIButton />`
+   - Follow shadcn naming conventions
+
+3. **Base Components** (`components/`):
+   - No special prefixing
+   - Used for generic components
+   - Example: `Footer.vue` → `<Footer />`
+
+### File Naming
+
+- Use PascalCase for component files and directories
+- Index files can be used for main component implementations
+- Related sub-components should be in the same directory
+- File names should match component names
+
+## Auto-Import Configuration
+
+The following configuration in `nuxt.config.ts` enforces these conventions:
+
+```ts
+export default defineNuxtConfig({
+  components: [
+    {
+      path: '~/components/rd',
+      prefix: 'RD'
+    },
+    {
+      path: '~/components/ui',
+      prefix: 'UI'
+    },
+    '~/components'
+  ]
+})
+```
+
+## Usage Examples
+
+```vue
+<template>
+  <!-- RD Components -->
+  <RDHeadlineGradient>
+    Gradient Text
+  </RDHeadlineGradient>
+
+  <!-- UI Components -->
+  <UIButton variant="primary">
+    Click Me
+  </UIButton>
+
+  <!-- Base Components -->
+  <Footer />
+</template>
+```
+
+## Best Practices
+
+1. **Component Organization**:
+   - Keep related components together in the same directory
+   - Use index.vue for primary component implementations
+   - Place sub-components in the same directory as their parent
+
+2. **Naming**:
+   - Be explicit and descriptive with component names
+   - Follow the established prefixing conventions
+   - Use PascalCase consistently
+
+3. **Imports**:
+   - Let Nuxt handle auto-imports by default
+   - Use explicit imports from `#components` only when necessary
+   - Keep import statements clean and organized
+
+4. **Documentation**:
+   - Document complex components with comments
+   - Include usage examples for reusable components
+   - Note any required props or slots
+
+## ADHD-Friendly Tips
+
+1. **Visual Organization**:
+   - Clear directory structure reduces cognitive load
+   - Consistent prefixing makes components easier to find
+   - Related components stay together
+
+2. **Naming Strategy**:
+   - Prefixes provide immediate context
+   - Descriptive names reduce memory burden
+   - Consistent patterns aid recognition
+
+3. **Usage Support**:
+   - Auto-imports reduce cognitive overhead
+   - Clear conventions minimize decision fatigue
+   - Organized structure supports focus
+
+## References
+
+- [Nuxt Component Documentation](mdc:https:/nuxt.com/docs/guide/directory-structure/components)
+- [shadcn-vue Documentation](mdc:https:/www.shadcn-vue.com) 
