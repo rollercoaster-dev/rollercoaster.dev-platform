@@ -17,15 +17,7 @@ const config: StorybookConfig = {
     options: {},
   },
   viteFinal: async (config) => {
-    // Add PostCSS config
-    if (config.css && config.css.postcss) {
-      config.css.postcss = {
-        plugins: [
-          require('tailwindcss')({ config: './.storybook/tailwind.config.js' }),
-          require('autoprefixer'),
-        ],
-      };
-    }
+    // We'll use the Vite config directly
     return config;
   },
   docs: {
