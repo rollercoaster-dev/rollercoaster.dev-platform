@@ -23,7 +23,7 @@ export default defineNuxtConfig({
     ],
     '@nuxtjs/robots',
     '@nuxtjs/sitemap',
-    // Storybook module removed for testing
+    '@nuxtjs/storybook'
   ],
   // Generate a static site
   nitro: {
@@ -156,5 +156,10 @@ export default defineNuxtConfig({
   // Sitemap configuration
   sitemap: {
     autoLastmod: true,
+  },
+  // Storybook configuration
+  storybook: {
+    url: 'http://localhost:6006',
+    port: 6006
   },
 });
