@@ -1,0 +1,180 @@
+<!-- .storybook/preview-head.html -->
+<style>
+  /* Define CSS variables for Storybook */
+  :root {
+    /* Typography */
+    --font-primary: 'Atkinson Hyperlegible', sans-serif;
+    --line-height-normal: 1.6;
+    --letter-spacing-normal: 0.01em;
+
+    /* --- GRAY PALETTE --- */
+    --gray-50: 240 10% 96%;
+    --gray-100: 240 10% 90%;
+    --gray-200: 240 10% 80%;
+    --gray-300: 240 10% 70%;
+    --gray-400: 240 10% 60%;
+    --gray-500: 240 10% 50%;
+    --gray-600: 240 10% 40%;
+    --gray-700: 240 10% 30%;
+    --gray-800: 240 10% 20%;
+    --gray-900: 240 10% 13%;
+    --gray-950: 240 10% 9%;
+
+    /* Base - Light Theme Default */
+    --background: var(--gray-50);
+    --foreground: var(--gray-950);
+
+    /* Card */
+    --card: 0 0% 100%;
+    --card-foreground: var(--gray-950);
+
+    /* Popover */
+    --popover: 0 0% 100%;
+    --popover-foreground: var(--gray-950);
+
+    /* Primary */
+    --primary: 315 85% 55%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Accent */
+    --accent: 190 90% 50%;
+    --accent-foreground: 0 0% 100%;
+
+    /* Secondary */
+    --secondary: var(--accent);
+    --secondary-foreground: var(--accent-foreground);
+
+    /* Muted */
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    /* Destructive */
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* States */
+    --border: var(--gray-200);
+    --input: var(--gray-200);
+    --input-border: var(--gray-300);
+    --ring: var(--accent);
+
+    /* General */
+    --radius: 0.5rem;
+  }
+
+  /* Dark Theme */
+  .dark {
+    /* Base */
+    --background: var(--gray-950);
+    --foreground: var(--gray-50);
+
+    /* Card */
+    --card: var(--gray-900);
+    --card-foreground: var(--gray-50);
+
+    /* Popover */
+    --popover: var(--gray-900);
+    --popover-foreground: var(--gray-50);
+
+    /* Primary */
+    --primary: 315 90% 60%;
+    --primary-foreground: 240 10% 5%;
+
+    /* Accent */
+    --accent: 190 95% 55%;
+    --accent-foreground: 240 10% 5%;
+
+    /* Secondary */
+    --secondary: var(--accent);
+    --secondary-foreground: var(--accent-foreground);
+
+    /* Muted */
+    --muted: 215 20.2% 65.1%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    /* Destructive */
+    --destructive: 0 70% 50%;
+    --destructive-foreground: 210 40% 98%;
+
+    /* States */
+    --border: var(--gray-800);
+    --input: var(--gray-800);
+    --input-border: var(--gray-700);
+    --ring: var(--accent);
+  }
+
+  /* Font definitions */
+  @font-face {
+    font-family: 'Atkinson Hyperlegible';
+    src: url('/fonts/atkinson-hyperlegible/AtkinsonHyperlegible-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Atkinson Hyperlegible';
+    src: url('/fonts/atkinson-hyperlegible/AtkinsonHyperlegible-Italic.ttf') format('truetype');
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Atkinson Hyperlegible';
+    src: url('/fonts/atkinson-hyperlegible/AtkinsonHyperlegible-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Atkinson Hyperlegible';
+    src: url('/fonts/atkinson-hyperlegible/AtkinsonHyperlegible-BoldItalic.ttf') format('truetype');
+    font-weight: 700;
+    font-style: italic;
+    font-display: swap;
+  }
+
+  /* Apply base styles */
+  body {
+    font-family: var(--font-primary);
+    line-height: var(--line-height-normal);
+    letter-spacing: var(--letter-spacing-normal);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Ensure Storybook UI has proper styling */
+  #storybook-root {
+    padding: 1rem;
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    min-height: 100vh;
+  }
+
+  /* Custom scrollbar styling */
+  * {
+    scrollbar-width: auto;
+    scrollbar-color: hsl(var(--muted-foreground)) hsl(var(--background));
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--background));
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--muted-foreground));
+    border-radius: 5px;
+    border: 2px solid hsl(var(--background));
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: hsl(var(--muted));
+  }
+</style>
+
+<!-- Load fonts as fallback -->
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
