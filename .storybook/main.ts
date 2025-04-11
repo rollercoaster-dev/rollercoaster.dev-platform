@@ -1,7 +1,7 @@
 import type { StorybookConfig } from "@storybook-vue/nuxt";
 
 const config: StorybookConfig = {
-  staticDirs: ['../public', '../frontend/public'],
+  staticDirs: ['../frontend/public'],
   stories: [
     "../stories/**/*.mdx",
     "../stories/**/*.stories.@(js|jsx|mjs|ts|tsx)",
