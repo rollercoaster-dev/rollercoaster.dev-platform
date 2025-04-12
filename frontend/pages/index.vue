@@ -1,17 +1,5 @@
 <script setup lang="ts">
 
-import {
-  UIBadge,
-  UICard,
-  UICardHeader,
-  UICardTitle,
-  UICardContent,
-  UICardFooter,
-} from '#components';
-
-// Import our custom base components
-import RDBaseSectionHeader from '~/components/rd/Base/SectionHeader.vue';
-
 const config = useRuntimeConfig();
 const siteName = config.public.siteName as string;
 
@@ -100,154 +88,53 @@ useSeoMeta({
 
         <div class="grid md:grid-cols-2 gap-6">
           <!-- Feature 1: Track Progress -->
-          <UICard
-            class="overflow-hidden hover:shadow-lg transition-shadow group h-full flex flex-col"
-          >
-            <UICardHeader>
-              <UICardTitle class="flex items-center gap-2 text-xl">
-                <span class="text-2xl text-accent">📊</span>
-                Track and Showcase Progress
-              </UICardTitle>
-            </UICardHeader>
-            <UICardContent class="flex-1 flex flex-col">
-              <p class="text-card-foreground/90">
-                Track progress on any goal that matters to you – learning, work,
-                hobbies, community action, personal growth, and more. Our
-                flexible system adapts to your unique journey, letting you
-                document and celebrate achievements in a way that makes sense
-                for you.
-              </p>
-              <div class="mt-auto pt-4 border-t border-border/50">
-                <span class="text-xs text-muted-foreground">Key Features:</span>
-                <ul class="mt-2 space-y-1 text-sm">
-                  <li class="flex items-center gap-2">
-                    <span class="text-accent">✓</span>
-                    Flexible goal tracking
-                  </li>
-                  <li class="flex items-center gap-2">
-                    <span class="text-accent">✓</span>
-                    Custom achievement paths
-                  </li>
-                  <li class="flex items-center gap-2">
-                    <span class="text-accent">✓</span>
-                    Progress visualization
-                  </li>
-                </ul>
-              </div>
-            </UICardContent>
-          </UICard>
+          <RDBaseFeatureCard
+            title="Track and Showcase Progress"
+            icon="📊"
+            description="Track progress on any goal that matters to you – learning, work, hobbies, community action, personal growth, and more. Our flexible system adapts to your unique journey, letting you document and celebrate achievements in a way that makes sense for you."
+            :features="[
+              'Flexible goal tracking',
+              'Custom achievement paths',
+              'Progress visualization'
+            ]"
+          />
 
           <!-- Feature 2: Visualize Journey -->
-          <UICard
-            class="overflow-hidden hover:shadow-lg transition-shadow group h-full flex flex-col"
-          >
-            <UICardHeader>
-              <UICardTitle class="flex items-center gap-2 text-xl">
-                <span class="text-2xl text-accent">🎨</span>
-                Visualize Your Journey
-              </UICardTitle>
-            </UICardHeader>
-            <UICardContent class="flex-1 flex flex-col">
-              <p class="text-card-foreground/90">
-                See your progress and achievements in meaningful, visual ways.
-                Our platform offers different views and representations of your
-                journey, helping you recognize patterns, celebrate milestones,
-                and stay motivated through visual feedback.
-              </p>
-              <div class="mt-auto pt-4 border-t border-border/50">
-                <span class="text-xs text-muted-foreground">Key Features:</span>
-                <ul class="mt-2 space-y-1 text-sm">
-                  <li class="flex items-center gap-2">
-                    <span class="text-accent">✓</span>
-                    Multiple view options
-                  </li>
-                  <li class="flex items-center gap-2">
-                    <span class="text-accent">✓</span>
-                    Pattern recognition
-                  </li>
-                  <li class="flex items-center gap-2">
-                    <span class="text-accent">✓</span>
-                    Visual milestone tracking
-                  </li>
-                </ul>
-              </div>
-            </UICardContent>
-          </UICard>
+          <RDBaseFeatureCard
+            title="Visualize Your Journey"
+            icon="🎨"
+            description="See your progress and achievements in meaningful, visual ways. Our platform offers different views and representations of your journey, helping you recognize patterns, celebrate milestones, and stay motivated through visual feedback."
+            :features="[
+              'Multiple view options',
+              'Pattern recognition',
+              'Visual milestone tracking'
+            ]"
+          />
 
           <!-- Feature 3: Flexibility -->
-          <UICard
-            class="overflow-hidden hover:shadow-lg transition-shadow group h-full flex flex-col"
-          >
-            <UICardHeader>
-              <UICardTitle class="flex items-center gap-2 text-xl">
-                <span class="text-2xl text-accent">🌱</span>
-                Pause and Restart with Ease
-              </UICardTitle>
-            </UICardHeader>
-            <UICardContent class="flex-1 flex flex-col">
-              <p class="text-card-foreground/90">
-                Life isn't linear, and neither is progress. Our system supports
-                natural ebbs and flows, letting you pause during challenging
-                times like burnout or low motivation. When you're ready to
-                return, you'll find your progress preserved and tools to help
-                you pick up where you left off.
-              </p>
-              <div class="mt-auto pt-4 border-t border-border/50">
-                <span class="text-xs text-muted-foreground">Key Features:</span>
-                <ul class="mt-2 space-y-1 text-sm">
-                  <li class="flex items-center gap-2">
-                    <span class="text-accent">✓</span>
-                    Flexible pausing
-                  </li>
-                  <li class="flex items-center gap-2">
-                    <span class="text-accent">✓</span>
-                    Progress preservation
-                  </li>
-                  <li class="flex items-center gap-2">
-                    <span class="text-accent">✓</span>
-                    Easy resumption
-                  </li>
-                </ul>
-              </div>
-            </UICardContent>
-          </UICard>
+          <RDBaseFeatureCard
+            title="Pause and Restart with Ease"
+            icon="🌱"
+            description="Life isn't linear, and neither is progress. Our system supports natural ebbs and flows, letting you pause during challenging times like burnout or low motivation. When you're ready to return, you'll find your progress preserved and tools to help you pick up where you left off."
+            :features="[
+              'Flexible pausing',
+              'Progress preservation',
+              'Easy resumption'
+            ]"
+          />
 
           <!-- Feature 4: Community -->
-          <UICard
-            class="overflow-hidden hover:shadow-lg transition-shadow group h-full flex flex-col"
-          >
-            <UICardHeader>
-              <UICardTitle class="flex items-center gap-2 text-xl">
-                <span class="text-2xl text-accent">🤝</span>
-                Connect with Community
-              </UICardTitle>
-            </UICardHeader>
-            <UICardContent class="flex-1 flex flex-col">
-              <p class="text-card-foreground/90">
-                Join a community that understands. Share experiences, learn from
-                others' journeys, and find mutual support. Our platform
-                facilitates meaningful connections through shared achievements
-                and collaborative learning paths.
-              </p>
-              <div class="mt-auto pt-4 border-t border-border/50">
-                <span class="text-xs text-muted-foreground">Key Features:</span>
-                <ul class="mt-2 space-y-1 text-sm">
-                  <li class="flex items-center gap-2">
-                    <span class="text-accent">✓</span>
-                    Shared achievements
-                  </li>
-                  <li class="flex items-center gap-2">
-                    <span class="text-accent">✓</span>
-                    Learning communities
-                  </li>
-                  <li class="flex items-center gap-2">
-                    <span class="text-accent">✓</span>
-                    Mutual support
-                  </li>
-                </ul>
-              </div>
-            </UICardContent>
-          </UICard>
+          <RDBaseFeatureCard
+            title="Connect with Community"
+            icon="🤝"
+            description="Join a community that understands. Share experiences, learn from others' journeys, and find mutual support. Our platform facilitates meaningful connections through shared achievements and collaborative learning paths."
+            :features="[
+              'Shared achievements',
+              'Learning communities',
+              'Mutual support'
+            ]"
+          />
+
         </div>
 
         <p
@@ -257,6 +144,10 @@ useSeoMeta({
           navigate their goals, document their unique paths, and build
           confidence along the way.
         </p>
+
+      
+
+
       </section>
 
       <UISeparator class="my-12" />
@@ -555,15 +446,9 @@ useSeoMeta({
                 released?
               </p>
               <ul class="mt-4 space-y-2">
-                <li class="flex items-center gap-2">
-                  ✓ Get early access to features
-                </li>
-                <li class="flex items-center gap-2">
-                  ✓ Stay updated on development
-                </li>
-                <li class="flex items-center gap-2">
-                  ✓ Provide valuable feedback
-                </li>
+                <RDBaseFeatureItem text="Get early access to features" />
+                <RDBaseFeatureItem text="Stay updated on development" />
+                <RDBaseFeatureItem text="Provide valuable feedback" />
               </ul>
             </UICardContent>
             <UICardFooter class="flex justify-center">
@@ -591,15 +476,9 @@ useSeoMeta({
                 touch!
               </p>
               <ul class="mt-4 space-y-2">
-                <li class="flex items-center gap-2">
-                  ✓ Shape the platform's future
-                </li>
-                <li class="flex items-center gap-2">
-                  ✓ Work with like-minded creators
-                </li>
-                <li class="flex items-center gap-2">
-                  ✓ Build tools that matter
-                </li>
+                <RDBaseFeatureItem text="Shape the platform's future" />
+                <RDBaseFeatureItem text="Work with like-minded creators" />
+                <RDBaseFeatureItem text="Build tools that matter" />
               </ul>
             </UICardContent>
             <UICardFooter>
