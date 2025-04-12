@@ -1,10 +1,6 @@
 <script setup lang="ts">
-import type { RuntimeConfig } from 'nuxt/schema';
+
 import {
-  UIAccordion,
-  UIAccordionContent,
-  UIAccordionItem,
-  UIAccordionTrigger,
   UIBadge,
   UICard,
   UICardHeader,
@@ -12,6 +8,9 @@ import {
   UICardContent,
   UICardFooter,
 } from '#components';
+
+// Import our custom base components
+import RDBaseSectionHeader from '~/components/rd/Base/SectionHeader.vue';
 
 const config = useRuntimeConfig();
 const siteName = config.public.siteName as string;
@@ -59,22 +58,20 @@ useSeoMeta({
 
         <!-- Quick action buttons -->
         <div class="flex flex-wrap justify-center gap-4">
-          <a
+          <RDBaseLink
             href="#what-we-build"
-            class="inline-flex items-center gap-2 px-6 py-2 rounded-md bg-primary text-primary-foreground font-medium hover:bg-primary/90 transition-colors"
+            icon="arrow-down"
+            internal
           >
-            Learn More
-            <span class="text-lg">↓</span>
-          </a>
-          <a
+          Learn More
+          </RDBaseLink>
+          <!-- Duplicate link removed -->
+          <RDBaseLink
             href="https://github.com/rollercoaster-dev"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="inline-flex items-center gap-2 px-6 py-2 rounded-md border border-primary text-primary font-medium hover:bg-primary/10 transition-colors"
+            variant="secondary"
           >
             View on GitHub
-            <span class="text-lg">→</span>
-          </a>
+          </RDBaseLink>
         </div>
       </section>
 
@@ -82,27 +79,24 @@ useSeoMeta({
 
       <!-- 2. "What We're Building" Section -->
       <section id="what-we-build" class="space-y-8 scroll-mt-16">
-        <div class="text-center space-y-4">
-          <h2
-            class="text-3xl font-semibold tracking-tight bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent"
-          >
-            What We're Building
-          </h2>
-          <p class="text-xl text-card-foreground/90 max-w-3xl mx-auto">
+        <RDBaseSectionHeader
+          title="What We're Building"
+          description="At Rollercoaster.dev, we're crafting a unique platform centered around"
+        >
+          <template #description>
             At Rollercoaster.dev, we're crafting a unique platform centered
             around
-            <a
+            <RDBaseLink
               href="https://openbadges.org"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="text-accent hover:underline font-semibold inline-flex items-center gap-1"
+              variant="text"
+              icon="arrow-right"
+              class="text-accent font-semibold"
             >
               Open Badges
-              <span class="text-xs">↗</span>
-            </a>
+            </RDBaseLink>
             , designed specifically for the neurodivergent experience.
-          </p>
-        </div>
+          </template>
+        </RDBaseSectionHeader>
 
         <div class="grid md:grid-cols-2 gap-6">
           <!-- Feature 1: Track Progress -->
@@ -269,17 +263,10 @@ useSeoMeta({
 
       <!-- 3. "Our Vision & Goals" Section -->
       <section class="space-y-8">
-        <div class="text-center space-y-4">
-          <h2
-            class="text-3xl font-semibold tracking-tight bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent"
-          >
-            Our Vision: Tools Built From Lived Experience
-          </h2>
-          <p class="text-xl text-card-foreground/90 max-w-3xl mx-auto">
-            Standard productivity tools often fall short for neurodivergent
-            individuals.
-          </p>
-        </div>
+        <RDBaseSectionHeader
+          title="Our Vision: Tools Built From Lived Experience"
+          description="Standard productivity tools often fall short for neurodivergent individuals."
+        />
 
         <!-- Vision Cards -->
         <div class="grid md:grid-cols-2 gap-6">
@@ -389,17 +376,10 @@ useSeoMeta({
 
       <!-- 4. "Roadmap" Section -->
       <section class="space-y-8">
-        <div class="text-center space-y-4">
-          <h2
-            class="text-3xl font-semibold tracking-tight bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent"
-          >
-            Where We Are & Where We're Going
-          </h2>
-          <p class="text-xl text-card-foreground/90 max-w-3xl mx-auto">
-            Our journey is underway! Here's a glimpse of our progress and
-            planned next steps:
-          </p>
-        </div>
+        <RDBaseSectionHeader
+          title="Where We Are & Where We're Going"
+          description="Our journey is underway! Here's a glimpse of our progress and planned next steps:"
+        />
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <!-- Item 1: Core Engine -->
@@ -429,24 +409,22 @@ useSeoMeta({
               <div class="flex items-center gap-4 text-sm">
                 <span class="text-muted-foreground">See progress:</span>
                 <div class="flex gap-2">
-                  <a
+                  <RDBaseLink
                     href="https://github.com/rollercoaster-dev/bun-badges"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="inline-flex items-center gap-1 text-accent hover:underline"
+                    variant="text"
+                    icon="arrow-right"
+                    class="text-accent"
                   >
                     bun-badges
-                    <span class="text-xs">↗</span>
-                  </a>
-                  <a
+                  </RDBaseLink>
+                  <RDBaseLink
                     href="https://github.com/rollercoaster-dev/openbadges-types"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="inline-flex items-center gap-1 text-accent hover:underline"
+                    variant="text"
+                    icon="arrow-right"
+                    class="text-accent"
                   >
                     openbadges-types
-                    <span class="text-xs">↗</span>
-                  </a>
+                  </RDBaseLink>
                 </div>
               </div>
             </UICardContent>
@@ -553,18 +531,15 @@ useSeoMeta({
 
       <!-- 5. "Get Involved" Section -->
       <section class="space-y-8">
-        <div class="text-center space-y-4">
-          <h2
-            class="text-3xl font-semibold tracking-tight bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent"
-          >
-            Join Our Journey
-          </h2>
-          <p class="text-xl text-card-foreground/90 max-w-3xl mx-auto">
+        <RDBaseSectionHeader
+          title="Join Our Journey"
+        >
+          <template #description>
             Rollercoaster.dev is being built <em>by</em> neurodivergent
             individuals, <em>for</em> neurodivergent individuals. We believe in
             the power of lived experience to create tools that truly resonate.
-          </p>
-        </div>
+          </template>
+        </RDBaseSectionHeader>
 
         <div class="grid md:grid-cols-2 gap-6">
           <!-- Users Card -->
@@ -592,15 +567,13 @@ useSeoMeta({
               </ul>
             </UICardContent>
             <UICardFooter class="flex justify-center">
-              <a
+              <RDBaseLink
                 href="https://github.com/rollercoaster-dev"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="w-full inline-flex items-center justify-center gap-2 px-6 py-2 rounded-md bg-accent text-accent-foreground font-medium hover:bg-accent/90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background transition-colors"
+                variant="primary"
+                class="w-full justify-center bg-accent text-accent-foreground hover:bg-accent/90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
               >
                 Follow Progress on GitHub
-                <span class="text-xs">↗</span>
-              </a>
+              </RDBaseLink>
             </UICardFooter>
           </UICard>
 
@@ -631,22 +604,21 @@ useSeoMeta({
             </UICardContent>
             <UICardFooter>
               <div class="w-full grid grid-cols-2 gap-4">
-                <a
+                <RDBaseLink
                   href="https://github.com/rollercoaster-dev"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="inline-flex items-center justify-center gap-2 px-6 py-2 rounded-md bg-primary text-primary-foreground font-medium hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background transition-colors"
+                  variant="primary"
+                  class="justify-center focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
                 >
                   Explore on GitHub
-                  <span class="text-xs">↗</span>
-                </a>
-                <a
+                </RDBaseLink>
+                <RDBaseLink
                   href="mailto:dev@rollercoaster.dev"
-                  class="inline-flex items-center justify-center gap-2 px-6 py-2 rounded-md border border-primary text-primary font-medium hover:bg-primary/10 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background transition-colors"
+                  variant="secondary"
+                  internal
+                  class="justify-center focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
                 >
                   Email Us
-                  <span class="text-xs">↗</span>
-                </a>
+                </RDBaseLink>
               </div>
             </UICardFooter>
           </UICard>
