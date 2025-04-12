@@ -16,7 +16,7 @@ export type ActionCardProps = {
   actions: {
     text: string;
     href: string;
-    variant?: 'primary' | 'secondary' | 'outline';
+    variant?: 'primary' | 'secondary' | 'text';
     internal?: boolean;
   }[];
 };
@@ -40,9 +40,9 @@ const props = withDefaults(defineProps<ActionCardProps>(), {
         {{ description }}
       </p>
       <ul class="mt-4 space-y-2">
-        <RDBaseFeatureItem 
-          v-for="(feature, index) in features" 
-          :key="index" 
+        <RDBaseFeatureItem
+          v-for="(feature, index) in features"
+          :key="index"
           :text="feature"
         />
       </ul>
