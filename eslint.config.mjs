@@ -1,7 +1,13 @@
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+
 import nx from '@nx/eslint-plugin';
-import vueParser from 'vue-eslint-parser';
-import tsParser from '@typescript-eslint/parser';
-import vuePlugin from 'eslint-plugin-vue';
+
+// Load parsers and plugins using require
+const vueParser = require('vue-eslint-parser');
+const tsParser = require('@typescript-eslint/parser');
+const vuePlugin = require('eslint-plugin-vue');
+
 import eslintConfigPrettier from 'eslint-config-prettier';
 
 export default [
